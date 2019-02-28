@@ -5,7 +5,7 @@ provider "aws" {
 
 
 module "redis" {
-  source = "./../"
+  source = "git::https://github.com/clouddrove/terraform-aws-elasticache-redis.git"
   organization                               = "clouddrove"
   environment                                = "stage"
   name                                       = "backend"
