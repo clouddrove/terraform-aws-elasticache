@@ -11,6 +11,7 @@ module "redis" {
   name                                       = "backend"
   engine                                     = "redis"
   engine_version                             = "5.0.0"
+  family                                     = "redis5.0"
   port                                       = 6379
   node_type                                  = "cache.t2.micro"
   subnet_ids                                 = ["subnet-423fbd27" , "subnet-18d8ad35" ]

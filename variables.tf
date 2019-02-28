@@ -88,5 +88,12 @@ variable "at_rest_encryption_enabled" {
   description = "Enable encryption at rest"
 }
 
+variable "family" {
+  description = "(Required) The family of the ElastiCache parameter group."
+  default     = ""
+
+}
+
+
 
 

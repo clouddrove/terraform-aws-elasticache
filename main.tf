@@ -8,18 +8,18 @@ module "label" {
   tags         = "${var.tags}"
 }
 resource "aws_elasticache_subnet_group" "redis" {
-  name       = "redis-subnet"
-  subnet_ids = ["${var.subnet_ids}"]
+  name        = "${module.label.id}"
+  subnet_ids  = ["${var.subnet_ids}"]
   description = "Managed by Clouddrove"
-
 }
 
 resource "aws_elasticache_parameter_group" "default" {
-  name   = "cache-params"
-  family = "redis5.0"
-  description = "Managed by Clouddrove"
+  name         = "${module.label.id}"
+  family       = "${var.family}"
+  description  = "Managed by Clouddrove"
 }
-######ElastiCache resources
+
+
 resource "aws_elasticache_replication_group" "redis" {
   engine                        = "${var.engine}"
   replication_group_id          = "${module.label.id}"
