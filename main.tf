@@ -1,5 +1,5 @@
 module "label" {
-  source       = "git::https://github.com/clouddrove/terraform-lables.git"
+  source       = "git::https://github.com/clouddrove/terraform-lables.git?ref=tags/0.11.0"
   organization = "${var.organization}"
   name         = "${var.name}"
   environment  = "${var.environment}"
