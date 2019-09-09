@@ -72,7 +72,7 @@ Here are some examples of how you can use this module in your inventory structur
 ### Redis
 ```hcl
 module "redis" {
-  source                       = "git::https://github.com/clouddrove/terraform-aws-elasticache?ref=tags/0.12.1"
+  source                       = "git::https://github.com/clouddrove/terraform-aws-elasticache?ref=tags/0.12.0"
   name                         = "redis"
   application                  = "cd"
   environment                  = "test"
@@ -92,7 +92,7 @@ module "redis" {
 ### Redis Cluster
 ```hcl
 module "s3_bucket" {
-  source                       = "git::https://github.com/clouddrove/terraform-aws-elasticache?ref=tags/0.12.1"
+  source                       = "git::https://github.com/clouddrove/terraform-aws-elasticache?ref=tags/0.12.0"
   name                         = "cluster"
   application                  = "cd"
   environment                  = "test"
@@ -115,7 +115,7 @@ module "s3_bucket" {
 ### Memcache
 ```hcl
 module "memcached" {
-  source                       = "https://github.com/clouddrove/terraform-aws-s3?ref=tags/0.12.1"
+  source                       = "https://github.com/clouddrove/terraform-aws-s3?ref=tags/0.12.0"
   name                         = "memcached"
   application                  = "cd"
   environment                  = "test"
