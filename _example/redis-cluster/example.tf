@@ -42,7 +42,7 @@ module "redis-sg" {
 }
 
 module "redis-cluster" {
-  source = "./../../"
+  source = "git::https://github.com/clouddrove/terraform-aws-elasticache?ref=tags/0.12.0"
 
   name        = "cluster"
   application = "cd"
