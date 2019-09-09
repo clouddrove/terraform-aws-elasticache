@@ -154,11 +154,6 @@ variable "family" {
   description = "(Required) The family of the ElastiCache parameter group."
 }
 
-variable "cluster_mode" {
-  default     = null
-  description = "(Required) The family of the ElastiCache parameter group."
-}
-
 variable "replication_enabled" {
   default     = false
   description = "(Redis only) Enabled or disabled replication_group."
@@ -179,4 +174,15 @@ variable "num_cache_nodes" {
 variable "az_mode" {
   default     = "single-az"
   description = "(Memcached only) Specifies whether the nodes in this Memcached node group are created in a single Availability Zone or created across multiple Availability Zones in the cluster's region. Valid values for this parameter are single-az or cross-az, default is single-az. If you want to choose cross-az, num_cache_nodes must be greater than 1."
+}
+
+
+variable "replicas_per_node_group" {
+  description = "Replicas per Shard"
+  default     = ""
+}
+
+variable "num_node_groups" {
+  description = "Number of Shards (nodes)"
+  default     = ""
 }

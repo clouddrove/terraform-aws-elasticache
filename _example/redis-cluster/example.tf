@@ -1,6 +1,6 @@
 provider "aws" {
   profile = "default"
-  region  = "eu-west-1"
+  region  = "us-east-1"
 }
 
 module "vpc" {
@@ -22,7 +22,7 @@ module "subnets" {
   environment = "test"
   label_order = ["application", "environment", "name"]
 
-  availability_zones = ["eu-west-1a", "eu-west-1b", "eu-west-1c"]
+  availability_zones = ["us-east-1a", "us-east-1b"]
   vpc_id             = module.vpc.vpc_id
   type               = "public"
   igw_id             = module.vpc.igw_id
@@ -49,17 +49,17 @@ module "redis" {
   environment = "test"
   label_order = ["environment", "name", "application"]
 
-  replication_enabled        = true
-  engine                     = "redis"
-  engine_version             = "5.0.0"
-  family                     = "redis5.0"
-  port                       = 6379
-  node_type                  = "cache.t2.micro"
-  subnet_ids                 = module.subnets.public_subnet_id
-  security_group_ids         = [module.redis-sg.security_group_ids]
-  availability_zones         = ["eu-west-1a", "eu-west-1b", "eu-west-1c"]
-  auto_minor_version_upgrade = true
-  number_cache_clusters      = 3
-  automatic_failover_enabled = true
-  cluster_mode               = "{\"replicas_per_node_group\" => 2, \"num_node_groups\" => 2}"
+  cluster_replication_enabled = true
+  engine                      = "redis"
+  engine_version              = "5.0.0"
+  family                      = "redis5.0"
+  port                        = 6379
+  node_type                   = "cache.t2.micro"
+  subnet_ids                  = module.subnets.public_subnet_id
+  security_group_ids          = [module.redis-sg.security_group_ids]
+  availability_zones          = ["us-east-1a", "us-east-1b"]
+  auto_minor_version_upgrade  = true
+  replicas_per_node_group     = 2
+  num_node_groups             = 1
+  automatic_failover_enabled  = true
 }
