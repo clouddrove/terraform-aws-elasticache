@@ -155,13 +155,21 @@ variable "family" {
 }
 
 variable "replication_enabled" {
+  type        = bool
   default     = false
-  description = "(Redis only) Enabled or disabled replication_group."
+  description = "(Redis only) Enabled or disabled replication_group for redis standalone instance."
+}
+
+variable "cluster_replication_enabled" {
+  type        = bool
+  default     = false
+  description = "(Redis only) Enabled or disabled replication_group for redis cluster."
 }
 
 # Module      : Cluster
 # Description : Terraform cluster module variables.
 variable "cluster_enabled" {
+  type        = bool
   default     = false
   description = "(Memcache only) Enabled or disabled cluster."
 }
@@ -178,11 +186,11 @@ variable "az_mode" {
 
 
 variable "replicas_per_node_group" {
-  description = "Replicas per Shard"
   default     = ""
+  description = "Replicas per Shard."
 }
 
 variable "num_node_groups" {
-  description = "Number of Shards (nodes)"
   default     = ""
+  description = "Number of Shards (nodes)."
 }

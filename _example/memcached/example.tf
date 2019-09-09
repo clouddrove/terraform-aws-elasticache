@@ -1,6 +1,5 @@
 provider "aws" {
-  profile = "default"
-  region  = "eu-west-1"
+  region = "eu-west-1"
 }
 
 module "vpc" {
@@ -43,7 +42,7 @@ module "memcached-sg" {
 }
 
 module "memcached" {
-  source = "./../../"
+  source = "git::https://github.com/clouddrove/terraform-aws-elasticache?ref=tags/0.12.0"
 
   name        = "memcached"
   application = "cd"

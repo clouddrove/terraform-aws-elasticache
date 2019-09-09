@@ -153,8 +153,8 @@ module "memcached" {
 | automatic_failover_enabled | Specifies whether a read-only replica will be automatically promoted to read/write primary if the existing primary fails. If true, Multi-AZ is enabled for this replication group. If false, Multi-AZ is disabled for this replication group. Must be enabled for Redis (cluster mode enabled) replication groups. Defaults to false. | string | `false` | no |
 | availability_zones | A list of EC2 availability zones in which the replication group's cache clusters will be created. The order of the availability zones in the list is not important. | list(string) | - | yes |
 | az_mode | (Memcached only) Specifies whether the nodes in this Memcached node group are created in a single Availability Zone or created across multiple Availability Zones in the cluster's region. Valid values for this parameter are single-az or cross-az, default is single-az. If you want to choose cross-az, num_cache_nodes must be greater than 1. | string | `single-az` | no |
-| cluster_enabled | (Memcache only) Enabled or disabled cluster. | string | `false` | no |
-| cluster_mode | (Required) The family of the ElastiCache parameter group. | string | `` | no |
+| cluster_enabled | (Memcache only) Enabled or disabled cluster. | bool | `false` | no |
+| cluster_replication_enabled | (Redis only) Enabled or disabled replication_group for redis cluster. | bool | `false` | no |
 | engine | The name of the cache engine to be used for the clusters in this replication group. e.g. redis. | string | `` | no |
 | engine_version | The version number of the cache engine to be used for the cache clusters in this replication group. | string | `` | no |
 | environment | Environment (e.g. `prod`, `dev`, `staging`). | string | `` | no |
@@ -165,9 +165,11 @@ module "memcached" {
 | node_type | The compute and memory capacity of the nodes in the node group. | string | `` | no |
 | notification_topic_arn | An Amazon Resource Name (ARN) of an SNS topic to send ElastiCache notifications to. | string | `` | no |
 | num_cache_nodes | (Required unless replication_group_id is provided) The initial number of cache nodes that the cache cluster will have. For Redis, this value must be 1. For Memcache, this value must be between 1 and 20. If this number is reduced on subsequent runs, the highest numbered nodes will be removed. | string | `1` | no |
+| num_node_groups | Number of Shards (nodes). | string | `` | no |
 | number_cache_clusters | (Required for Cluster Mode Disabled) The number of cache clusters (primary and replicas) this replication group will have. If Multi-AZ is enabled, the value of this parameter must be at least 2. Updates will occur before other modifications. | string | `` | no |
 | port | the port number on which each of the cache nodes will accept connections. | string | `` | no |
-| replication_enabled | (Redis only) Enabled or disabled replication_group. | string | `false` | no |
+| replicas_per_node_group | Replicas per Shard. | string | `` | no |
+| replication_enabled | (Redis only) Enabled or disabled replication_group for redis standalone instance. | bool | `false` | no |
 | replication_group_id | The replication group identifier This parameter is stored as a lowercase string. | string | `` | no |
 | security_group_ids | One or more VPC security groups associated with the cache cluster. | list | `<list>` | no |
 | security_group_names | A list of cache security group names to associate with this replication group. | string | `` | no |
@@ -183,7 +185,6 @@ module "memcached" {
 
 | Name | Description |
 |------|-------------|
-| cache_nodes | Redis cluster id. |
 | id | Redis cluster id. |
 | port | Redis port. |
 | tags | A mapping of tags to assign to the resource. |

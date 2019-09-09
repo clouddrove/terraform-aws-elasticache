@@ -1,6 +1,5 @@
 provider "aws" {
-  profile = "default"
-  region  = "us-east-1"
+  region = "us-east-1"
 }
 
 module "vpc" {
@@ -42,8 +41,9 @@ module "redis-sg" {
   allowed_ports = [6379]
 }
 
-module "redis" {
-  source      = "./../../"
+module "redis-cluster" {
+  source = "./../../"
+
   name        = "cluster"
   application = "cd"
   environment = "test"
@@ -63,3 +63,5 @@ module "redis" {
   num_node_groups             = 1
   automatic_failover_enabled  = true
 }
+
+
