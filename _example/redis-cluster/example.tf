@@ -1,5 +1,4 @@
 provider "aws" {
-  profile = "default"
   region  = "eu-west-1"
 }
 
@@ -42,8 +41,9 @@ module "redis-sg" {
   allowed_ports = [6379]
 }
 
-module "redis" {
+module "redis-cluster" {
   source      = "./../../"
+
   name        = "cluster"
   application = "cd"
   environment = "test"
@@ -57,9 +57,9 @@ module "redis" {
   node_type                  = "cache.t2.micro"
   subnet_ids                 = module.subnets.public_subnet_id
   security_group_ids         = [module.redis-sg.security_group_ids]
-  availability_zones         = ["eu-west-1a", "eu-west-1b", "eu-west-1c"]
+  availability_zones         = ["eu-west-1a", "eu-west-1b"]
   auto_minor_version_upgrade = true
-  number_cache_clusters      = 3
   automatic_failover_enabled = true
-  cluster_mode               = "{\"replicas_per_node_group\" => 2, \"num_node_groups\" => 2}"
 }
+
+
