@@ -70,7 +70,7 @@ usage : |-
       node_type                   = "cache.t2.micro"
       subnet_ids                  = module.subnets.public_subnet_id
       security_group_ids          = [module.redis-sg.security_group_ids]
-      availability_zones          = ["us-east-1a", "us-east-1b"]
+      availability_zones           = ["eu-west-1a","eu-west-1b" ]
       auto_minor_version_upgrade  = true
       replicas_per_node_group     = 2
       num_node_groups             = 1

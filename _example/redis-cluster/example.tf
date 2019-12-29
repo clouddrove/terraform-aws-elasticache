@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "us-east-1"
+  region = "eu-west-1"
 }
 
 module "vpc" {
@@ -29,7 +29,7 @@ module "subnets" {
 }
 
 module "redis-sg" {
-  source = "git::https://github.com/clouddrove/terraform-aws-security-group.git?ref=tags/0.12.1"
+  source = "git::https://github.com/clouddrove/terraform-aws-security-group.git?ref=tags/0.12.3"
 
   name        = "ssh"
   application = "clouddrove"
@@ -57,7 +57,7 @@ module "redis-cluster" {
   node_type                   = "cache.t2.micro"
   subnet_ids                  = module.subnets.public_subnet_id
   security_group_ids          = [module.redis-sg.security_group_ids]
-  availability_zones          = ["us-east-1a", "us-east-1b"]
+  availability_zones          = ["eu-west-1a", "eu-west-1b"]
   auto_minor_version_upgrade  = true
   replicas_per_node_group     = 2
   num_node_groups             = 1
