@@ -1,7 +1,7 @@
 # Module      : Redis
 # Description : Terraform module to create Elasticache Cluster and replica for Redis.
 output "id" {
-  value = var.cluster_enabled ? "" : (var.replication_enabled ? join("", aws_elasticache_replication_group.default.*.id) : join("", aws_elasticache_replication_group.cluster.*.id))
+  value       = var.cluster_enabled ? "" : (var.replication_enabled ? join("", aws_elasticache_replication_group.default.*.id) : join("", aws_elasticache_replication_group.cluster.*.id))
   description = "Redis cluster id."
 }
 
