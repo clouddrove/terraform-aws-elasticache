@@ -1,0 +1,101 @@
+name: 'Terraform GitHub Actions'
+on:
+  - pull_request
+
+jobs:
+  terraform:
+    name: 'Terraform'
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: 'Checkout'
+        uses: actions/checkout@master
+
+      - name: 'Terraform Format'
+        uses: clouddrove/github-actions@v2.0
+        with:
+          actions_subcommand: 'fmt'
+
+      - name: 'Terraform Init for memcached'
+        uses: clouddrove/github-actions@v2.0
+        with:
+          actions_subcommand: 'init'
+          tf_actions_working_dir: ./_example/memcached
+
+      - name: 'Terraform Init Redis'
+        uses: clouddrove/github-actions@v2.0
+        with:
+          actions_subcommand: 'init'
+          tf_actions_working_dir: ./_example/redis
+
+      - name: 'Terraform Init For Redis Cluster'
+        uses: clouddrove/github-actions@v2.0
+        with:
+          actions_subcommand: 'init'
+          tf_actions_working_dir: ./_example/redis-cluster
+
+      - name: Configure AWS Credentials
+        uses: clouddrove/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+
+      - name: 'Terraform Plan for memcached'
+        uses: clouddrove/github-actions@v2.0
+        with:
+          actions_subcommand: 'plan'
+          tf_actions_working_dir: ./_example/memcached
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 'Terraform Plan for Redis'
+        uses: clouddrove/github-actions@v2.0
+        with:
+          actions_subcommand: 'plan'
+          tf_actions_working_dir: ./_example/redis
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 'Terraform Plan For Redis Cluster'
+        uses: clouddrove/github-actions@v2.0
+        with:
+          actions_subcommand: 'plan'
+          tf_actions_working_dir: ./_example/redis-cluster
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 'Terratest For Memcached'
+        uses: clouddrove/github-actions@v2.0
+        with:
+          actions_subcommand: 'terratest'
+          tf_actions_working_dir: ./_test/memcached
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 'Terratest For Redis'
+        uses: clouddrove/github-actions@v2.0
+        with:
+          actions_subcommand: 'terratest'
+          tf_actions_working_dir: ./_test/redis
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 'Terratest For Redis Cluster'
+        uses: clouddrove/github-actions@v2.0
+        with:
+          actions_subcommand: 'terratest'
+          tf_actions_working_dir: ./_test/redis-cluster
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 'Slack Notification'
+        uses: clouddrove/action-slack@v2
+        with:
+          status: ${{ job.status }}
+          fields: repo,author
+          author_name: 'Clouddrove'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # required
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }} # required
+        if: always()

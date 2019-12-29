@@ -35,66 +35,66 @@ usage : |-
   Here are some examples of how you can use this module in your inventory structure:
   ### Redis
   ```hcl
-  module "redis" {
-    source                       = "git::https://github.com/clouddrove/terraform-aws-elasticache?ref=tags/0.12.0"
-    name                         = "redis"
-    application                  = "cd"
-    environment                  = "test"
-    label_order                  = ["environment", "name", "application"]
-    engine                       = "redis"
-    engine_version               = "5.0.0"
-    family                       = "redis5.0"
-    port                         = 6379
-    node_type                    = "cache.t2.micro"
-    subnet_ids                   = ["subnet-xxxxxxx","subnet-xxxxxxx","subnet-xxxxxxx"]
-    security_group_ids           = ["sg-xxxxxxxxx"]
-    availability_zones           = ["eu-west-1a","eu-west-1b" ]
-    auto_minor_version_upgrade   = true
-    number_cache_clusters        = 2
-  }
+      module "redis" {
+      source                       = "git::https://github.com/clouddrove/terraform-aws-elasticache?ref=tags/0.12.2"
+      name                         = "redis"
+      application                  = "clouddrove"
+      environment                  = "test"
+      label_order                  = ["environment", "application", "name"]
+      engine                       = "redis"
+      engine_version               = "5.0.0"
+      family                       = "redis5.0"
+      port                         = 6379
+      node_type                    = "cache.t2.micro"
+      subnet_ids                   = ["subnet-xxxxxxx","subnet-xxxxxxx","subnet-xxxxxxx"]
+      security_group_ids           = ["sg-xxxxxxxxx"]
+      availability_zones           = ["eu-west-1a","eu-west-1b" ]
+      auto_minor_version_upgrade   = true
+      number_cache_clusters        = 2
+     }
+
   ```
   ### Redis Cluster
   ```hcl
-  module "s3_bucket" {
-    source                      = "git::https://github.com/clouddrove/terraform-aws-elasticache?ref=tags/0.12.0"
-    name                        = "cluster"
-    application                 = "cd"
-    environment                 = "test"
-    label_order                 = ["environment", "name", "application"]
-    cluster_replication_enabled = true
-    engine                      = "redis"
-    engine_version              = "5.0.0"
-    family                      = "redis5.0"
-    port                        = 6379
-    node_type                   = "cache.t2.micro"
-    subnet_ids                  = module.subnets.public_subnet_id
-    security_group_ids          = [module.redis-sg.security_group_ids]
-    availability_zones          = ["us-east-1a", "us-east-1b"]
-    auto_minor_version_upgrade  = true
-    replicas_per_node_group     = 2
-    num_node_groups             = 1
-    automatic_failover_enabled  = true
-  }
+      module "redis-cluster" {
+      source                        = "git::https://github.com/clouddrove/terraform-aws-elasticache?ref=tags/0.12.2"
+      name                          = "cluster"
+      application                 = "clouddrove"
+      environment                 = "test"
+      label_order                 = ["environment", "application", "name"]
+      cluster_replication_enabled = true
+      engine                      = "redis"
+      engine_version              = "5.0.0"
+      family                      = "redis5.0"
+      port                        = 6379
+      node_type                   = "cache.t2.micro"
+      subnet_ids                  = module.subnets.public_subnet_id
+      security_group_ids          = [module.redis-sg.security_group_ids]
+      availability_zones           = ["eu-west-1a","eu-west-1b" ]
+      auto_minor_version_upgrade  = true
+      replicas_per_node_group     = 2
+      num_node_groups             = 1
+      automatic_failover_enabled  = true
+    }
   ```
   ### Memcache
   ```hcl
-  module "memcached" {
-    source                       = "https://github.com/clouddrove/terraform-aws-s3?ref=tags/0.12.0"
-    name                         = "memcached"
-    application                  = "cd"
-    environment                  = "test"
-    label_order                  = ["environment", "name", "application"]
-
-    cluster_enabled              = true
-    engine                       = "memcached"
-    engine_version               = "1.5.10"
-    family                       = "memcached1.5"
-    az_mode                      = "cross-az"
-    port                         = 11211
-    node_type                    = "cache.t2.micro"
-    num_cache_nodes              = 2
-    subnet_ids                   = ["subnet-xxxxxxx","subnet-xxxxxxx","subnet-xxxxxxx"]
-    security_group_ids           = ["sg-xxxxxxxxx"]
-    availability_zones           = ["eu-west-1a","eu-west-1b" ]
-  }
+      module "memcached" {
+      source                       = "https://github.com/clouddrove/terraform-aws-s3?ref=tags/0.12.2"
+      name                         = "memcached"
+      application                  = "clouddrove"
+      environment                  = "test"
+      label_order                  = ["environment", "application", "name"]
+      cluster_enabled              = true
+      engine                       = "memcached"
+      engine_version               = "1.5.10"
+      family                       = "memcached1.5"
+      az_mode                      = "cross-az"
+      port                         = 11211
+      node_type                    = "cache.t2.micro"
+      num_cache_nodes              = 2
+      subnet_ids                   = ["subnet-xxxxxxx","subnet-xxxxxxx","subnet-xxxxxxx"]
+      security_group_ids           = ["sg-xxxxxxxxx"]
+      availability_zones           = ["eu-west-1a","eu-west-1b" ]
+      }
   ```

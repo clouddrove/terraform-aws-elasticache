@@ -72,11 +72,11 @@ Here are some examples of how you can use this module in your inventory structur
 ### Redis
 ```hcl
 module "redis" {
-  source                       = "git::https://github.com/clouddrove/terraform-aws-elasticache?ref=tags/0.12.0"
+  source                       = "git::https://github.com/clouddrove/terraform-aws-elasticache?ref=tags/0.12.2"
   name                         = "redis"
-  application                  = "cd"
+  application                  = "clouddrove"
   environment                  = "test"
-  label_order                  = ["environment", "name", "application"]
+  label_order                  = ["environment", "application", "name"]
   engine                       = "redis"
   engine_version               = "5.0.0"
   family                       = "redis5.0"
@@ -91,12 +91,12 @@ module "redis" {
 ```
 ### Redis Cluster
 ```hcl
-module "s3_bucket" {
-  source                       = "git::https://github.com/clouddrove/terraform-aws-elasticache?ref=tags/0.12.0"
-  name                        = "cluster"
-    application                 = "cd"
+module "redis-cluster" {
+  source                        = "git::https://github.com/clouddrove/terraform-aws-elasticache?ref=tags/0.12.2"
+  name                          = "cluster"
+    application                 = "clouddrove"
     environment                 = "test"
-    label_order                 = ["environment", "name", "application"]
+    label_order                 = ["environment", "application", "name"]
     cluster_replication_enabled = true
     engine                      = "redis"
     engine_version              = "5.0.0"
@@ -105,7 +105,7 @@ module "s3_bucket" {
     node_type                   = "cache.t2.micro"
     subnet_ids                  = module.subnets.public_subnet_id
     security_group_ids          = [module.redis-sg.security_group_ids]
-    availability_zones          = ["us-east-1a", "us-east-1b"]
+    availability_zones          = ["eu-west-1a", "eu-west-1b"]
     auto_minor_version_upgrade  = true
     replicas_per_node_group     = 2
     num_node_groups             = 1
@@ -115,12 +115,11 @@ module "s3_bucket" {
 ### Memcache
 ```hcl
 module "memcached" {
-  source                       = "https://github.com/clouddrove/terraform-aws-s3?ref=tags/0.12.0"
+  source                       = "https://github.com/clouddrove/terraform-aws-s3?ref=tags/0.12.2"
   name                         = "memcached"
-  application                  = "cd"
+  application                  = "clouddrove"
   environment                  = "test"
-  label_order                  = ["environment", "name", "application"]
-
+  label_order                  = ["environment", "application", "name"]
   cluster_enabled              = true
   engine                       = "memcached"
   engine_version               = "1.5.10"
