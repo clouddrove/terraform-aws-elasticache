@@ -5,11 +5,6 @@ output "id" {
   description = "Redis cluster id."
 }
 
-//output "cache_nodes" {
-//value       = var.cluster_enabled ? "" : aws_elasticache_replication_group.default.*.cache_nodes
-//description = "Redis cluster id."
-//}
-
 output "port" {
   value       = var.port
   description = "Redis port."
