@@ -36,6 +36,13 @@ variable "tags" {
   description = "Additional tags (e.g. map(`BusinessUnit`,`XYZ`)."
 }
 
+variable "enable" {
+  type        = bool
+  default     = true
+  description = "Enable or disable of elasticache"
+}
+
+
 # Module      : Replication Group
 # Description : Terraform Replication group module variables.
 variable "engine" {

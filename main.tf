@@ -19,6 +19,7 @@ module "labels" {
 # Module      : Elasticache Subnet Group
 # Description : Terraform module which creates Subnet Group for Elasticache.
 resource "aws_elasticache_subnet_group" "default" {
+  count       = var.enable ? 1 : 0
   name        = module.labels.id
   subnet_ids  = var.subnet_ids
   description = "Managed by Clouddrove"
@@ -27,7 +28,7 @@ resource "aws_elasticache_subnet_group" "default" {
 # Module      : Elasticache Replication Group
 # Description : Terraform module which creates standalone instance for Elasticache Redis.
 resource "aws_elasticache_replication_group" "default" {
-  count                         = var.replication_enabled ? 1 : 0
+  count                         = var.enable && var.replication_enabled ? 1 : 0
   engine                        = var.engine
   replication_group_id          = module.labels.id
   replication_group_description = module.labels.id
@@ -36,7 +37,7 @@ resource "aws_elasticache_replication_group" "default" {
   parameter_group_name          = "default.redis5.0"
   node_type                     = var.node_type
   automatic_failover_enabled    = var.automatic_failover_enabled
-  subnet_group_name             = aws_elasticache_subnet_group.default.name
+  subnet_group_name             = join("", aws_elasticache_subnet_group.default.*.name)
   security_group_ids            = var.security_group_ids
   security_group_names          = var.security_group_names
   snapshot_arns                 = var.snapshot_arns
@@ -58,7 +59,7 @@ resource "aws_elasticache_replication_group" "default" {
 # Module      : Elasticache Replication Group
 # Description : Terraform module which creates cluster for Elasticache Redis.
 resource "aws_elasticache_replication_group" "cluster" {
-  count                         = var.cluster_replication_enabled ? 1 : 0
+  count                         = var.enable && var.cluster_replication_enabled ? 1 : 0
   engine                        = var.engine
   replication_group_id          = module.labels.id
   replication_group_description = module.labels.id
@@ -67,7 +68,7 @@ resource "aws_elasticache_replication_group" "cluster" {
   parameter_group_name          = "default.redis5.0.cluster.on"
   node_type                     = var.node_type
   automatic_failover_enabled    = var.automatic_failover_enabled
-  subnet_group_name             = aws_elasticache_subnet_group.default.name
+  subnet_group_name             = join("", aws_elasticache_subnet_group.default.*.name)
   security_group_ids            = var.security_group_ids
   security_group_names          = var.security_group_names
   snapshot_arns                 = var.snapshot_arns
@@ -92,7 +93,7 @@ resource "aws_elasticache_replication_group" "cluster" {
 # Module      : Elasticache Cluster
 # Description : Terraform module which creates cluster for Elasticache Memcached.
 resource "aws_elasticache_cluster" "default" {
-  count                        = var.cluster_enabled ? 1 : 0
+  count                        = var.enable && var.cluster_enabled ? 1 : 0
   engine                       = var.engine
   cluster_id                   = module.labels.id
   engine_version               = var.engine_version
@@ -101,7 +102,7 @@ resource "aws_elasticache_cluster" "default" {
   az_mode                      = var.az_mode
   parameter_group_name         = "default.memcached1.5"
   node_type                    = var.node_type
-  subnet_group_name            = aws_elasticache_subnet_group.default.name
+  subnet_group_name            = join("", aws_elasticache_subnet_group.default.*.name)
   security_group_ids           = var.security_group_ids
   security_group_names         = var.security_group_names
   snapshot_arns                = var.snapshot_arns
