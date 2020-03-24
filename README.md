@@ -38,7 +38,7 @@
 <hr>
 
 
-We eat, drink, sleep and most importantly love **DevOps**. We are working towards stratergies for standardizing architecture while ensuring security for the infrastructure. We are strong believer of the philosophy <b>Bigger problems are always solved by breaking them into smaller manageable problems</b>. Resonating with microservices architecture, it is considered best-practice to run database, cluster, storage in smaller <b>connected yet manageable pieces</b> within the infrastructure.
+We eat, drink, sleep and most importantly love **DevOps**. We are working towards strategies for standardizing architecture while ensuring security for the infrastructure. We are strong believer of the philosophy <b>Bigger problems are always solved by breaking them into smaller manageable problems</b>. Resonating with microservices architecture, it is considered best-practice to run database, cluster, storage in smaller <b>connected yet manageable pieces</b> within the infrastructure.
 
 This module is basically combination of [Terraform open source](https://www.terraform.io/) and includes automatation tests and examples. It also helps to create and improve your infrastructure with minimalistic code instead of maintaining the whole infrastructure code yourself.
 
@@ -71,29 +71,30 @@ This module has a few dependencies:
 Here are some examples of how you can use this module in your inventory structure:
 ### Redis
 ```hcl
-module "redis" {
-  source                       = "git::https://github.com/clouddrove/terraform-aws-elasticache?ref=tags/0.12.2"
-  name                         = "redis"
-  application                  = "clouddrove"
-  environment                  = "test"
-  label_order                  = ["environment", "application", "name"]
-  engine                       = "redis"
-  engine_version               = "5.0.0"
-  family                       = "redis5.0"
-  port                         = 6379
-  node_type                    = "cache.t2.micro"
-  subnet_ids                   = ["subnet-xxxxxxx","subnet-xxxxxxx","subnet-xxxxxxx"]
-  security_group_ids           = ["sg-xxxxxxxxx"]
-  availability_zones           = ["eu-west-1a","eu-west-1b" ]
-  auto_minor_version_upgrade   = true
-  number_cache_clusters        = 2
-}
+    module "redis" {
+    source                       = "git::https://github.com/clouddrove/terraform-aws-elasticache?ref=tags/0.12.4"
+    name                         = "redis"
+    application                  = "clouddrove"
+    environment                  = "test"
+    label_order                  = ["environment", "application", "name"]
+    engine                       = "redis"
+    engine_version               = "5.0.0"
+    family                       = "redis5.0"
+    port                         = 6379
+    node_type                    = "cache.t2.micro"
+    subnet_ids                   = ["subnet-xxxxxxx","subnet-xxxxxxx","subnet-xxxxxxx"]
+    security_group_ids           = ["sg-xxxxxxxxx"]
+    availability_zones           = ["eu-west-1a","eu-west-1b" ]
+    auto_minor_version_upgrade   = true
+    number_cache_clusters        = 2
+   }
+
 ```
 ### Redis Cluster
 ```hcl
-module "redis-cluster" {
-  source                        = "git::https://github.com/clouddrove/terraform-aws-elasticache?ref=tags/0.12.2"
-  name                          = "cluster"
+    module "redis-cluster" {
+    source                        = "git::https://github.com/clouddrove/terraform-aws-elasticache?ref=tags/0.12.4"
+    name                          = "cluster"
     application                 = "clouddrove"
     environment                 = "test"
     label_order                 = ["environment", "application", "name"]
@@ -105,33 +106,33 @@ module "redis-cluster" {
     node_type                   = "cache.t2.micro"
     subnet_ids                  = module.subnets.public_subnet_id
     security_group_ids          = [module.redis-sg.security_group_ids]
-    availability_zones          = ["eu-west-1a", "eu-west-1b"]
+    availability_zones           = ["eu-west-1a","eu-west-1b" ]
     auto_minor_version_upgrade  = true
     replicas_per_node_group     = 2
     num_node_groups             = 1
     automatic_failover_enabled  = true
-}
+  }
 ```
 ### Memcache
 ```hcl
-module "memcached" {
-  source                       = "https://github.com/clouddrove/terraform-aws-s3?ref=tags/0.12.2"
-  name                         = "memcached"
-  application                  = "clouddrove"
-  environment                  = "test"
-  label_order                  = ["environment", "application", "name"]
-  cluster_enabled              = true
-  engine                       = "memcached"
-  engine_version               = "1.5.10"
-  family                       = "memcached1.5"
-  az_mode                      = "cross-az"
-  port                         = 11211
-  node_type                    = "cache.t2.micro"
-  num_cache_nodes              = 2
-  subnet_ids                   = ["subnet-xxxxxxx","subnet-xxxxxxx","subnet-xxxxxxx"]
-  security_group_ids           = ["sg-xxxxxxxxx"]
-  availability_zones           = ["eu-west-1a","eu-west-1b" ]
-}
+    module "memcached" {
+    source                       = "https://github.com/clouddrove/terraform-aws-s3?ref=tags/0.12.4"
+    name                         = "memcached"
+    application                  = "clouddrove"
+    environment                  = "test"
+    label_order                  = ["environment", "application", "name"]
+    cluster_enabled              = true
+    engine                       = "memcached"
+    engine_version               = "1.5.10"
+    family                       = "memcached1.5"
+    az_mode                      = "cross-az"
+    port                         = 11211
+    node_type                    = "cache.t2.micro"
+    num_cache_nodes              = 2
+    subnet_ids                   = ["subnet-xxxxxxx","subnet-xxxxxxx","subnet-xxxxxxx"]
+    security_group_ids           = ["sg-xxxxxxxxx"]
+    availability_zones           = ["eu-west-1a","eu-west-1b" ]
+    }
 ```
 
 
@@ -143,42 +144,44 @@ module "memcached" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
-| application | Application (e.g. `cd` or `clouddrove`). | string | `` | no |
-| apply_immediately | Specifies whether any modifications are applied immediately, or during the next maintenance window. Default is false. | string | `false` | no |
-| at_rest_encryption_enabled | Enable encryption at rest. | string | `false` | no |
-| attributes | Additional attributes (e.g. `1`). | list | `<list>` | no |
-| auth_token | The password used to access a password protected server. Can be specified only if transit_encryption_enabled = true. | string | `` | no |
-| auto_minor_version_upgrade | Specifies whether a minor engine upgrades will be applied automatically to the underlying Cache Cluster instances during the maintenance window. Defaults to true. | string | `true` | no |
-| automatic_failover_enabled | Specifies whether a read-only replica will be automatically promoted to read/write primary if the existing primary fails. If true, Multi-AZ is enabled for this replication group. If false, Multi-AZ is disabled for this replication group. Must be enabled for Redis (cluster mode enabled) replication groups. Defaults to false. | string | `false` | no |
-| availability_zones | A list of EC2 availability zones in which the replication group's cache clusters will be created. The order of the availability zones in the list is not important. | list(string) | - | yes |
-| az_mode | (Memcached only) Specifies whether the nodes in this Memcached node group are created in a single Availability Zone or created across multiple Availability Zones in the cluster's region. Valid values for this parameter are single-az or cross-az, default is single-az. If you want to choose cross-az, num_cache_nodes must be greater than 1. | string | `single-az` | no |
-| cluster_enabled | (Memcache only) Enabled or disabled cluster. | bool | `false` | no |
-| cluster_replication_enabled | (Redis only) Enabled or disabled replication_group for redis cluster. | bool | `false` | no |
-| engine | The name of the cache engine to be used for the clusters in this replication group. e.g. redis. | string | `` | no |
-| engine_version | The version number of the cache engine to be used for the cache clusters in this replication group. | string | `` | no |
-| environment | Environment (e.g. `prod`, `dev`, `staging`). | string | `` | no |
-| family | (Required) The family of the ElastiCache parameter group. | string | `` | no |
-| label_order | Label order, e.g. `name`,`application`. | list | `<list>` | no |
-| maintenance_window | Maintenance window. | string | `sun:05:00-sun:06:00` | no |
-| name | Name  (e.g. `app` or `cluster`). | string | `` | no |
-| node_type | The compute and memory capacity of the nodes in the node group. | string | `` | no |
-| notification_topic_arn | An Amazon Resource Name (ARN) of an SNS topic to send ElastiCache notifications to. | string | `` | no |
-| num_cache_nodes | (Required unless replication_group_id is provided) The initial number of cache nodes that the cache cluster will have. For Redis, this value must be 1. For Memcache, this value must be between 1 and 20. If this number is reduced on subsequent runs, the highest numbered nodes will be removed. | string | `1` | no |
-| num_node_groups | Number of Shards (nodes). | string | `` | no |
-| number_cache_clusters | (Required for Cluster Mode Disabled) The number of cache clusters (primary and replicas) this replication group will have. If Multi-AZ is enabled, the value of this parameter must be at least 2. Updates will occur before other modifications. | string | `` | no |
-| port | the port number on which each of the cache nodes will accept connections. | string | `` | no |
-| replicas_per_node_group | Replicas per Shard. | string | `` | no |
-| replication_enabled | (Redis only) Enabled or disabled replication_group for redis standalone instance. | bool | `false` | no |
-| replication_group_id | The replication group identifier This parameter is stored as a lowercase string. | string | `` | no |
-| security_group_ids | One or more VPC security groups associated with the cache cluster. | list | `<list>` | no |
-| security_group_names | A list of cache security group names to associate with this replication group. | string | `` | no |
-| snapshot_arns | A single-element string list containing an Amazon Resource Name (ARN) of a Redis RDB snapshot file stored in Amazon S3. | string | `` | no |
-| snapshot_name | The name of a snapshot from which to restore data into the new node group. Changing the snapshot_name forces a new resource. | string | `` | no |
-| snapshot_retention_limit | (Redis only) The number of days for which ElastiCache will retain automatic cache cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, then a snapshot that was taken today will be retained for 5 days before being deleted. If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off. Please note that setting a snapshot_retention_limit is not supported on cache.t1.micro or cache.t2.* cache nodes. | string | `0` | no |
-| snapshot_window | (Redis only) The daily time range (in UTC) during which ElastiCache will begin taking a daily snapshot of your cache cluster. The minimum snapshot window is a 60 minute period. | string | `` | no |
-| subnet_ids | List of VPC Subnet IDs for the cache subnet group. | list | `<list>` | no |
-| tags | Additional tags (e.g. map(`BusinessUnit`,`XYZ`). | map | `<map>` | no |
-| transit_encryption_enabled | Whether to enable encryption in transit. | string | `false` | no |
+| application | Application \(e.g. `cd` or `clouddrove`\). | string | `""` | no |
+| apply\_immediately | Specifies whether any modifications are applied immediately, or during the next maintenance window. Default is false. | string | `"false"` | no |
+| at\_rest\_encryption\_enabled | Enable encryption at rest. | string | `"false"` | no |
+| attributes | Additional attributes \(e.g. `1`\). | list | `<list>` | no |
+| auth\_token | The password used to access a password protected server. Can be specified only if transit\_encryption\_enabled = true. | string | `""` | no |
+| auto\_minor\_version\_upgrade | Specifies whether a minor engine upgrades will be applied automatically to the underlying Cache Cluster instances during the maintenance window. Defaults to true. | string | `"true"` | no |
+| automatic\_failover\_enabled | Specifies whether a read-only replica will be automatically promoted to read/write primary if the existing primary fails. If true, Multi-AZ is enabled for this replication group. If false, Multi-AZ is disabled for this replication group. Must be enabled for Redis \(cluster mode enabled\) replication groups. Defaults to false. | string | `"false"` | no |
+| availability\_zones | A list of EC2 availability zones in which the replication group's cache clusters will be created. The order of the availability zones in the list is not important. | list(string) | n/a | yes |
+| az\_mode | \(Memcached only\) Specifies whether the nodes in this Memcached node group are created in a single Availability Zone or created across multiple Availability Zones in the cluster's region. Valid values for this parameter are single-az or cross-az, default is single-az. If you want to choose cross-az, num\_cache\_nodes must be greater than 1. | string | `"single-az"` | no |
+| cluster\_enabled | \(Memcache only\) Enabled or disabled cluster. | bool | `"false"` | no |
+| cluster\_replication\_enabled | \(Redis only\) Enabled or disabled replication\_group for redis cluster. | bool | `"false"` | no |
+| enable | Enable or disable of elasticache | bool | `"true"` | no |
+| engine | The name of the cache engine to be used for the clusters in this replication group. e.g. redis. | string | `""` | no |
+| engine\_version | The version number of the cache engine to be used for the cache clusters in this replication group. | string | `""` | no |
+| environment | Environment \(e.g. `prod`, `dev`, `staging`\). | string | `""` | no |
+| family | \(Required\) The family of the ElastiCache parameter group. | string | `""` | no |
+| label\_order | Label order, e.g. `name`,`application`. | list | `<list>` | no |
+| maintenance\_window | Maintenance window. | string | `"sun:05:00-sun:06:00"` | no |
+| managedby | ManagedBy, eg 'CloudDrove' or 'AnmolNagpal'. | string | `"anmol@clouddrove.com"` | no |
+| name | Name  \(e.g. `app` or `cluster`\). | string | `""` | no |
+| node\_type | The compute and memory capacity of the nodes in the node group. | string | `""` | no |
+| notification\_topic\_arn | An Amazon Resource Name \(ARN\) of an SNS topic to send ElastiCache notifications to. | string | `""` | no |
+| num\_cache\_nodes | \(Required unless replication\_group\_id is provided\) The initial number of cache nodes that the cache cluster will have. For Redis, this value must be 1. For Memcache, this value must be between 1 and 20. If this number is reduced on subsequent runs, the highest numbered nodes will be removed. | string | `"1"` | no |
+| num\_node\_groups | Number of Shards \(nodes\). | string | `""` | no |
+| number\_cache\_clusters | \(Required for Cluster Mode Disabled\) The number of cache clusters \(primary and replicas\) this replication group will have. If Multi-AZ is enabled, the value of this parameter must be at least 2. Updates will occur before other modifications. | string | `""` | no |
+| port | the port number on which each of the cache nodes will accept connections. | string | `""` | no |
+| replicas\_per\_node\_group | Replicas per Shard. | string | `""` | no |
+| replication\_enabled | \(Redis only\) Enabled or disabled replication\_group for redis standalone instance. | bool | `"false"` | no |
+| replication\_group\_id | The replication group identifier This parameter is stored as a lowercase string. | string | `""` | no |
+| security\_group\_ids | One or more VPC security groups associated with the cache cluster. | list | `<list>` | no |
+| security\_group\_names | A list of cache security group names to associate with this replication group. | string | `""` | no |
+| snapshot\_arns | A single-element string list containing an Amazon Resource Name \(ARN\) of a Redis RDB snapshot file stored in Amazon S3. | string | `""` | no |
+| snapshot\_name | The name of a snapshot from which to restore data into the new node group. Changing the snapshot\_name forces a new resource. | string | `""` | no |
+| snapshot\_retention\_limit | \(Redis only\) The number of days for which ElastiCache will retain automatic cache cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, then a snapshot that was taken today will be retained for 5 days before being deleted. If the value of SnapshotRetentionLimit is set to zero \(0\), backups are turned off. Please note that setting a snapshot\_retention\_limit is not supported on cache.t1.micro or cache.t2.\* cache nodes. | string | `"0"` | no |
+| snapshot\_window | \(Redis only\) The daily time range \(in UTC\) during which ElastiCache will begin taking a daily snapshot of your cache cluster. The minimum snapshot window is a 60 minute period. | string | `""` | no |
+| subnet\_ids | List of VPC Subnet IDs for the cache subnet group. | list | `<list>` | no |
+| tags | Additional tags \(e.g. map\(`BusinessUnit`,`XYZ`\). | map | `<map>` | no |
+| transit\_encryption\_enabled | Whether to enable encryption in transit. | string | `"false"` | no |
 
 ## Outputs
 
