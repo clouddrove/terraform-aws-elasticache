@@ -14,3 +14,8 @@ output "tags" {
   value       = module.labels.tags
   description = "A mapping of tags to assign to the resource."
 }
+  
+output "endpoint" {
+  value       = var.cluster_enabled ? join("", aws_elasticache_replication_group.cluster.*.configuration_endpoint_address) : join("", aws_elasticache_replication_group.default.*.primary_endpoint_address)
+  description = "Redis primary endpoint."
+}
