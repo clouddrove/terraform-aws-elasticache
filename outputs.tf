@@ -20,7 +20,7 @@ output "redis_endpoint" {
   description = "Redis endpoint address."
 }
 
-output "memcached_endpoint_address" {
+output "memcached_endpoint" {
   value       = var.cluster_enabled ? join("", aws_elasticache_cluster.default.*.configuration_endpoint) : ""
   description = "Memcached endpoint address."
 }
