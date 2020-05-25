@@ -48,7 +48,6 @@ variable "enable" {
   description = "Enable or disable of elasticache"
 }
 
-
 # Module      : Replication Group
 # Description : Terraform Replication group module variables.
 variable "engine" {
@@ -126,6 +125,12 @@ variable "subnet_ids" {
   description = "List of VPC Subnet IDs for the cache subnet group."
 }
 
+variable "description" {
+  type        = string
+  default     = "Managed by Terraform"
+  description = "Description for the cache subnet group. Defaults to `Managed by Terraform`."
+}
+
 variable "availability_zones" {
   type        = list(string)
   description = "A list of EC2 availability zones in which the replication group's cache clusters will be created. The order of the availability zones in the list is not important."
@@ -196,7 +201,6 @@ variable "az_mode" {
   default     = "single-az"
   description = "(Memcached only) Specifies whether the nodes in this Memcached node group are created in a single Availability Zone or created across multiple Availability Zones in the cluster's region. Valid values for this parameter are single-az or cross-az, default is single-az. If you want to choose cross-az, num_cache_nodes must be greater than 1."
 }
-
 
 variable "replicas_per_node_group" {
   default     = ""
