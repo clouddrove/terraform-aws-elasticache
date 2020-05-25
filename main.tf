@@ -23,7 +23,7 @@ resource "aws_elasticache_subnet_group" "default" {
   count       = var.enable ? 1 : 0
   name        = module.labels.id
   subnet_ids  = var.subnet_ids
-  description = "Managed by ${var.managedby}"
+  description = var.description
 }
 
 # Module      : Elasticache Replication Group
