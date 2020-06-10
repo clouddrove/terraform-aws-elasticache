@@ -76,7 +76,7 @@ variable "port" {
 }
 
 variable "node_type" {
-  default     = ""
+  default     = "cache.t2.small"
   description = "The compute and memory capacity of the nodes in the node group."
 }
 
@@ -210,4 +210,15 @@ variable "replicas_per_node_group" {
 variable "num_node_groups" {
   default     = ""
   description = "Number of Shards (nodes)."
+}
+
+variable "kms_key_id" {
+  default     = ""
+  description = "The ARN of the key that you wish to use if encrypting at rest. If not supplied, uses service managed encryption. Can be specified only if at_rest_encryption_enabled = true."
+}
+
+variable "parameter_group_name" {
+  type        = string
+  default     = ""
+  description = "The name of the parameter group to associate with this replication group. If this argument is omitted, the default cache parameter group for the specified engine is used."
 }

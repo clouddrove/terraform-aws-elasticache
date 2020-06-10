@@ -10,6 +10,7 @@
 module "labels" {
   source = "git::https://github.com/clouddrove/terraform-labels.git?ref=tags/0.12.0"
 
+  enabled     = var.enable
   name        = var.name
   application = var.application
   environment = var.environment
@@ -54,6 +55,7 @@ resource "aws_elasticache_replication_group" "default" {
   at_rest_encryption_enabled    = var.at_rest_encryption_enabled
   transit_encryption_enabled    = var.transit_encryption_enabled
   auth_token                    = var.auth_token
+  kms_key_id                    = var.kms_key_id
   tags                          = module.labels.tags
 }
 
@@ -84,6 +86,7 @@ resource "aws_elasticache_replication_group" "cluster" {
   at_rest_encryption_enabled    = var.at_rest_encryption_enabled
   transit_encryption_enabled    = var.transit_encryption_enabled
   auth_token                    = var.auth_token
+  kms_key_id                    = var.kms_key_id
   tags                          = module.labels.tags
   cluster_mode {
     replicas_per_node_group = var.replicas_per_node_group #Replicas per Shard
@@ -101,7 +104,7 @@ resource "aws_elasticache_cluster" "default" {
   port                         = var.port
   num_cache_nodes              = var.num_cache_nodes
   az_mode                      = var.az_mode
-  parameter_group_name         = "default.memcached1.5"
+  parameter_group_name         = var.parameter_group_name
   node_type                    = var.node_type
   subnet_group_name            = join("", aws_elasticache_subnet_group.default.*.name)
   security_group_ids           = var.security_group_ids
