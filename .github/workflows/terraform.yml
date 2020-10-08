@@ -1,91 +1,98 @@
 name: 'Terraform GitHub Actions'
 on:
-  - pull_request
+  - push
 
 jobs:
   terraform:
     name: 'Terraform'
     runs-on: ubuntu-latest
     steps:
-
       - name: 'Checkout'
         uses: actions/checkout@master
 
-      - name: 'Terraform Format'
-        uses: clouddrove/github-actions@v2.0
+      - name: 'Terraform Format fmt memcached'
+        uses: hashicorp/terraform-github-actions@master
         with:
-          actions_subcommand: 'fmt'
+          tf_actions_version: 0.13.4
+          tf_actions_subcommand: 'fmt'
+          tf_actions_working_dir: "./_example/memcached"
+          tf_actions_comment: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: 'Terraform Init for memcached'
-        uses: clouddrove/github-actions@v2.0
+      - name: 'Terraform Format fmt redis'
+        uses: hashicorp/terraform-github-actions@master
         with:
-          actions_subcommand: 'init'
-          tf_actions_working_dir: ./_example/memcached
+          tf_actions_version: 0.13.4
+          tf_actions_subcommand: 'fmt'
+          tf_actions_working_dir: "./_example/redis"
+          tf_actions_comment: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: 'Terraform Init Redis'
-        uses: clouddrove/github-actions@v2.0
+      - name: 'Terraform Format fmt redis-cluster'
+        uses: hashicorp/terraform-github-actions@master
         with:
-          actions_subcommand: 'init'
-          tf_actions_working_dir: ./_example/redis
-
-      - name: 'Terraform Init For Redis Cluster'
-        uses: clouddrove/github-actions@v2.0
-        with:
-          actions_subcommand: 'init'
-          tf_actions_working_dir: ./_example/redis-cluster
+          tf_actions_version: 0.13.4
+          tf_actions_subcommand: 'fmt'
+          tf_actions_working_dir: "./_example/redis-cluster"
+          tf_actions_comment: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Configure AWS Credentials
         uses: clouddrove/configure-aws-credentials@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-access-key-id: ${{ secrets.TEST_AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.TEST_AWS_ACCESS_SECRET_KEY }}
           aws-region: us-east-2
 
-      - name: 'Terraform Plan for memcached'
-        uses: clouddrove/github-actions@v2.0
+      - name: Set up Go 1.13
+        uses: actions/setup-go@v1
         with:
-          actions_subcommand: 'plan'
-          tf_actions_working_dir: ./_example/memcached
+          go-version: 1.13
+        id: go
+
+      - name: Get dependencies
+        run: |
+          if [ -f Gopkg.toml ]; then
+              curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+              dep ensure
+          else
+            go get -v -t -d ./...
+          fi
+
+      - name: Test redis-cluster'
+        working-directory: ./_test/redis-cluster
+        run: go test  --timeout 1500000m
+
+      - name: 'Terraform Init memcached'
+        uses: hashicorp/terraform-github-actions@master
+        with:
+          tf_actions_version: 0.13.4
+          tf_actions_subcommand: 'init'
+          tf_actions_working_dir: "./_example/memcached"
+          tf_actions_comment: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: 'Terraform Plan for Redis'
-        uses: clouddrove/github-actions@v2.0
+      - name: 'Terraform Init redis-cluster'
+        uses: hashicorp/terraform-github-actions@master
         with:
-          actions_subcommand: 'plan'
-          tf_actions_working_dir: ./_example/redis
+          tf_actions_version: 0.13.4
+          tf_actions_subcommand: 'init'
+          tf_actions_working_dir: "./_example/redis-cluster"
+          tf_actions_comment: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: 'Terraform Plan For Redis Cluster'
-        uses: clouddrove/github-actions@v2.0
+      - name: 'Terraform Init redis'
+        uses: hashicorp/terraform-github-actions@master
         with:
-          actions_subcommand: 'plan'
-          tf_actions_working_dir: ./_example/redis-cluster
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: 'Terratest For Memcached'
-        uses: clouddrove/github-actions@v2.0
-        with:
-          actions_subcommand: 'terratest'
-          tf_actions_working_dir: ./_test/memcached
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: 'Terratest For Redis'
-        uses: clouddrove/github-actions@v2.0
-        with:
-          actions_subcommand: 'terratest'
-          tf_actions_working_dir: ./_test/redis
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: 'Terratest For Redis Cluster'
-        uses: clouddrove/github-actions@v2.0
-        with:
-          actions_subcommand: 'terratest'
-          tf_actions_working_dir: ./_test/redis-cluster
+          tf_actions_version: 0.13.4
+          tf_actions_subcommand: 'init'
+          tf_actions_working_dir: "./_example/redis"
+          tf_actions_comment: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -97,5 +104,5 @@ jobs:
           author_name: 'Clouddrove'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # required
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }} # required
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_TERRAFORM }} # required
         if: always()
