@@ -16,7 +16,7 @@ github_repo: clouddrove/terraform-aws-elasticache
 # Badges to display
 badges:
   - name: "Terraform"
-    image: "https://img.shields.io/badge/Terraform-v0.12-green"
+    image: "https://img.shields.io/badge/terraform-v0.13-green"
     url: "https://www.terraform.io"
   - name: "Licence"
     image: "https://img.shields.io/badge/License-MIT-blue.svg"
@@ -36,7 +36,7 @@ usage : |-
   ### Redis
   ```hcl
       module "redis" {
-      source                       = "git::https://github.com/clouddrove/terraform-aws-elasticache?ref=tags/0.12.4"
+      source                       = "git::https://github.com/clouddrove/terraform-aws-elasticache?ref=tags/0.13.0"
       name                         = "redis"
       application                  = "clouddrove"
       environment                  = "test"
@@ -57,7 +57,7 @@ usage : |-
   ### Redis Cluster
   ```hcl
       module "redis-cluster" {
-      source                        = "git::https://github.com/clouddrove/terraform-aws-elasticache?ref=tags/0.12.4"
+      source                        = "git::https://github.com/clouddrove/terraform-aws-elasticache?ref=tags/0.13.0"
       name                          = "cluster"
       application                 = "clouddrove"
       environment                 = "test"
@@ -80,7 +80,7 @@ usage : |-
   ### Memcache
   ```hcl
       module "memcached" {
-      source                       = "https://github.com/clouddrove/terraform-aws-s3?ref=tags/0.12.4"
+      source                       = "git::https://github.com/clouddrove/terraform-aws-elasticache?ref=tags/0.13.0"
       name                         = "memcached"
       application                  = "clouddrove"
       environment                  = "test"
