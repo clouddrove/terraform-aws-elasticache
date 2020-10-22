@@ -27,12 +27,8 @@ jobs:
       - name: 'Terraform init for memcached'
         uses: 'clouddrove/github-actions@v4.0'
         with:
-          tf_actions_version: 0.13.4
-          tf_actions_subcommand: 'fmt'
-          tf_actions_working_dir: "./_example/memcached"
-          tf_actions_comment: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          actions_subcommand: 'init'
+          tf_actions_working_dir: ./_example/memcached
 
       - name: 'Terraform validate for memcached'
         uses: 'clouddrove/github-actions@v4.0'
@@ -81,6 +77,7 @@ jobs:
         with:
           actions_subcommand: 'plan'
           tf_actions_working_dir: ./_example/redis-cluster
+
 
       - name: 'Slack Notification'
         uses: clouddrove/action-slack@v2
