@@ -3,8 +3,8 @@ provider "aws" {
 }
 
 module "vpc" {
-  source = "git::https://github.com/clouddrove/terraform-aws-vpc.git?ref=tags/0.13.0"
-
+  source      = "clouddrove/vpc/aws"
+  version     = "0.13.0"
   name        = "vpc"
   application = "clouddrove"
   environment = "test"
@@ -14,8 +14,8 @@ module "vpc" {
 }
 
 module "subnets" {
-  source = "git::https://github.com/clouddrove/terraform-aws-subnet.git"
-
+  source      = "clouddrove/subnet/aws"
+  version     = "0.13.0"
   name        = "subnets"
   application = "clouddrove"
   environment = "test"
@@ -30,8 +30,8 @@ module "subnets" {
 }
 
 module "memcached-sg" {
-  source = "git::https://github.com/clouddrove/terraform-aws-security-group.git"
-
+  source      = "clouddrove/security-group/aws"
+  version     = "0.13.0"
   name        = "ssh"
   application = "clouddrove"
   environment = "test"
