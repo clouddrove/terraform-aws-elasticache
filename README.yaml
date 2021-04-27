@@ -38,7 +38,7 @@ usage : |-
   ### Redis
   ```hcl
       module "redis" {
-      source                       = "git::https://github.com/clouddrove/terraform-aws-elasticache?ref=tags/0.13.0"
+      source                       = "git::https://github.com/clouddrove/terraform-aws-elasticache?ref=tags/0.14.0"
       name                         = "redis"
       repository                   = "clouddrove"
       environment                  = "test"
@@ -59,7 +59,7 @@ usage : |-
   ### Redis Cluster
   ```hcl
       module "redis-cluster" {
-      source                        = "git::https://github.com/clouddrove/terraform-aws-elasticache?ref=tags/0.13.0"
+      source                        = "git::https://github.com/clouddrove/terraform-aws-elasticache?ref=tags/0.14.0"
       name                          = "cluster"
       application                 = "clouddrove"
       environment                 = "test"
@@ -82,7 +82,7 @@ usage : |-
   ### Memcache
   ```hcl
       module "memcached" {
-      source                       = "git::https://github.com/clouddrove/terraform-aws-elasticache?ref=tags/0.13.0"
+      source                       = "git::https://github.com/clouddrove/terraform-aws-elasticache?ref=tags/0.14.0"
       name                         = "memcached"
       application                  = "clouddrove"
       environment                  = "test"
