@@ -10,7 +10,7 @@ module "vpc" {
   repository  = "https://registry.terraform.io/modules/clouddrove/vpc/aws/0.14.0"
   environment = "test"
   label_order = [
-    "name", "environment"]
+  "name", "environment"]
 
   cidr_block = "172.16.0.0/16"
 }
