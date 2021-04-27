@@ -7,7 +7,7 @@ output "id" {
 
 output "port" {
   value       = var.port
-  sensitive = true
+  sensitive   = true
   description = "Redis port."
 }
 
