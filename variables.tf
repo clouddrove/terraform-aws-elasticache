@@ -165,17 +165,17 @@ variable "maintenance_window" {
 }
 
 variable "at_rest_encryption_enabled" {
-  default     = false
+  default     = true
   description = "Enable encryption at rest."
 }
 
 variable "transit_encryption_enabled" {
-  default     = false
+  default     = true
   description = "Whether to enable encryption in transit."
 }
 
 variable "auth_token" {
-  default     = null
+  default     = "gihweisdjhewiuei"
   description = "The password used to access a password protected server. Can be specified only if transit_encryption_enabled = true."
 }
 
