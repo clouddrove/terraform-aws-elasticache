@@ -3,23 +3,26 @@ provider "aws" {
 }
 
 module "vpc" {
-  source      = "clouddrove/vpc/aws"
-  version     = "0.13.0"
+  source  = "clouddrove/vpc/aws"
+  version = "0.14.0"
+
   name        = "vpc"
-  application = "clouddrove"
+  repository  = "https://registry.terraform.io/modules/clouddrove/vpc/aws/0.14.0"
   environment = "test"
-  label_order = ["environment", "application", "name"]
+  label_order = [
+  "name", "environment"]
 
   cidr_block = "172.16.0.0/16"
 }
 
 module "subnets" {
-  source      = "clouddrove/subnet/aws"
-  version     = "0.13.0"
+  source  = "clouddrove/subnet/aws"
+  version = "0.14.0"
+
   name        = "subnets"
-  application = "clouddrove"
+  repository  = "https://registry.terraform.io/modules/clouddrove/subnet/aws/0.14.0"
   environment = "test"
-  label_order = ["environment", "application", "name"]
+  label_order = ["name", "environment"]
 
   availability_zones = ["eu-west-1a", "eu-west-1b", "eu-west-1c"]
   vpc_id             = module.vpc.vpc_id
@@ -30,12 +33,13 @@ module "subnets" {
 }
 
 module "memcached-sg" {
-  source      = "clouddrove/security-group/aws"
-  version     = "0.13.0"
-  name        = "ssh"
-  application = "clouddrove"
+  source  = "clouddrove/security-group/aws"
+  version = "0.14.0"
+
+  name        = "memcached-sg"
+  repository  = "https://registry.terraform.io/modules/clouddrove/security-group/aws/0.14.0"
   environment = "test"
-  label_order = ["environment", "application", "name"]
+  label_order = ["name", "environment"]
 
   vpc_id        = module.vpc.vpc_id
   allowed_ip    = [module.vpc.vpc_cidr_block]
@@ -46,9 +50,8 @@ module "memcached" {
   source = "./../../"
 
   name        = "memcached"
-  application = "clouddrove"
   environment = "test"
-  label_order = ["environment", "application", "name"]
+  label_order = ["name", "environment"]
 
   cluster_enabled    = true
   engine             = "memcached"

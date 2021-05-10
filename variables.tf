@@ -6,10 +6,16 @@ variable "name" {
   description = "Name  (e.g. `app` or `cluster`)."
 }
 
-variable "application" {
+variable "repository" {
   type        = string
-  default     = ""
-  description = "Application (e.g. `cd` or `clouddrove`)."
+  default     = "https://registry.terraform.io/modules/clouddrove/elasticache/aws/0.14.0"
+  description = "Terraform current module repo"
+
+  validation {
+    # regex(...) fails if it cannot find a match
+    condition     = can(regex("^https://", var.repository))
+    error_message = "The module-repo value must be a valid Git repo link."
+  }
 }
 
 variable "environment" {
@@ -19,19 +25,19 @@ variable "environment" {
 }
 
 variable "label_order" {
-  type        = list
+  type        = list(any)
   default     = []
   description = "Label order, e.g. `name`,`application`."
 }
 
 variable "attributes" {
-  type        = list
+  type        = list(any)
   default     = []
   description = "Additional attributes (e.g. `1`)."
 }
 
 variable "tags" {
-  type        = map
+  type        = map(any)
   default     = {}
   description = "Additional tags (e.g. map(`BusinessUnit`,`XYZ`)."
 }
@@ -58,6 +64,7 @@ variable "engine" {
 variable "replication_group_id" {
   default     = ""
   description = "The replication group identifier This parameter is stored as a lowercase string."
+  sensitive   = true
 }
 
 variable "automatic_failover_enabled" {
@@ -73,6 +80,7 @@ variable "engine_version" {
 variable "port" {
   default     = ""
   description = "the port number on which each of the cache nodes will accept connections."
+  sensitive   = true
 }
 
 variable "node_type" {
@@ -83,6 +91,7 @@ variable "node_type" {
 variable "security_group_ids" {
   default     = []
   description = "One or more VPC security groups associated with the cache cluster."
+  sensitive   = true
 }
 
 variable "security_group_names" {
@@ -98,6 +107,7 @@ variable "snapshot_arns" {
 variable "snapshot_name" {
   default     = ""
   description = "The name of a snapshot from which to restore data into the new node group. Changing the snapshot_name forces a new resource."
+  sensitive   = true
 }
 
 variable "snapshot_window" {
@@ -106,13 +116,14 @@ variable "snapshot_window" {
 }
 
 variable "snapshot_retention_limit" {
-  default     = 0
+  default     = null
   description = "(Redis only) The number of days for which ElastiCache will retain automatic cache cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, then a snapshot that was taken today will be retained for 5 days before being deleted. If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off. Please note that setting a snapshot_retention_limit is not supported on cache.t1.micro or cache.t2.* cache nodes."
 }
 
 variable "notification_topic_arn" {
   default     = ""
   description = "An Amazon Resource Name (ARN) of an SNS topic to send ElastiCache notifications to."
+  sensitive   = true
 }
 
 variable "apply_immediately" {
@@ -123,6 +134,7 @@ variable "apply_immediately" {
 variable "subnet_ids" {
   default     = []
   description = "List of VPC Subnet IDs for the cache subnet group."
+  sensitive   = true
 }
 
 variable "description" {
@@ -153,17 +165,17 @@ variable "maintenance_window" {
 }
 
 variable "at_rest_encryption_enabled" {
-  default     = false
+  default     = true
   description = "Enable encryption at rest."
 }
 
 variable "transit_encryption_enabled" {
-  default     = false
+  default     = true
   description = "Whether to enable encryption in transit."
 }
 
 variable "auth_token" {
-  default     = null
+  default     = "gihweisdjhewiuei"
   description = "The password used to access a password protected server. Can be specified only if transit_encryption_enabled = true."
 }
 
@@ -215,6 +227,7 @@ variable "num_node_groups" {
 variable "kms_key_id" {
   default     = ""
   description = "The ARN of the key that you wish to use if encrypting at rest. If not supplied, uses service managed encryption. Can be specified only if at_rest_encryption_enabled = true."
+  sensitive   = true
 }
 
 variable "parameter_group_name" {

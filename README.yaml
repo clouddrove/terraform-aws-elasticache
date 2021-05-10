@@ -16,7 +16,7 @@ github_repo: clouddrove/terraform-aws-elasticache
 # Badges to display
 badges:
   - name: "Terraform"
-    image: "https://img.shields.io/badge/terraform-v0.13-green"
+    image: "https://img.shields.io/badge/terraform-v0.14-green"
     url: "https://www.terraform.io"
   - name: "Licence"
     image: "https://img.shields.io/badge/License-MIT-blue.svg"
@@ -38,10 +38,10 @@ usage : |-
   ### Redis
   ```hcl
       module "redis" {
-      source                       = "clouddrove/elasticache/aws"
-      version                      = "0.13.0"
+      source                       = "clouddrove/elasticache/aws
+      version                      = "0.14.0"
       name                         = "redis"
-      application                  = "clouddrove"
+      repository                   = "https://registry.terraform.io/modules/clouddrove/elasticache/aws/0.14.0"
       environment                  = "test"
       label_order                  = ["environment", "application", "name"]
       engine                       = "redis"
@@ -60,10 +60,10 @@ usage : |-
   ### Redis Cluster
   ```hcl
       module "redis-cluster" {
-      source                      = "clouddrove/elasticache/aws"
-      version                     = "0.13.0"
+      source                      = "clouddrove/elasticache/aws
+      version                     = "0.14.0"
       name                        = "cluster"
-      application                 = "clouddrove"
+      repository                  = "https://registry.terraform.io/modules/clouddrove/elasticache/aws/0.14.0"
       environment                 = "test"
       label_order                 = ["environment", "application", "name"]
       cluster_replication_enabled = true
@@ -74,7 +74,7 @@ usage : |-
       node_type                   = "cache.t2.micro"
       subnet_ids                  = module.subnets.public_subnet_id
       security_group_ids          = [module.redis-sg.security_group_ids]
-      availability_zones           = ["eu-west-1a","eu-west-1b" ]
+      availability_zones          = ["eu-west-1a","eu-west-1b" ]
       auto_minor_version_upgrade  = true
       replicas_per_node_group     = 2
       num_node_groups             = 1
@@ -84,10 +84,10 @@ usage : |-
   ### Memcache
   ```hcl
       module "memcached" {
-      source                       = "clouddrove/elasticache/aws"
-      version                      = "0.13.0"
+      source                       = "clouddrove/elasticache/aws
+      version                      = "0.14.0"
       name                         = "memcached"
-      application                  = "clouddrove"
+      repository                   = "https://registry.terraform.io/modules/clouddrove/elasticache/aws/0.14.0"
       environment                  = "test"
       label_order                  = ["environment", "application", "name"]
       cluster_enabled              = true
