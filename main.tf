@@ -8,11 +8,11 @@
 #              tags for resources. You can use terraform-labels to implement a strict
 #              naming convention.
 module "labels" {
-  source = "git::https://github.com/clouddrove/terraform-labels.git?ref=tags/0.14.0"
+  source = "git::https://github.com/clouddrove/terraform-labels.git?ref=tags/0.13.0"
 
   enabled     = var.enable
   name        = var.name
-  repository  = var.repository
+  application = var.application
   environment = var.environment
   managedby   = var.managedby
   label_order = var.label_order
@@ -52,7 +52,7 @@ resource "aws_elasticache_replication_group" "default" {
   number_cache_clusters         = var.number_cache_clusters
   auto_minor_version_upgrade    = var.auto_minor_version_upgrade
   maintenance_window            = var.maintenance_window
-  at_rest_encryption_enabled    = var.at_rest_encryption_enabled
+  at_rest_encryption_enabled    = true
   transit_encryption_enabled    = var.transit_encryption_enabled
   auth_token                    = var.auth_token
   kms_key_id                    = var.kms_key_id
