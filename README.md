@@ -14,7 +14,7 @@
 <p align="center">
 
 <a href="https://www.terraform.io">
-  <img src="https://img.shields.io/badge/terraform-v0.13-green" alt="Terraform">
+  <img src="https://img.shields.io/badge/terraform-v0.14-green" alt="Terraform">
 </a>
 <a href="LICENSE.md">
   <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="Licence">
@@ -72,10 +72,10 @@ Here are some examples of how you can use this module in your inventory structur
 ### Redis
 ```hcl
     module "redis" {
-    source                       = "clouddrove/elasticache/aws"
-    version                      = "0.13.0"
+    source                       = "clouddrove/elasticache/aws
+    version                      = "0.14.0"
     name                         = "redis"
-    application                  = "clouddrove"
+    repository                   = "https://registry.terraform.io/modules/clouddrove/elasticache/aws/0.14.0"
     environment                  = "test"
     label_order                  = ["environment", "application", "name"]
     engine                       = "redis"
@@ -94,10 +94,10 @@ Here are some examples of how you can use this module in your inventory structur
 ### Redis Cluster
 ```hcl
     module "redis-cluster" {
-    source                      = "clouddrove/elasticache/aws"
-    version                     = "0.13.0"
+    source                      = "clouddrove/elasticache/aws
+    version                     = "0.14.0"
     name                        = "cluster"
-    application                 = "clouddrove"
+    repository                  = "https://registry.terraform.io/modules/clouddrove/elasticache/aws/0.14.0"
     environment                 = "test"
     label_order                 = ["environment", "application", "name"]
     cluster_replication_enabled = true
@@ -108,7 +108,7 @@ Here are some examples of how you can use this module in your inventory structur
     node_type                   = "cache.t2.micro"
     subnet_ids                  = module.subnets.public_subnet_id
     security_group_ids          = [module.redis-sg.security_group_ids]
-    availability_zones           = ["eu-west-1a","eu-west-1b" ]
+    availability_zones          = ["eu-west-1a","eu-west-1b" ]
     auto_minor_version_upgrade  = true
     replicas_per_node_group     = 2
     num_node_groups             = 1
@@ -118,10 +118,10 @@ Here are some examples of how you can use this module in your inventory structur
 ### Memcache
 ```hcl
     module "memcached" {
-    source                       = "clouddrove/elasticache/aws"
-    version                      = "0.13.0"
+    source                       = "clouddrove/elasticache/aws
+    version                      = "0.14.0"
     name                         = "memcached"
-    application                  = "clouddrove"
+    repository                   = "https://registry.terraform.io/modules/clouddrove/elasticache/aws/0.14.0"
     environment                  = "test"
     label_order                  = ["environment", "application", "name"]
     cluster_enabled              = true
@@ -147,11 +147,10 @@ Here are some examples of how you can use this module in your inventory structur
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| application | Application (e.g. `cd` or `clouddrove`). | `string` | `""` | no |
 | apply\_immediately | Specifies whether any modifications are applied immediately, or during the next maintenance window. Default is false. | `bool` | `false` | no |
-| at\_rest\_encryption\_enabled | Enable encryption at rest. | `bool` | `false` | no |
-| attributes | Additional attributes (e.g. `1`). | `list` | `[]` | no |
-| auth\_token | The password used to access a password protected server. Can be specified only if transit\_encryption\_enabled = true. | `any` | `null` | no |
+| at\_rest\_encryption\_enabled | Enable encryption at rest. | `bool` | `true` | no |
+| attributes | Additional attributes (e.g. `1`). | `list(any)` | `[]` | no |
+| auth\_token | The password used to access a password protected server. Can be specified only if transit\_encryption\_enabled = true. | `string` | `"gihweisdjhewiuei"` | no |
 | auto\_minor\_version\_upgrade | Specifies whether a minor engine upgrades will be applied automatically to the underlying Cache Cluster instances during the maintenance window. Defaults to true. | `bool` | `true` | no |
 | automatic\_failover\_enabled | Specifies whether a read-only replica will be automatically promoted to read/write primary if the existing primary fails. If true, Multi-AZ is enabled for this replication group. If false, Multi-AZ is disabled for this replication group. Must be enabled for Redis (cluster mode enabled) replication groups. Defaults to false. | `bool` | `false` | no |
 | availability\_zones | A list of EC2 availability zones in which the replication group's cache clusters will be created. The order of the availability zones in the list is not important. | `list(string)` | n/a | yes |
@@ -165,7 +164,7 @@ Here are some examples of how you can use this module in your inventory structur
 | environment | Environment (e.g. `prod`, `dev`, `staging`). | `string` | `""` | no |
 | family | (Required) The family of the ElastiCache parameter group. | `string` | `""` | no |
 | kms\_key\_id | The ARN of the key that you wish to use if encrypting at rest. If not supplied, uses service managed encryption. Can be specified only if at\_rest\_encryption\_enabled = true. | `string` | `""` | no |
-| label\_order | Label order, e.g. `name`,`application`. | `list` | `[]` | no |
+| label\_order | Label order, e.g. `name`,`application`. | `list(any)` | `[]` | no |
 | maintenance\_window | Maintenance window. | `string` | `"sun:05:00-sun:06:00"` | no |
 | managedby | ManagedBy, eg 'CloudDrove' or 'AnmolNagpal'. | `string` | `"anmol@clouddrove.com"` | no |
 | name | Name  (e.g. `app` or `cluster`). | `string` | `""` | no |
@@ -179,15 +178,16 @@ Here are some examples of how you can use this module in your inventory structur
 | replicas\_per\_node\_group | Replicas per Shard. | `string` | `""` | no |
 | replication\_enabled | (Redis only) Enabled or disabled replication\_group for redis standalone instance. | `bool` | `false` | no |
 | replication\_group\_id | The replication group identifier This parameter is stored as a lowercase string. | `string` | `""` | no |
+| repository | Terraform current module repo | `string` | `"https://registry.terraform.io/modules/clouddrove/elasticache/aws/0.14.0"` | no |
 | security\_group\_ids | One or more VPC security groups associated with the cache cluster. | `list` | `[]` | no |
 | security\_group\_names | A list of cache security group names to associate with this replication group. | `any` | `null` | no |
 | snapshot\_arns | A single-element string list containing an Amazon Resource Name (ARN) of a Redis RDB snapshot file stored in Amazon S3. | `any` | `null` | no |
 | snapshot\_name | The name of a snapshot from which to restore data into the new node group. Changing the snapshot\_name forces a new resource. | `string` | `""` | no |
-| snapshot\_retention\_limit | (Redis only) The number of days for which ElastiCache will retain automatic cache cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, then a snapshot that was taken today will be retained for 5 days before being deleted. If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off. Please note that setting a snapshot\_retention\_limit is not supported on cache.t1.micro or cache.t2.\* cache nodes. | `number` | `0` | no |
+| snapshot\_retention\_limit | (Redis only) The number of days for which ElastiCache will retain automatic cache cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, then a snapshot that was taken today will be retained for 5 days before being deleted. If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off. Please note that setting a snapshot\_retention\_limit is not supported on cache.t1.micro or cache.t2.\* cache nodes. | `any` | `null` | no |
 | snapshot\_window | (Redis only) The daily time range (in UTC) during which ElastiCache will begin taking a daily snapshot of your cache cluster. The minimum snapshot window is a 60 minute period. | `any` | `null` | no |
 | subnet\_ids | List of VPC Subnet IDs for the cache subnet group. | `list` | `[]` | no |
-| tags | Additional tags (e.g. map(`BusinessUnit`,`XYZ`). | `map` | `{}` | no |
-| transit\_encryption\_enabled | Whether to enable encryption in transit. | `bool` | `false` | no |
+| tags | Additional tags (e.g. map(`BusinessUnit`,`XYZ`). | `map(any)` | `{}` | no |
+| transit\_encryption\_enabled | Whether to enable encryption in transit. | `bool` | `true` | no |
 
 ## Outputs
 
