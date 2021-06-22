@@ -79,13 +79,11 @@ jobs:
           tf_actions_working_dir: ./_example/redis-cluster
 
 
-
   pre-commit:
     name: 'Pre-Commit'
     needs:
       - fmt
-      - plan
-      - validate
+
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout'
