@@ -79,24 +79,6 @@ jobs:
           tf_actions_working_dir: ./_example/redis-cluster
 
 
-  pre-commit:
-    name: 'Pre-Commit'
-    needs:
-      - fmt
-
-    runs-on: ubuntu-latest
-    steps:
-      - name: 'Checkout'
-        uses: actions/checkout@v2.3.4
-
-      - name: 'Install Tflint'
-        run: |
-          curl https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
-
-      - name: 'Pre-Commit 🔎'
-        uses: pre-commit/action@v2.0.3
-        continue-on-error: true
-
       - name: 'Slack Notification'
         uses: clouddrove/action-slack@v2
         with:
