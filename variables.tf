@@ -8,7 +8,7 @@ variable "name" {
 
 variable "repository" {
   type        = string
-  default     = "https://registry.terraform.io/modules/clouddrove/elasticache/aws/0.14.0"
+  default     = "https://github.com/clouddrove/terraform-aws-elasticache"
   description = "Terraform current module repo"
 
   validation {
@@ -116,7 +116,7 @@ variable "snapshot_window" {
 }
 
 variable "snapshot_retention_limit" {
-  default     = null
+  default     = "0"
   description = "(Redis only) The number of days for which ElastiCache will retain automatic cache cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, then a snapshot that was taken today will be retained for 5 days before being deleted. If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off. Please note that setting a snapshot_retention_limit is not supported on cache.t1.micro or cache.t2.* cache nodes."
 }
 
@@ -232,6 +232,6 @@ variable "kms_key_id" {
 
 variable "parameter_group_name" {
   type        = string
-  default     = ""
+  default     = "default.redis5.0"
   description = "The name of the parameter group to associate with this replication group. If this argument is omitted, the default cache parameter group for the specified engine is used."
 }

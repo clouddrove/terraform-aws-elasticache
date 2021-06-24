@@ -16,7 +16,7 @@ github_repo: clouddrove/terraform-aws-elasticache
 # Badges to display
 badges:
   - name: "Terraform"
-    image: "https://img.shields.io/badge/terraform-v0.14-green"
+    image: "https://img.shields.io/badge/terraform-v0.15-green"
     url: "https://www.terraform.io"
   - name: "Licence"
     image: "https://img.shields.io/badge/License-MIT-blue.svg"
@@ -39,11 +39,10 @@ usage : |-
   ```hcl
       module "redis" {
       source                       = "clouddrove/elasticache/aws
-      version                      = "0.14.0"
+      version                      = "0.15.0"
       name                         = "redis"
-      repository                   = "https://registry.terraform.io/modules/clouddrove/elasticache/aws/0.14.0"
       environment                  = "test"
-      label_order                  = ["environment", "application", "name"]
+      label_order                  = ["environment", "name"]
       engine                       = "redis"
       engine_version               = "5.0.0"
       family                       = "redis5.0"
@@ -61,11 +60,10 @@ usage : |-
   ```hcl
       module "redis-cluster" {
       source                      = "clouddrove/elasticache/aws
-      version                     = "0.14.0"
+      version                     = "0.15.0"
       name                        = "cluster"
-      repository                  = "https://registry.terraform.io/modules/clouddrove/elasticache/aws/0.14.0"
       environment                 = "test"
-      label_order                 = ["environment", "application", "name"]
+      label_order                 = ["environment","name"]
       cluster_replication_enabled = true
       engine                      = "redis"
       engine_version              = "5.0.0"
@@ -85,11 +83,10 @@ usage : |-
   ```hcl
       module "memcached" {
       source                       = "clouddrove/elasticache/aws
-      version                      = "0.14.0"
+      version                      = "0.15.0"
       name                         = "memcached"
-      repository                   = "https://registry.terraform.io/modules/clouddrove/elasticache/aws/0.14.0"
       environment                  = "test"
-      label_order                  = ["environment", "application", "name"]
+      label_order                  = ["environment", "name"]
       cluster_enabled              = true
       engine                       = "memcached"
       engine_version               = "1.5.10"
