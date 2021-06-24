@@ -7,14 +7,14 @@
     Terraform AWS Elasticache
 </h1>
 
-<p align="center" style="font-size: 1.2rem;">
+<p align="center" style="font-size: 1.2rem;"> 
     Terraform module to create Elasticache Cluster and replica for Redis and Memcache.
      </p>
 
 <p align="center">
 
 <a href="https://www.terraform.io">
-  <img src="https://img.shields.io/badge/terraform-v0.14-green" alt="Terraform">
+  <img src="https://img.shields.io/badge/terraform-v0.15-green" alt="Terraform">
 </a>
 <a href="LICENSE.md">
   <img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="Licence">
@@ -38,7 +38,7 @@
 <hr>
 
 
-We eat, drink, sleep and most importantly love **DevOps**. We are working towards strategies for standardizing architecture while ensuring security for the infrastructure. We are strong believer of the philosophy <b>Bigger problems are always solved by breaking them into smaller manageable problems</b>. Resonating with microservices architecture, it is considered best-practice to run database, cluster, storage in smaller <b>connected yet manageable pieces</b> within the infrastructure.
+We eat, drink, sleep and most importantly love **DevOps**. We are working towards strategies for standardizing architecture while ensuring security for the infrastructure. We are strong believer of the philosophy <b>Bigger problems are always solved by breaking them into smaller manageable problems</b>. Resonating with microservices architecture, it is considered best-practice to run database, cluster, storage in smaller <b>connected yet manageable pieces</b> within the infrastructure. 
 
 This module is basically combination of [Terraform open source](https://www.terraform.io/) and includes automatation tests and examples. It also helps to create and improve your infrastructure with minimalistic code instead of maintaining the whole infrastructure code yourself.
 
@@ -49,7 +49,7 @@ We have [*fifty plus terraform modules*][terraform_modules]. A few of them are c
 
 ## Prerequisites
 
-This module has a few dependencies:
+This module has a few dependencies: 
 
 - [Terraform 0.13](https://learn.hashicorp.com/terraform/getting-started/install.html)
 - [Go](https://golang.org/doc/install)
@@ -73,11 +73,10 @@ Here are some examples of how you can use this module in your inventory structur
 ```hcl
     module "redis" {
     source                       = "clouddrove/elasticache/aws
-    version                      = "0.14.0"
+    version                      = "0.15.0"
     name                         = "redis"
-    repository                   = "https://registry.terraform.io/modules/clouddrove/elasticache/aws/0.14.0"
     environment                  = "test"
-    label_order                  = ["environment", "application", "name"]
+    label_order                  = ["environment", "name"]
     engine                       = "redis"
     engine_version               = "5.0.0"
     family                       = "redis5.0"
@@ -95,11 +94,10 @@ Here are some examples of how you can use this module in your inventory structur
 ```hcl
     module "redis-cluster" {
     source                      = "clouddrove/elasticache/aws
-    version                     = "0.14.0"
+    version                     = "0.15.0"
     name                        = "cluster"
-    repository                  = "https://registry.terraform.io/modules/clouddrove/elasticache/aws/0.14.0"
     environment                 = "test"
-    label_order                 = ["environment", "application", "name"]
+    label_order                 = ["environment","name"]
     cluster_replication_enabled = true
     engine                      = "redis"
     engine_version              = "5.0.0"
@@ -119,11 +117,10 @@ Here are some examples of how you can use this module in your inventory structur
 ```hcl
     module "memcached" {
     source                       = "clouddrove/elasticache/aws
-    version                      = "0.14.0"
+    version                      = "0.15.0"
     name                         = "memcached"
-    repository                   = "https://registry.terraform.io/modules/clouddrove/elasticache/aws/0.14.0"
     environment                  = "test"
-    label_order                  = ["environment", "application", "name"]
+    label_order                  = ["environment", "name"]
     cluster_enabled              = true
     engine                       = "memcached"
     engine_version               = "1.5.10"
@@ -173,17 +170,17 @@ Here are some examples of how you can use this module in your inventory structur
 | num\_cache\_nodes | (Required unless replication\_group\_id is provided) The initial number of cache nodes that the cache cluster will have. For Redis, this value must be 1. For Memcache, this value must be between 1 and 20. If this number is reduced on subsequent runs, the highest numbered nodes will be removed. | `number` | `1` | no |
 | num\_node\_groups | Number of Shards (nodes). | `string` | `""` | no |
 | number\_cache\_clusters | (Required for Cluster Mode Disabled) The number of cache clusters (primary and replicas) this replication group will have. If Multi-AZ is enabled, the value of this parameter must be at least 2. Updates will occur before other modifications. | `string` | `""` | no |
-| parameter\_group\_name | The name of the parameter group to associate with this replication group. If this argument is omitted, the default cache parameter group for the specified engine is used. | `string` | `""` | no |
+| parameter\_group\_name | The name of the parameter group to associate with this replication group. If this argument is omitted, the default cache parameter group for the specified engine is used. | `string` | `"default.redis5.0"` | no |
 | port | the port number on which each of the cache nodes will accept connections. | `string` | `""` | no |
 | replicas\_per\_node\_group | Replicas per Shard. | `string` | `""` | no |
 | replication\_enabled | (Redis only) Enabled or disabled replication\_group for redis standalone instance. | `bool` | `false` | no |
 | replication\_group\_id | The replication group identifier This parameter is stored as a lowercase string. | `string` | `""` | no |
-| repository | Terraform current module repo | `string` | `"https://registry.terraform.io/modules/clouddrove/elasticache/aws/0.14.0"` | no |
+| repository | Terraform current module repo | `string` | `"https://github.com/clouddrove/terraform-aws-elasticache"` | no |
 | security\_group\_ids | One or more VPC security groups associated with the cache cluster. | `list` | `[]` | no |
 | security\_group\_names | A list of cache security group names to associate with this replication group. | `any` | `null` | no |
 | snapshot\_arns | A single-element string list containing an Amazon Resource Name (ARN) of a Redis RDB snapshot file stored in Amazon S3. | `any` | `null` | no |
 | snapshot\_name | The name of a snapshot from which to restore data into the new node group. Changing the snapshot\_name forces a new resource. | `string` | `""` | no |
-| snapshot\_retention\_limit | (Redis only) The number of days for which ElastiCache will retain automatic cache cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, then a snapshot that was taken today will be retained for 5 days before being deleted. If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off. Please note that setting a snapshot\_retention\_limit is not supported on cache.t1.micro or cache.t2.\* cache nodes. | `any` | `null` | no |
+| snapshot\_retention\_limit | (Redis only) The number of days for which ElastiCache will retain automatic cache cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, then a snapshot that was taken today will be retained for 5 days before being deleted. If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off. Please note that setting a snapshot\_retention\_limit is not supported on cache.t1.micro or cache.t2.\* cache nodes. | `string` | `"0"` | no |
 | snapshot\_window | (Redis only) The daily time range (in UTC) during which ElastiCache will begin taking a daily snapshot of your cache cluster. The minimum snapshot window is a 60 minute period. | `any` | `null` | no |
 | subnet\_ids | List of VPC Subnet IDs for the cache subnet group. | `list` | `[]` | no |
 | tags | Additional tags (e.g. map(`BusinessUnit`,`XYZ`). | `map(any)` | `{}` | no |
@@ -203,7 +200,7 @@ Here are some examples of how you can use this module in your inventory structur
 
 
 ## Testing
-In this module testing is performed with [terratest](https://github.com/gruntwork-io/terratest) and it creates a small piece of infrastructure, matches the output like ARN, ID and Tags name etc and destroy infrastructure in your AWS account. This testing is written in GO, so you need a [GO environment](https://golang.org/doc/install) in your system.
+In this module testing is performed with [terratest](https://github.com/gruntwork-io/terratest) and it creates a small piece of infrastructure, matches the output like ARN, ID and Tags name etc and destroy infrastructure in your AWS account. This testing is written in GO, so you need a [GO environment](https://golang.org/doc/install) in your system. 
 
 You need to run the following command in the testing folder:
 ```hcl
@@ -212,7 +209,7 @@ You need to run the following command in the testing folder:
 
 
 
-## Feedback
+## Feedback 
 If you come accross a bug or have any feedback, please log it in our [issue tracker](https://github.com/clouddrove/terraform-aws-elasticache/issues), or feel free to drop us an email at [hello@clouddrove.com](mailto:hello@clouddrove.com).
 
 If you have found it worth your time, go ahead and give us a ★ on [our GitHub](https://github.com/clouddrove/terraform-aws-elasticache)!
