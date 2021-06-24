@@ -50,8 +50,8 @@ module "redis-cluster" {
 
   cluster_replication_enabled = true
   engine                      = "redis"
-  engine_version              = "5.0.0"
-  family                      = "redis5.0"
+  engine_version              = "6.x"
+  parameter_group_name        = "default.redis6.x.cluster.on"
   port                        = 6379
   node_type                   = "cache.t2.micro"
   subnet_ids                  = module.subnets.public_subnet_id

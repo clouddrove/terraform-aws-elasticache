@@ -37,7 +37,7 @@ resource "aws_elasticache_replication_group" "default" {
   replication_group_description = module.labels.id
   engine_version                = var.engine_version
   port                          = var.port
-  parameter_group_name          = "default.redis5.0"
+  parameter_group_name          = var.parameter_group_name
   node_type                     = var.node_type
   automatic_failover_enabled    = var.automatic_failover_enabled
   subnet_group_name             = join("", aws_elasticache_subnet_group.default.*.name)
@@ -69,7 +69,7 @@ resource "aws_elasticache_replication_group" "cluster" {
   replication_group_description = module.labels.id
   engine_version                = var.engine_version
   port                          = var.port
-  parameter_group_name          = "default.redis5.0.cluster.on"
+  parameter_group_name          = var.parameter_group_name
   node_type                     = var.node_type
   automatic_failover_enabled    = var.automatic_failover_enabled
   subnet_group_name             = join("", aws_elasticache_subnet_group.default.*.name)
