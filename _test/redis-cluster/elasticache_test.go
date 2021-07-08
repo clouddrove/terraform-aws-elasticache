@@ -26,10 +26,8 @@ func Test(t *testing.T) {
 	defer terraform.Destroy(t, terraformOptions)
 
 	// To get the value of an output variable, run 'terraform output'
-	Id := strings.Join(terraform.OutputList(t, terraformOptions, "id")," ")
 	Tags := terraform.OutputMap(t, terraformOptions, "tags")
 
 	// Verify we're getting back the outputs we expect
-	assert.Equal(t, "test-clouddrove-cluster", Id)
-	assert.Equal(t, "test-clouddrove-cluster", Tags["Name"])
+	assert.Equal(t, "cluster-test", Tags["Name"])
 }
