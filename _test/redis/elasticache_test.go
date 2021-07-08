@@ -5,7 +5,6 @@ package test
 
 import (
 	"testing"
-	"strings"
 	"github.com/stretchr/testify/assert"
 	"github.com/gruntwork-io/terratest/modules/terraform"
 )
