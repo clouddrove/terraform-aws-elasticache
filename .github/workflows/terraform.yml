@@ -29,54 +29,63 @@ jobs:
         with:
           actions_subcommand: 'init'
           tf_actions_working_dir: ./_example/memcached
+          tf_actions_version: 0.12.13
 
       - name: 'Terraform validate for memcached'
         uses: 'clouddrove/github-actions@CD-120'
         with:
           actions_subcommand: 'validate'
           tf_actions_working_dir: ./_example/memcached
+          tf_actions_version: 0.12.13
 
       - name: 'Terraform plan for memcached'
         uses: 'clouddrove/github-actions@CD-120'
         with:
           actions_subcommand: 'plan'
           tf_actions_working_dir: ./_example/memcached
+          tf_actions_version: 0.12.13
 
       - name: 'Terraform init for redis'
         uses: 'clouddrove/github-actions@CD-120'
         with:
           actions_subcommand: 'init'
           tf_actions_working_dir: ./_example/redis
+          tf_actions_version: 0.12.13
 
       - name: 'Terraform validate for redis'
         uses: 'clouddrove/github-actions@CD-120'
         with:
           actions_subcommand: 'validate'
           tf_actions_working_dir: ./_example/redis
+          tf_actions_version: 0.12.13
 
       - name: 'Terraform plan for redis'
         uses: 'clouddrove/github-actions@CD-120'
         with:
           actions_subcommand: 'plan'
           tf_actions_working_dir: ./_example/redis
+          tf_actions_version: 0.12.13
 
       - name: 'Terraform init for redis-cluster'
         uses: 'clouddrove/github-actions@CD-120'
         with:
           actions_subcommand: 'init'
           tf_actions_working_dir: ./_example/redis-cluster
+          tf_actions_version: 0.12.13
 
       - name: 'Terraform validate for redis-cluster'
         uses: 'clouddrove/github-actions@CD-120'
         with:
           actions_subcommand: 'validate'
           tf_actions_working_dir: ./_example/redis-cluster
+          tf_actions_version: 0.12.13
 
       - name: 'Terraform plan for redis-cluster'
         uses: 'clouddrove/github-actions@CD-120'
         with:
           actions_subcommand: 'plan'
           tf_actions_working_dir: ./_example/redis-cluster
+          tf_actions_version: 0.12.13
 
 
       - name: 'Slack Notification'
