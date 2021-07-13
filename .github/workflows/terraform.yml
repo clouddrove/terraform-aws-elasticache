@@ -20,60 +20,60 @@ jobs:
           aws-region: us-east-2
 
       - name: 'Terraform Format'
-        uses: 'clouddrove/github-actions@v7.0'
+        uses: 'clouddrove/github-actions@v9.0'
         with:
           actions_subcommand: 'fmt'
 
       - name: 'Terraform init for memcached'
-        uses: 'clouddrove/github-actions@v7.0'
+        uses: 'clouddrove/github-actions@v9.0'
         with:
           actions_subcommand: 'init'
           tf_actions_working_dir: ./_example/memcached
 
       - name: 'Terraform validate for memcached'
-        uses: 'clouddrove/github-actions@v7.0'
+        uses: 'clouddrove/github-actions@v9.0'
         with:
           actions_subcommand: 'validate'
           tf_actions_working_dir: ./_example/memcached
 
       - name: 'Terraform plan for memcached'
-        uses: 'clouddrove/github-actions@v7.0'
+        uses: 'clouddrove/github-actions@v9.0'
         with:
           actions_subcommand: 'plan'
           tf_actions_working_dir: ./_example/memcached
 
       - name: 'Terraform init for redis'
-        uses: 'clouddrove/github-actions@v7.0'
+        uses: 'clouddrove/github-actions@v9.0'
         with:
           actions_subcommand: 'init'
           tf_actions_working_dir: ./_example/redis
 
       - name: 'Terraform validate for redis'
-        uses: 'clouddrove/github-actions@v7.0'
+        uses: 'clouddrove/github-actions@v9.0'
         with:
           actions_subcommand: 'validate'
           tf_actions_working_dir: ./_example/redis
 
       - name: 'Terraform plan for redis'
-        uses: 'clouddrove/github-actions@v7.0'
+        uses: 'clouddrove/github-actions@v9.0'
         with:
           actions_subcommand: 'plan'
           tf_actions_working_dir: ./_example/redis
 
       - name: 'Terraform init for redis-cluster'
-        uses: 'clouddrove/github-actions@v7.0'
+        uses: 'clouddrove/github-actions@v9.0'
         with:
           actions_subcommand: 'init'
           tf_actions_working_dir: ./_example/redis-cluster
 
       - name: 'Terraform validate for redis-cluster'
-        uses: 'clouddrove/github-actions@v7.0'
+        uses: 'clouddrove/github-actions@v9.0'
         with:
           actions_subcommand: 'validate'
           tf_actions_working_dir: ./_example/redis-cluster
 
       - name: 'Terraform plan for redis-cluster'
-        uses: 'clouddrove/github-actions@v7.0'
+        uses: 'clouddrove/github-actions@v9.0'
         with:
           actions_subcommand: 'plan'
           tf_actions_working_dir: ./_example/redis-cluster
