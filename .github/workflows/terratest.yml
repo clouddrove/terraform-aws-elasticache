@@ -24,7 +24,7 @@ jobs:
 
       - name: 'Terratest for redis'
         if: ${{ github.event.label.name == 'terratest' }}
-        uses: 'clouddrove/github-actions@CD-120'
+        uses: 'clouddrove/github-actions@v9.0'
         with:
           actions_subcommand: 'terratest'
           tf_actions_working_dir: '_test/redis'
@@ -33,7 +33,7 @@ jobs:
 
       - name: 'Terratest for redis-cluster'
         if: ${{ github.event.label.name == 'terratest' }}
-        uses: 'clouddrove/github-actions@CD-120'
+        uses: 'clouddrove/github-actions@v9.0'
         with:
           actions_subcommand: 'terratest'
           tf_actions_working_dir: '_test/redis-cluster'
