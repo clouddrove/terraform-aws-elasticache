@@ -44,7 +44,7 @@ module "redis-sg" {
 module "redis-cluster" {
   source = "./../../"
 
-  name        = "cluster-es"
+  name        = "cluster"
   environment = "test"
   label_order = ["name", "environment"]
 

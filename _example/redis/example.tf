@@ -43,7 +43,7 @@ module "redis-sg" {
 
 module "redis" {
   source      = "./../../"
-  name        = "redis-es"
+  name        = "redis"
   environment = "test"
   label_order = ["name", "environment"]
 
