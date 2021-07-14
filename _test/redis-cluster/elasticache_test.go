@@ -28,5 +28,5 @@ func Test(t *testing.T) {
 	Tags := terraform.OutputMap(t, terraformOptions, "tags")
 
 	// Verify we're getting back the outputs we expect
-	assert.Equal(t, "cluster-es-test", Tags["Name"])
+	assert.Equal(t, "cluster-test", Tags["Name"])
 }
