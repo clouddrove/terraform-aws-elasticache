@@ -58,6 +58,7 @@ module "redis-cluster" {
   subnet_ids                  = module.subnets.public_subnet_id
   security_group_ids          = [module.redis-sg.security_group_ids]
   availability_zones          = ["eu-west-1a", "eu-west-1b"]
+  parameter_group_name        = "default.redis5.0.cluster.on"
   auto_minor_version_upgrade  = true
   replicas_per_node_group     = 2
   num_node_groups             = 1

@@ -48,12 +48,14 @@ module "redis" {
   environment = "test"
   label_order = ["environment", "application", "name"]
 
-  replication_enabled        = true
-  engine                     = "redis"
-  engine_version             = "5.0.0"
-  family                     = "redis5.0"
-  port                       = 6379
-  node_type                  = "cache.t2.micro"
+  replication_enabled  = true
+  engine               = "redis"
+  engine_version       = "5.0.0"
+  family               = "redis5.0"
+  port                 = 6379
+  node_type            = "cache.t2.micro"
+  parameter_group_name = "default.redis5.0"
+
   subnet_ids                 = module.subnets.public_subnet_id
   security_group_ids         = [module.redis-sg.security_group_ids]
   availability_zones         = ["eu-west-1a", "eu-west-1b"]
