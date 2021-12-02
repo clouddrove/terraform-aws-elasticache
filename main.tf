@@ -26,6 +26,8 @@ resource "aws_elasticache_subnet_group" "default" {
   name        = module.labels.id
   subnet_ids  = var.subnet_ids
   description = var.description
+
+  tags = merge(var.tags, module.labels.tags)
 }
 
 # Module      : Elasticache Replication Group
@@ -57,7 +59,8 @@ resource "aws_elasticache_replication_group" "default" {
   transit_encryption_enabled    = var.transit_encryption_enabled
   auth_token                    = var.auth_token
   kms_key_id                    = var.kms_key_id
-  tags                          = module.labels.tags
+  tags                          = merge(var.tags, module.labels.tags)
+
 }
 
 # Module      : Elasticache Replication Group
@@ -88,7 +91,7 @@ resource "aws_elasticache_replication_group" "cluster" {
   transit_encryption_enabled    = var.transit_encryption_enabled
   auth_token                    = var.auth_token
   kms_key_id                    = var.kms_key_id
-  tags                          = module.labels.tags
+  tags                          = merge(var.tags, module.labels.tags)
   cluster_mode {
     replicas_per_node_group = var.replicas_per_node_group #Replicas per Shard
     num_node_groups         = var.num_node_groups         #Number of Shards
@@ -118,5 +121,5 @@ resource "aws_elasticache_cluster" "default" {
   apply_immediately            = var.apply_immediately
   preferred_availability_zones = slice(var.availability_zones, 0, var.num_cache_nodes)
   maintenance_window           = var.maintenance_window
-  tags                         = module.labels.tags
+  tags                         = merge(var.tags, module.labels.tags)
 }
