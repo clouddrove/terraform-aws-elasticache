@@ -51,7 +51,7 @@ We have [*fifty plus terraform modules*][terraform_modules]. A few of them are c
 
 This module has a few dependencies: 
 
-- [Terraform 0.13](https://learn.hashicorp.com/terraform/getting-started/install.html)
+- [Terraform 0.15](https://learn.hashicorp.com/terraform/getting-started/install.html)
 - [Go](https://golang.org/doc/install)
 - [github.com/stretchr/testify/assert](https://github.com/stretchr/testify)
 - [github.com/gruntwork-io/terratest/modules/terraform](https://github.com/gruntwork-io/terratest)
@@ -125,6 +125,7 @@ Here are some examples of how you can use this module in your inventory structur
     engine                       = "memcached"
     engine_version               = "1.5.10"
     family                       = "memcached1.5"
+    parameter_group_name         = "default.memcached1.5"
     az_mode                      = "cross-az"
     port                         = 11211
     node_type                    = "cache.t2.micro"
@@ -159,6 +160,7 @@ Here are some examples of how you can use this module in your inventory structur
 | engine | The name of the cache engine to be used for the clusters in this replication group. e.g. redis. | `string` | `""` | no |
 | engine\_version | The version number of the cache engine to be used for the cache clusters in this replication group. | `string` | `""` | no |
 | environment | Environment (e.g. `prod`, `dev`, `staging`). | `string` | `""` | no |
+| extra\_tags | Additional tags (e.g. map(`BusinessUnit`,`XYZ`). | `map(string)` | `{}` | no |
 | family | (Required) The family of the ElastiCache parameter group. | `string` | `""` | no |
 | kms\_key\_id | The ARN of the key that you wish to use if encrypting at rest. If not supplied, uses service managed encryption. Can be specified only if at\_rest\_encryption\_enabled = true. | `string` | `""` | no |
 | label\_order | Label order, e.g. `name`,`application`. | `list(any)` | `[]` | no |
@@ -183,7 +185,6 @@ Here are some examples of how you can use this module in your inventory structur
 | snapshot\_retention\_limit | (Redis only) The number of days for which ElastiCache will retain automatic cache cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, then a snapshot that was taken today will be retained for 5 days before being deleted. If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off. Please note that setting a snapshot\_retention\_limit is not supported on cache.t1.micro or cache.t2.\* cache nodes. | `string` | `"0"` | no |
 | snapshot\_window | (Redis only) The daily time range (in UTC) during which ElastiCache will begin taking a daily snapshot of your cache cluster. The minimum snapshot window is a 60 minute period. | `any` | `null` | no |
 | subnet\_ids | List of VPC Subnet IDs for the cache subnet group. | `list` | `[]` | no |
-| tags | Additional tags (e.g. map(`BusinessUnit`,`XYZ`). | `map(any)` | `{}` | no |
 | transit\_encryption\_enabled | Whether to enable encryption in transit. | `bool` | `true` | no |
 
 ## Outputs
