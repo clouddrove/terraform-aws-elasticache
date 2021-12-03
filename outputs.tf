@@ -12,7 +12,7 @@ output "port" {
 }
 
 output "tags" {
-  value       = merge(var.tags, module.labels.tags)
+  value       = module.labels.tags
   description = "A mapping of tags to assign to the resource."
 }
 
