@@ -62,7 +62,7 @@ module "memcached" {
   subnet_ids           = module.subnets.public_subnet_id
   security_group_ids   = [module.memcached-sg.security_group_ids]
   availability_zones   = ["eu-west-1a", "eu-west-1b"]
-  tags = {
-    org = "test"
+  extra_tags = {
+    Application = "CloudDrove"
   }
 }
