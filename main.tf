@@ -17,6 +17,7 @@ module "labels" {
   environment = var.environment
   managedby   = var.managedby
   label_order = var.label_order
+  extra_tags  = var.extra_tags
 }
 
 # Module      : Elasticache Subnet Group
@@ -26,6 +27,8 @@ resource "aws_elasticache_subnet_group" "default" {
   name        = module.labels.id
   subnet_ids  = var.subnet_ids
   description = var.description
+
+  tags = module.labels.tags
 }
 
 # Module      : Elasticache Replication Group
@@ -58,6 +61,7 @@ resource "aws_elasticache_replication_group" "default" {
   auth_token                    = var.auth_token
   kms_key_id                    = var.kms_key_id
   tags                          = module.labels.tags
+
 }
 
 # Module      : Elasticache Replication Group

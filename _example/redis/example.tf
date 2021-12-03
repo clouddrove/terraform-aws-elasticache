@@ -58,4 +58,7 @@ module "redis" {
   availability_zones         = ["eu-west-1a", "eu-west-1b"]
   auto_minor_version_upgrade = true
   number_cache_clusters      = 2
+  extra_tags = {
+    Application = "CloudDrove"
+  }
 }

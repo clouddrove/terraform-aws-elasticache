@@ -50,15 +50,19 @@ module "memcached" {
   environment = "test"
   label_order = ["name", "environment"]
 
-  cluster_enabled    = true
-  engine             = "memcached"
-  engine_version     = "1.5.10"
-  family             = "memcached1.5"
-  az_mode            = "cross-az"
-  port               = 11211
-  node_type          = "cache.t2.micro"
-  num_cache_nodes    = 2
-  subnet_ids         = module.subnets.public_subnet_id
-  security_group_ids = [module.memcached-sg.security_group_ids]
-  availability_zones = ["eu-west-1a", "eu-west-1b"]
+  cluster_enabled      = true
+  engine               = "memcached"
+  engine_version       = "1.5.10"
+  family               = "memcached1.5"
+  parameter_group_name = "default.memcached1.5"
+  az_mode              = "cross-az"
+  port                 = 11211
+  node_type            = "cache.t2.micro"
+  num_cache_nodes      = 2
+  subnet_ids           = module.subnets.public_subnet_id
+  security_group_ids   = [module.memcached-sg.security_group_ids]
+  availability_zones   = ["eu-west-1a", "eu-west-1b"]
+  extra_tags = {
+    Application = "CloudDrove"
+  }
 }
