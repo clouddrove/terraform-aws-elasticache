@@ -1,91 +1,85 @@
-name: 'Terraform GitHub Actions'
+name: static-checks
+
 on:
   pull_request:
-    branches:
-      - master
 
 jobs:
-  terraform:
-    name: 'Terraform'
+  versionExtract:
+    name: Get min/max versions
     runs-on: ubuntu-latest
-    steps:
-      - name: 'Checkout'
-        uses: actions/checkout@master
 
-      - name: Configure AWS Credentials
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Terraform min/max versions
+        id: minMax
+        uses: clowdhaus/terraform-min-max@main
+    outputs:
+      minVersion: ${{ steps.minMax.outputs.minVersion }}
+      maxVersion: ${{ steps.minMax.outputs.maxVersion }}
+
+
+  versionEvaluate:
+    name: Evaluate Terraform versions
+    runs-on: ubuntu-latest
+    needs: versionExtract
+    strategy:
+      fail-fast: false
+      matrix:
+        version:
+          - ${{ needs.versionExtract.outputs.minVersion }}
+          - ${{ needs.versionExtract.outputs.maxVersion }}
+        directory:
+          - _example/memcached
+          - _example/redis
+          - _example/redis-cluster
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install Terraform v${{ matrix.version }}
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: ${{ matrix.version }}
+
+      - name: 'Configure AWS Credentials'
         uses: clouddrove/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.TEST_AWS_ACCESS_KEY }}
           aws-secret-access-key: ${{ secrets.TEST_AWS_ACCESS_SECRET_KEY }}
           aws-region: us-east-2
 
-      - name: 'Terraform Format'
-        uses: 'clouddrove/github-actions@v9.0.1'
-        with:
-          actions_subcommand: 'fmt'
+      - name: Init & validate v${{ matrix.version }}
+        run: |
+          cd ${{ matrix.directory }}
+          terraform init
+          terraform validate
+          terraform plan -input=false -no-color
 
-      - name: 'Terraform init for memcached'
-        uses: 'clouddrove/github-actions@v9.0.1'
+      - name: tflint
+        uses: reviewdog/action-tflint@master
         with:
-          actions_subcommand: 'init'
-          tf_actions_working_dir: ./_example/memcached
+          github_token: ${{ secrets.GITHUB }}
+          working_directory: ${{ matrix.directory }}
+          fail_on_error: 'true'
+          filter_mode: 'nofilter'
+          flags: '--module'
 
-      - name: 'Terraform validate for memcached'
-        uses: 'clouddrove/github-actions@v9.0.1'
+  format:
+    name: Check code format
+    runs-on: ubuntu-latest
+    needs: versionExtract
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install Terraform v${{ needs.versionExtract.outputs.maxVersion }}
+        uses: hashicorp/setup-terraform@v1
         with:
-          actions_subcommand: 'validate'
-          tf_actions_working_dir: ./_example/memcached
+          terraform_version: ${{ needs.versionExtract.outputs.maxVersion }}
 
-      - name: 'Terraform plan for memcached'
-        uses: 'clouddrove/github-actions@v9.0.1'
-        with:
-          actions_subcommand: 'plan'
-          tf_actions_working_dir: ./_example/memcached
-
-      - name: 'Terraform init for redis'
-        uses: 'clouddrove/github-actions@v9.0.1'
-        with:
-          actions_subcommand: 'init'
-          tf_actions_working_dir: ./_example/redis
-
-      - name: 'Terraform validate for redis'
-        uses: 'clouddrove/github-actions@v9.0'
-        with:
-          actions_subcommand: 'validate'
-          tf_actions_working_dir: ./_example/redis
-
-      - name: 'Terraform plan for redis'
-        uses: 'clouddrove/github-actions@v9.0.1'
-        with:
-          actions_subcommand: 'plan'
-          tf_actions_working_dir: ./_example/redis
-
-      - name: 'Terraform init for redis-cluster'
-        uses: 'clouddrove/github-actions@v9.0.1'
-        with:
-          actions_subcommand: 'init'
-          tf_actions_working_dir: ./_example/redis-cluster
-
-      - name: 'Terraform validate for redis-cluster'
-        uses: 'clouddrove/github-actions@v9.0.1'
-        with:
-          actions_subcommand: 'validate'
-          tf_actions_working_dir: ./_example/redis-cluster
-
-      - name: 'Terraform plan for redis-cluster'
-        uses: 'clouddrove/github-actions@v9.0.1'
-        with:
-          actions_subcommand: 'plan'
-          tf_actions_working_dir: ./_example/redis-cluster
-
-
-      - name: 'Slack Notification'
-        uses: clouddrove/action-slack@v2
-        with:
-          status: ${{ job.status }}
-          fields: repo,author
-          author_name: 'CloudDrove'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # required
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_TERRAFORM }} # required
-        if: always()
+      - name: Check Terraform format changes
+        run: terraform fmt --recursive
