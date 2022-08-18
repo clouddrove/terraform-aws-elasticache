@@ -49,7 +49,7 @@ module "redis" {
 
   replication_enabled        = true
   engine                     = "redis"
-  engine_version             = "6.x"
+  engine_version             = "6.2"
   parameter_group_name       = "default.redis6.x"
   port                       = 6379
   node_type                  = "cache.t2.micro"
@@ -58,6 +58,19 @@ module "redis" {
   availability_zones         = ["eu-west-1a", "eu-west-1b"]
   auto_minor_version_upgrade = true
   number_cache_clusters      = 2
+
+  log_delivery_configuration = [
+    {
+      destination_type = "cloudwatch-logs"
+      log_format       = "json"
+      log_type         = "slow-log"
+    },
+    {
+      destination_type = "cloudwatch-logs"
+      log_format       = "json"
+      log_type         = "engine-log"
+    }
+  ]
   extra_tags = {
     Application = "CloudDrove"
   }

@@ -20,6 +20,12 @@ module "labels" {
   extra_tags  = var.extra_tags
 }
 
+resource "aws_cloudwatch_log_group" "default" {
+  count = var.enable && length(var.log_delivery_configuration) > 0 ? 1 : 0
+  name  = format("logs-%s", module.labels.id)
+  tags  = module.labels.tags
+}
+
 # Module      : Elasticache Subnet Group
 # Description : Terraform module which creates Subnet Group for Elasticache.
 resource "aws_elasticache_subnet_group" "default" {
@@ -62,7 +68,18 @@ resource "aws_elasticache_replication_group" "default" {
   kms_key_id                    = var.kms_key_id
   tags                          = module.labels.tags
 
+  dynamic "log_delivery_configuration" {
+    for_each = var.log_delivery_configuration
+
+    content {
+      destination      = lookup(log_delivery_configuration.value, "destination", join("", aws_cloudwatch_log_group.default.*.name))
+      destination_type = lookup(log_delivery_configuration.value, "destination_type", null)
+      log_format       = lookup(log_delivery_configuration.value, "log_format", null)
+      log_type         = lookup(log_delivery_configuration.value, "log_type", null)
+    }
+  }
 }
+
 
 # Module      : Elasticache Replication Group
 # Description : Terraform module which creates cluster for Elasticache Redis.
@@ -123,4 +140,6 @@ resource "aws_elasticache_cluster" "default" {
   preferred_availability_zones = slice(var.availability_zones, 0, var.num_cache_nodes)
   maintenance_window           = var.maintenance_window
   tags                         = module.labels.tags
+
 }
+
