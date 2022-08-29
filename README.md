@@ -185,6 +185,7 @@ Here are some examples of how you can use this module in your inventory structur
 | replication\_enabled | (Redis only) Enabled or disabled replication\_group for redis standalone instance. | `bool` | `false` | no |
 | replication\_group\_id | The replication group identifier This parameter is stored as a lowercase string. | `string` | `""` | no |
 | repository | Terraform current module repo | `string` | `"https://github.com/clouddrove/terraform-aws-elasticache"` | no |
+| retention\_in\_days | Specifies the number of days you want to retain log events in the specified log group. | `number` | `0` | no |
 | security\_group\_ids | One or more VPC security groups associated with the cache cluster. | `list` | `[]` | no |
 | security\_group\_names | A list of cache security group names to associate with this replication group. | `any` | `null` | no |
 | snapshot\_arns | A single-element string list containing an Amazon Resource Name (ARN) of a Redis RDB snapshot file stored in Amazon S3. | `any` | `null` | no |
