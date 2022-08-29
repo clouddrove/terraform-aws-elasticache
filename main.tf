@@ -21,9 +21,10 @@ module "labels" {
 }
 
 resource "aws_cloudwatch_log_group" "default" {
-  count = var.enable && length(var.log_delivery_configuration) > 0 ? 1 : 0
-  name  = format("logs-%s", module.labels.id)
-  tags  = module.labels.tags
+  count             = var.enable && length(var.log_delivery_configuration) > 0 ? 1 : 0
+  name              = format("logs-%s", module.labels.id)
+  retention_in_days = var.retention_in_days
+  tags              = module.labels.tags
 }
 
 # Module      : Elasticache Subnet Group
