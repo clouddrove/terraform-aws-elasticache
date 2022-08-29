@@ -241,3 +241,9 @@ variable "log_delivery_configuration" {
   default     = []
   description = "The log_delivery_configuration block allows the streaming of Redis SLOWLOG or Redis Engine Log to CloudWatch Logs or Kinesis Data Firehose. Max of 2 blocks."
 }
+
+variable "retention_in_days" {
+  type        = number
+  default     = 0
+  description = "Specifies the number of days you want to retain log events in the specified log group."
+}
