@@ -200,8 +200,10 @@ Here are some examples of how you can use this module in your inventory structur
 | Name | Description |
 |------|-------------|
 | id | Redis cluster id. |
+| memcached\_arn | Memcached arn |
 | memcached\_endpoint | Memcached endpoint address. |
 | port | Redis port. |
+| redis\_arn | Redis arn |
 | redis\_endpoint | Redis endpoint address. |
 | tags | A mapping of tags to assign to the resource. |
 
