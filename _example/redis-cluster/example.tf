@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "eu-west-1"
+  region = "us-east-1"
 }
 
 module "vpc" {
@@ -7,10 +7,10 @@ module "vpc" {
   version = "0.15.1"
 
   name        = "vpc"
-  environment = "test"
+  environment = "staging"
   label_order = ["name", "environment"]
 
-  cidr_block = "172.16.0.0/16"
+  cidr_block = "10.30.0.0/16"
 }
 
 module "subnets" {
@@ -18,10 +18,10 @@ module "subnets" {
   version = "0.15.3"
 
   name               = "subnets"
-  environment        = "test"
+  environment        = "staging"
   label_order        = ["name", "environment"]
-  availability_zones = ["eu-west-1a", "eu-west-1b", "eu-west-1c"]
-  vpc_id             = module.vpc.vpc_id
+  availability_zones = ["us-east-1a", "us-east-1b", "us-east-1c"]
+  vpc_id             = vpc-0ee19486fa69d866e
   type               = "public"
   igw_id             = module.vpc.igw_id
   cidr_block         = module.vpc.vpc_cidr_block
@@ -33,11 +33,11 @@ module "redis-sg" {
   version = "1.0.1"
 
   name        = "redis-sg"
-  environment = "test"
+  environment = "staging"
   label_order = ["name", "environment"]
 
-  vpc_id        = module.vpc.vpc_id
-  allowed_ip    = [module.vpc.vpc_cidr_block]
+  vpc_id        = vpc-0ee19486fa69d866e
+  allowed_ip    = ["10.30.0.0/16"]
   allowed_ports = [6379]
 }
 
@@ -45,7 +45,7 @@ module "redis-cluster" {
   source = "./../../"
 
   name        = "cluster"
-  environment = "test"
+  environment = "staging"
   label_order = ["name", "environment"]
 
   cluster_replication_enabled = true
@@ -56,7 +56,7 @@ module "redis-cluster" {
   node_type                   = "cache.t2.micro"
   subnet_ids                  = module.subnets.public_subnet_id
   security_group_ids          = [module.redis-sg.security_group_ids]
-  availability_zones          = ["eu-west-1a", "eu-west-1b"]
+  availability_zones          = ["us-east-1a", "us-east-1b"]
   auto_minor_version_upgrade  = true
   replicas_per_node_group     = 2
   num_node_groups             = 1
