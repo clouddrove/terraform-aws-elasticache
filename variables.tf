@@ -148,6 +148,12 @@ variable "availability_zones" {
   description = "A list of EC2 availability zones in which the replication group's cache clusters will be created. The order of the availability zones in the list is not important."
 }
 
+variable "multi_az_enabled" {
+  type        = bool
+  default     = false
+  description = "Specify if multi-AZ should be enabled for this Redis instance."
+}
+
 variable "number_cache_clusters" {
   type        = string
   default     = ""
