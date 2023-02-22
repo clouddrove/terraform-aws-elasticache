@@ -51,7 +51,6 @@ module "memcached" {
   label_order = ["name", "environment"]
 
   cluster_enabled      = true
-  multi_az_enabled     = false
   engine               = "memcached"
   engine_version       = "1.5.10"
   family               = "memcached1.5"
