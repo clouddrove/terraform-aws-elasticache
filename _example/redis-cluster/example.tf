@@ -59,6 +59,7 @@ module "redis-cluster" {
   availability_zones          = ["eu-west-1a", "eu-west-1b"]
   auto_minor_version_upgrade  = true
   replicas_per_node_group     = 2
+  multi_az_enabled            = false
   num_node_groups             = 1
   automatic_failover_enabled  = true
   extra_tags = {

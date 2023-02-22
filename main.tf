@@ -60,6 +60,7 @@ resource "aws_elasticache_replication_group" "default" {
   snapshot_retention_limit      = var.snapshot_retention_limit
   apply_immediately             = var.apply_immediately
   availability_zones            = slice(var.availability_zones, 0, var.number_cache_clusters)
+  multi_az_enabled              = var.multi_az_enabled
   number_cache_clusters         = var.number_cache_clusters
   auto_minor_version_upgrade    = var.auto_minor_version_upgrade
   maintenance_window            = var.maintenance_window
