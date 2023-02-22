@@ -4,7 +4,7 @@ provider "aws" {
 
 module "vpc" {
   source  = "clouddrove/vpc/aws"
-  version = "0.15.1"
+  version = "1.3.0"
 
   name        = "vpc"
   environment = "test"
@@ -16,7 +16,7 @@ module "vpc" {
 
 module "subnets" {
   source  = "clouddrove/subnet/aws"
-  version = "0.15.3"
+  version = "1.3.0"
 
   name        = "subnets"
   environment = "test"
@@ -32,7 +32,7 @@ module "subnets" {
 
 module "memcached-sg" {
   source  = "clouddrove/security-group/aws"
-  version = "1.0.1"
+  version = "1.3.0"
 
   name        = "memcached-sg"
   environment = "test"
