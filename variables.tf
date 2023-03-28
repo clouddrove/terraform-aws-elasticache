@@ -232,7 +232,7 @@ variable "kms_key_id" {
 
 variable "parameter_group_name" {
   type        = string
-  default     = "default.redis5.0"
+  default     = ""
   description = "The name of the parameter group to associate with this replication group. If this argument is omitted, the default cache parameter group for the specified engine is used."
 }
 
