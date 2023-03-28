@@ -61,6 +61,7 @@ module "redis-cluster" {
   replicas_per_node_group     = 2
   num_node_groups             = 1
   automatic_failover_enabled  = true
+  multi_az_enabled            = true
   extra_tags = {
     Application = "CloudDrove"
   }
