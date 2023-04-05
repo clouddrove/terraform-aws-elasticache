@@ -148,7 +148,7 @@ variable "availability_zones" {
   description = "A list of EC2 availability zones in which the replication group's cache clusters will be created. The order of the availability zones in the list is not important."
 }
 
-variable "number_cache_clusters" {
+variable "num_cache_clusters" {
   type        = string
   default     = ""
   description = "(Required for Cluster Mode Disabled) The number of cache clusters (primary and replicas) this replication group will have. If Multi-AZ is enabled, the value of this parameter must be at least 2. Updates will occur before other modifications."
