@@ -57,11 +57,8 @@ module "redis" {
   security_group_ids         = [module.redis-sg.security_group_ids]
   availability_zones         = ["eu-west-1a", "eu-west-1b"]
   auto_minor_version_upgrade = true
-  multi_az_enabled           = false
-
-  number_cache_clusters = 2
-  retention_in_days     = 0
-  num_cache_clusters    = 2
+  num_cache_clusters         = 2
+  retention_in_days          = 0
 
   log_delivery_configuration = [
     {
