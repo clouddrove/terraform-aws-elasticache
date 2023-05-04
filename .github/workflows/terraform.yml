@@ -53,7 +53,7 @@ jobs:
         run: |
           cd ${{ matrix.directory }}
           terraform init
-#          terraform validate
+          terraform validate
           terraform plan -input=false -no-color
 
 
