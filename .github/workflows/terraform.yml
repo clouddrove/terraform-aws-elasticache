@@ -31,9 +31,7 @@ jobs:
           - ${{ needs.versionExtract.outputs.minVersion }}
           - ${{ needs.versionExtract.outputs.maxVersion }}
         directory:
-          - _example/memcached
-          - _example/redis
-          - _example/redis-cluster
+          - _example/
 
     steps:
       - name: Checkout
@@ -57,7 +55,6 @@ jobs:
           terraform init
           terraform validate
           terraform plan -input=false -no-color
-
       - name: tflint
         uses: reviewdog/action-tflint@master
         with:
