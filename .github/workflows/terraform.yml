@@ -31,9 +31,10 @@ jobs:
           - ${{ needs.versionExtract.outputs.minVersion }}
           - ${{ needs.versionExtract.outputs.maxVersion }}
         directory:
-          - _example/memcached
-          - _example/redis
-          - _example/redis-cluster
+          - _example/private-subnet
+          - _example/public-private-subnet-single-nat-gateway
+          - _example/public-private-subnet
+          - _example/public-subnet
 
     steps:
       - name: Checkout
@@ -56,7 +57,7 @@ jobs:
           cd ${{ matrix.directory }}
           terraform init
           terraform validate
-
+         
 
       - name: tflint
         uses: reviewdog/action-tflint@master
