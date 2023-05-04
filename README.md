@@ -92,7 +92,7 @@ Here are some examples of how you can use this module in your inventory structur
     security_group_ids           = ["sg-xxxxxxxxx"]
     availability_zones           = ["eu-west-1a","eu-west-1b" ]
     auto_minor_version_upgrade   = true
-    number_cache_clusters        = 2
+    num_cache_clusters           = 2
    }
 
 ```
@@ -176,9 +176,9 @@ Here are some examples of how you can use this module in your inventory structur
 | name | Name  (e.g. `app` or `cluster`). | `string` | `""` | no |
 | node\_type | The compute and memory capacity of the nodes in the node group. | `string` | `"cache.t2.small"` | no |
 | notification\_topic\_arn | An Amazon Resource Name (ARN) of an SNS topic to send ElastiCache notifications to. | `string` | `""` | no |
+| num\_cache\_clusters | (Required for Cluster Mode Disabled) The number of cache clusters (primary and replicas) this replication group will have. If Multi-AZ is enabled, the value of this parameter must be at least 2. Updates will occur before other modifications. | `string` | `""` | no |
 | num\_cache\_nodes | (Required unless replication\_group\_id is provided) The initial number of cache nodes that the cache cluster will have. For Redis, this value must be 1. For Memcache, this value must be between 1 and 20. If this number is reduced on subsequent runs, the highest numbered nodes will be removed. | `number` | `1` | no |
 | num\_node\_groups | Number of Shards (nodes). | `string` | `""` | no |
-| number\_cache\_clusters | (Required for Cluster Mode Disabled) The number of cache clusters (primary and replicas) this replication group will have. If Multi-AZ is enabled, the value of this parameter must be at least 2. Updates will occur before other modifications. | `string` | `""` | no |
 | parameter\_group\_name | The name of the parameter group to associate with this replication group. If this argument is omitted, the default cache parameter group for the specified engine is used. | `string` | `"default.redis5.0"` | no |
 | port | the port number on which each of the cache nodes will accept connections. | `string` | `""` | no |
 | replicas\_per\_node\_group | Replicas per Shard. | `string` | `""` | no |

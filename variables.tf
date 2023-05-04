@@ -154,7 +154,7 @@ variable "multi_az_enabled" {
   description = "Specify if multi-AZ should be enabled for this Redis instance."
 }
 
-variable "number_cache_clusters" {
+variable "num_cache_clusters" {
   type        = string
   default     = ""
   description = "(Required for Cluster Mode Disabled) The number of cache clusters (primary and replicas) this replication group will have. If Multi-AZ is enabled, the value of this parameter must be at least 2. Updates will occur before other modifications."

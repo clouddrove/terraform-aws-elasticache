@@ -61,6 +61,8 @@ module "redis" {
 
   number_cache_clusters = 2
   retention_in_days     = 0
+  num_cache_clusters         = 2
+  retention_in_days          = 0
 
   log_delivery_configuration = [
     {
