@@ -4,7 +4,7 @@ provider "aws" {
 
 module "vpc" {
   source  = "clouddrove/vpc/aws"
-  version = "0.15.1"
+  version = "1.3.0"
 
   name        = "vpc"
   environment = "test"
@@ -14,7 +14,7 @@ module "vpc" {
 
 module "subnets" {
   source  = "clouddrove/subnet/aws"
-  version = "0.15.3"
+  version = "1.3.0"
 
   name        = "subnets"
   environment = "test"
@@ -30,7 +30,7 @@ module "subnets" {
 
 module "redis-sg" {
   source  = "clouddrove/security-group/aws"
-  version = "1.0.1"
+  version = "1.3.0"
 
   name        = "redis-sg"
   environment = "test"
@@ -59,6 +59,7 @@ module "redis" {
   auto_minor_version_upgrade = true
   num_cache_clusters         = 2
   retention_in_days          = 0
+  snapshot_retention_limit   = 7
 
   log_delivery_configuration = [
     {
