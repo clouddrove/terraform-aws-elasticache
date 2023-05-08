@@ -54,7 +54,7 @@ module "memcached" {
   engine                   = "memcached"
   engine_version           = "1.5.10"
   family                   = "memcached1.5"
-  parameter_group_name     = "default.memcached1.5"
+  parameter_group_name     = ""
   az_mode                  = "cross-az"
   port                     = 11211
   node_type                = "cache.t2.micro"
