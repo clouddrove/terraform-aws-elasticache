@@ -247,3 +247,9 @@ variable "retention_in_days" {
   default     = 0
   description = "Specifies the number of days you want to retain log events in the specified log group."
 }
+
+variable "multi_az_enabled" {
+  type        = bool
+  default     = false
+  description = "Specifies whether to enable Multi-AZ Support for the replication group. If true, automatic_failover_enabled must also be enabled. Defaults to false."
+}
