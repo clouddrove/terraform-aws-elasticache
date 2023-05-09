@@ -173,6 +173,7 @@ Here are some examples of how you can use this module in your inventory structur
 | log\_delivery\_configuration | The log\_delivery\_configuration block allows the streaming of Redis SLOWLOG or Redis Engine Log to CloudWatch Logs or Kinesis Data Firehose. Max of 2 blocks. | `list(map(any))` | `[]` | no |
 | maintenance\_window | Maintenance window. | `string` | `"sun:05:00-sun:06:00"` | no |
 | managedby | ManagedBy, eg 'CloudDrove' or 'AnmolNagpal'. | `string` | `"anmol@clouddrove.com"` | no |
+| multi\_az\_enabled | Specifies whether to enable Multi-AZ Support for the replication group. If true, automatic\_failover\_enabled must also be enabled. Defaults to false. | `bool` | `false` | no |
 | name | Name  (e.g. `app` or `cluster`). | `string` | `""` | no |
 | node\_type | The compute and memory capacity of the nodes in the node group. | `string` | `"cache.t2.small"` | no |
 | notification\_topic\_arn | An Amazon Resource Name (ARN) of an SNS topic to send ElastiCache notifications to. | `string` | `""` | no |

@@ -60,6 +60,7 @@ module "redis-cluster" {
   auto_minor_version_upgrade  = true
   replicas_per_node_group     = 2
   num_node_groups             = 1
+  snapshot_retention_limit   = 7
   automatic_failover_enabled  = true
   extra_tags = {
     Application = "CloudDrove"

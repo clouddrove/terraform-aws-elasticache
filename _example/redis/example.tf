@@ -59,6 +59,7 @@ module "redis" {
   auto_minor_version_upgrade = true
   num_cache_clusters         = 2
   retention_in_days          = 0
+  snapshot_retention_limit   = 7
 
   log_delivery_configuration = [
     {

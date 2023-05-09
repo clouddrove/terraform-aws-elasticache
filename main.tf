@@ -65,6 +65,7 @@ resource "aws_elasticache_replication_group" "default" {
   maintenance_window         = var.maintenance_window
   at_rest_encryption_enabled = var.at_rest_encryption_enabled
   transit_encryption_enabled = var.transit_encryption_enabled
+  multi_az_enabled           = var.multi_az_enabled
   auth_token                 = var.auth_token
   kms_key_id                 = var.kms_key_id
   tags                       = module.labels.tags
@@ -108,6 +109,7 @@ resource "aws_elasticache_replication_group" "cluster" {
   maintenance_window         = var.maintenance_window
   at_rest_encryption_enabled = var.at_rest_encryption_enabled
   transit_encryption_enabled = var.transit_encryption_enabled
+  multi_az_enabled           = var.multi_az_enabled
   auth_token                 = var.auth_token
   kms_key_id                 = var.kms_key_id
   tags                       = module.labels.tags
