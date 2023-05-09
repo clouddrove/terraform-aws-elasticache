@@ -12,7 +12,7 @@ jobs:
       - name: 'Checkout'
         uses: actions/checkout@master
 
-      - name: Set up Python 3.7.
+      - name: 'Set up Python 3.7'
         uses: actions/setup-python@v2
         with:
           python-version: '3.x'
@@ -26,11 +26,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN}}
 
 
-      - name: pre-commit check errors
+      - name: 'pre-commit check errors'
         uses: pre-commit/action@v2.0.0
         continue-on-error: true
 
-      - name: pre-commit fix erros
+      - name: 'pre-commit fix erros'
         uses: pre-commit/action@v2.0.0
         continue-on-error: true
 

@@ -31,10 +31,7 @@ jobs:
           - ${{ needs.versionExtract.outputs.minVersion }}
           - ${{ needs.versionExtract.outputs.maxVersion }}
         directory:
-          - _example/private-subnet
-          - _example/public-private-subnet-single-nat-gateway
-          - _example/public-private-subnet
-          - _example/public-subnet
+          - _example/
 
     steps:
       - name: Checkout
@@ -57,7 +54,7 @@ jobs:
           cd ${{ matrix.directory }}
           terraform init
           terraform validate
-         
+          terraform plan -input=false -no-color
 
       - name: tflint
         uses: reviewdog/action-tflint@master
