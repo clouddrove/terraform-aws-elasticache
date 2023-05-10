@@ -79,7 +79,7 @@ Here are some examples of how you can use this module in your inventory structur
 ```hcl
     module "redis" {
     source                       = "clouddrove/elasticache/aws
-    version                      = "1.0.1"
+    version                      = "1.3.0"
     name                         = "redis"
     environment                  = "test"
     label_order                  = ["environment", "name"]
@@ -100,7 +100,7 @@ Here are some examples of how you can use this module in your inventory structur
 ```hcl
     module "redis-cluster" {
     source                      = "clouddrove/elasticache/aws
-    version                     = "1.0.1"
+    version                     = "1.3.0"
     name                        = "cluster"
     environment                 = "test"
     label_order                 = ["environment","name"]
@@ -123,7 +123,7 @@ Here are some examples of how you can use this module in your inventory structur
 ```hcl
     module "memcached" {
     source                       = "clouddrove/elasticache/aws
-    version                      = "1.0.1"
+    version                      = "1.3.0"
     name                         = "memcached"
     environment                  = "test"
     label_order                  = ["environment", "name"]
