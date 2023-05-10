@@ -252,4 +252,6 @@ variable "multi_az_enabled" {
   type        = bool
   default     = false
   description = "Specifies whether to enable Multi-AZ Support for the replication group. If true, automatic_failover_enabled must also be enabled. Defaults to false."
+
 }
+

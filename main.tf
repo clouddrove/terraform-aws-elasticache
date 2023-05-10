@@ -145,4 +145,3 @@ resource "aws_elasticache_cluster" "default" {
   tags                         = module.labels.tags
 
 }
-

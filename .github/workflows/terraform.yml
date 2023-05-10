@@ -32,8 +32,8 @@ jobs:
           - ${{ needs.versionExtract.outputs.maxVersion }}
         directory:
           - _example/memcached
-          - _example/redis
           - _example/redis-cluster
+          - _example/redis
 
     steps:
       - name: Checkout
