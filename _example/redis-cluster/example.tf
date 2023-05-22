@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "us-east-1"
+  region = "eu-west-1"
 }
 
 module "vpc" {
@@ -20,7 +20,7 @@ module "subnets" {
   name               = "subnets"
   environment        = "test"
   label_order        = ["name", "environment"]
-  availability_zones = ["us-east-1a", "us-east-1b", "us-east-1c"]
+  availability_zones = ["eu-west-1a", "eu-west-1b", "eu-west-1c"]
   vpc_id             = module.vpc.vpc_id
   type               = "public"
   igw_id             = module.vpc.igw_id
@@ -84,14 +84,14 @@ module "redis-cluster" {
 
   cluster_replication_enabled = true
   engine                      = "redis"
-  engine_version              = "6.x"
-  parameter_group_name        = "default.redis6.x.cluster.on"
+  engine_version              = "7.0.7"
+  parameter_group_name        = "default.redis7.cluster.on"
   port                        = 6379
   node_type                   = "cache.t2.micro"
   kms_key_id                  = module.kms_key.key_arn
   subnet_ids                  = module.subnets.public_subnet_id
   security_group_ids          = [module.redis-sg.security_group_ids]
-  availability_zones          = ["us-east-1a", "us-east-1b"]
+  availability_zones          = ["eu-west-1a", "eu-west-1b"]
   auto_minor_version_upgrade  = true
   replicas_per_node_group     = 2
   num_node_groups             = 1
