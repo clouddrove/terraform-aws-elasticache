@@ -84,7 +84,7 @@ module "redis-cluster" {
 
   cluster_replication_enabled = true
   engine                      = "redis"
-  engine_version              = "7.0.7"
+  engine_version              = "7.0"
   parameter_group_name        = "default.redis7.cluster.on"
   port                        = 6379
   node_type                   = "cache.t2.micro"
