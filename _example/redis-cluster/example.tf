@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "eu-west-1"
+  region = "us-east-1"
 }
 
 module "vpc" {
@@ -20,7 +20,7 @@ module "subnets" {
   name               = "subnets"
   environment        = "test"
   label_order        = ["name", "environment"]
-  availability_zones = ["eu-west-1a", "eu-west-1b", "eu-west-1c"]
+  availability_zones = ["us-east-1a", "us-east-1b", "us-east-1c"]
   vpc_id             = module.vpc.vpc_id
   type               = "public"
   igw_id             = module.vpc.igw_id
@@ -41,6 +41,40 @@ module "redis-sg" {
   allowed_ports = [6379]
 }
 
+module "kms_key" {
+  source  = "clouddrove/kms/aws"
+  version = "1.3.0"
+
+  name        = "kms"
+  environment = "test"
+  label_order = ["name", "environment"]
+
+  enabled = true
+
+  description              = "KMS key for aurora"
+  alias                    = "alias/redis-cluster"
+  key_usage                = "ENCRYPT_DECRYPT"
+  customer_master_key_spec = "SYMMETRIC_DEFAULT"
+  deletion_window_in_days  = 7
+  is_enabled               = true
+  policy                   = data.aws_iam_policy_document.default.json
+}
+
+data "aws_iam_policy_document" "default" {
+  version = "2012-10-17"
+
+  statement {
+    sid    = "Enable IAM User Permissions"
+    effect = "Allow"
+    principals {
+      type        = "AWS"
+      identifiers = ["*"]
+    }
+    actions   = ["kms:*"]
+    resources = ["*"]
+  }
+}
+
 module "redis-cluster" {
   source = "./../../"
 
@@ -54,13 +88,14 @@ module "redis-cluster" {
   parameter_group_name        = "default.redis6.x.cluster.on"
   port                        = 6379
   node_type                   = "cache.t2.micro"
+  kms_key_id                  = module.kms_key.key_arn
   subnet_ids                  = module.subnets.public_subnet_id
   security_group_ids          = [module.redis-sg.security_group_ids]
-  availability_zones          = ["eu-west-1a", "eu-west-1b"]
+  availability_zones          = ["us-east-1a", "us-east-1b"]
   auto_minor_version_upgrade  = true
   replicas_per_node_group     = 2
   num_node_groups             = 1
-  snapshot_retention_limit   = 7
+  snapshot_retention_limit    = 7
   automatic_failover_enabled  = true
   extra_tags = {
     Application = "CloudDrove"
