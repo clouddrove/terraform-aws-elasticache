@@ -41,39 +41,6 @@ module "redis-sg" {
   allowed_ports = [6379]
 }
 
-module "kms_key" {
-  source  = "clouddrove/kms/aws"
-  version = "1.3.0"
-
-  name        = "kms"
-  environment = "test"
-  label_order = ["name", "environment"]
-
-  enabled                  = true
-  description              = "KMS key for aurora"
-  alias                    = "alias/redis"
-  key_usage                = "ENCRYPT_DECRYPT"
-  customer_master_key_spec = "SYMMETRIC_DEFAULT"
-  deletion_window_in_days  = 7
-  is_enabled               = true
-  policy                   = data.aws_iam_policy_document.default.json
-}
-
-data "aws_iam_policy_document" "default" {
-  version = "2012-10-17"
-
-  statement {
-    sid    = "Enable IAM User Permissions"
-    effect = "Allow"
-    principals {
-      type        = "AWS"
-      identifiers = ["*"]
-    }
-    actions   = ["kms:*"]
-    resources = ["*"]
-  }
-}
-
 module "redis" {
   source      = "./../../"
   name        = "redis"
@@ -86,7 +53,6 @@ module "redis" {
   parameter_group_name       = "default.redis7"
   port                       = 6379
   node_type                  = "cache.t2.micro"
-  kms_key_id                 = module.kms_key.key_arn
   subnet_ids                 = module.subnets.public_subnet_id
   security_group_ids         = [module.redis-sg.security_group_ids]
   availability_zones         = ["eu-west-1a", "eu-west-1b"]
