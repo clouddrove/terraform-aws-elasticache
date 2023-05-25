@@ -9,7 +9,7 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"
-# Add assignees
+    # Add assignees
     assignees:
       - "clouddrove-ci"
     # Add reviewer
@@ -19,7 +19,7 @@ updates:
     directory: "_example/memcached" # Location of package manifests
     schedule:
       interval: "weekly"
-# Add assignees
+    # Add assignees
     assignees:
       - "clouddrove-ci"
     # Add reviewer
@@ -29,7 +29,7 @@ updates:
     directory: "_example/redis" # Location of package manifests
     schedule:
       interval: "weekly"
-# Add assignees
+    # Add assignees
     assignees:
       - "clouddrove-ci"
     # Add reviewer
@@ -39,7 +39,7 @@ updates:
     directory: "_example/redis-cluster" # Location of package manifests
     schedule:
       interval: "weekly"
-# Add assignees
+    # Add assignees
     assignees:
       - "clouddrove-ci"
     # Add reviewer
