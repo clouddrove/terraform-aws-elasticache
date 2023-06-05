@@ -1,12 +1,6 @@
-## Managed By : CloudDrove
-# Description : This Script is used to create Elasticache Cluster and replica for Redis and
-#               Memcache.
-## Copyright @ CloudDrove. All Right Reserved.
-
-#Module      : label
-#Description : This terraform module is designed to generate consistent label names and
-#              tags for resources. You can use terraform-labels to implement a strict
-#              naming convention.
+##----------------------------------------------------------------------------------
+## Labels module callled that will be used for naming and tags.
+##----------------------------------------------------------------------------------
 module "labels" {
   source  = "clouddrove/labels/aws"
   version = "1.3.0"
@@ -20,6 +14,114 @@ module "labels" {
   extra_tags  = var.extra_tags
 }
 
+##----------------------------------------------------------------------------------
+## Below resources will create SECURITY-GROUP and its components.
+##----------------------------------------------------------------------------------
+resource "aws_security_group" "default" {
+  count = var.enable_security_group && length(var.sg_ids) < 1 ? 1 : 0
+
+  name        = format("%s-sg", module.labels.id)
+  vpc_id      = var.vpc_id
+  description = var.sg_description
+  tags        = module.labels.tags
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+data "aws_security_group" "existing" {
+  count  = var.is_external ? 1 : 0
+  id     = var.existing_sg_id
+  vpc_id = var.vpc_id
+}
+
+##----------------------------------------------------------------------------------
+## Below resources will create SECURITY-GROUP-RULE and its components.
+##----------------------------------------------------------------------------------
+resource "aws_security_group_rule" "egress" {
+  count = (var.enable_security_group == true && length(var.sg_ids) < 1 && var.is_external == false && var.egress_rule == true) ? 1 : 0
+
+  type              = "egress"
+  from_port         = 0
+  to_port           = 65535
+  protocol          = "-1"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = join("", aws_security_group.default.*.id)
+}
+resource "aws_security_group_rule" "egress_ipv6" {
+  count = (var.enable_security_group == true && length(var.sg_ids) < 1 && var.is_external == false) && var.egress_rule == true ? 1 : 0
+
+  type              = "egress"
+  from_port         = 0
+  to_port           = 65535
+  protocol          = "-1"
+  ipv6_cidr_blocks  = ["::/0"]
+  security_group_id = join("", aws_security_group.default.*.id)
+}
+
+resource "aws_security_group_rule" "ingress" {
+  count = length(var.allowed_ip) > 0 == true && length(var.sg_ids) < 1 ? length(compact(var.allowed_ports)) : 0
+
+  type              = "ingress"
+  from_port         = element(var.allowed_ports, count.index)
+  to_port           = element(var.allowed_ports, count.index)
+  protocol          = var.protocol
+  cidr_blocks       = var.allowed_ip
+  security_group_id = join("", aws_security_group.default.*.id)
+}
+
+##----------------------------------------------------------------------------------
+## Below resources will create KMS-KEY and its components.
+##----------------------------------------------------------------------------------
+resource "aws_kms_key" "default" {
+  count = var.kms_key_enabled && var.kms_key_id == "" ? 1 : 0
+
+  description              = var.kms_description
+  key_usage                = var.key_usage
+  deletion_window_in_days  = var.deletion_window_in_days
+  is_enabled               = var.is_enabled
+  enable_key_rotation      = var.enable_key_rotation
+  customer_master_key_spec = var.customer_master_key_spec
+  policy                   = data.aws_iam_policy_document.default.json
+  multi_region             = var.kms_multi_region
+  tags                     = module.labels.tags
+}
+
+resource "aws_kms_alias" "default" {
+  count = var.kms_key_enabled && var.kms_key_id == "" ? 1 : 0
+
+  name          = coalesce(var.alias, format("alias/%v", module.labels.id))
+  target_key_id = var.kms_key_id == "" ? join("", aws_kms_key.default.*.id) : var.kms_key_id
+}
+
+##----------------------------------------------------------------------------------
+## Data block called to get Permissions that will be used in creating policy.
+##----------------------------------------------------------------------------------
+data "aws_partition" "current" {}
+data "aws_caller_identity" "current" {}
+data "aws_iam_policy_document" "default" {
+  version = "2012-10-17"
+  statement {
+    sid    = "Enable IAM User Permissions"
+    effect = "Allow"
+    principals {
+      type = "AWS"
+      identifiers = [
+        format(
+          "arn:%s:iam::%s:root",
+          join("", data.aws_partition.current.*.partition),
+          data.aws_caller_identity.current.account_id
+        )
+      ]
+    }
+    actions   = ["kms:*"]
+    resources = ["*"]
+  }
+}
+
+##----------------------------------------------------------------------------------
+## Below resource will create will save logs cloudwatch_log_group resource for redis-cluster and memcached.
+##----------------------------------------------------------------------------------
 resource "aws_cloudwatch_log_group" "default" {
   count             = var.enable && length(var.log_delivery_configuration) > 0 ? 1 : 0
   name              = format("logs-%s", module.labels.id)
@@ -27,31 +129,32 @@ resource "aws_cloudwatch_log_group" "default" {
   tags              = module.labels.tags
 }
 
-# Module      : Elasticache Subnet Group
-# Description : Terraform module which creates Subnet Group for Elasticache.
+
 resource "aws_elasticache_subnet_group" "default" {
   count       = var.enable ? 1 : 0
-  name        = module.labels.id
+  name        = format("%s-subnet-group", module.labels.id)
   subnet_ids  = var.subnet_ids
-  description = var.description
+  description = var.subnet_group_description
 
   tags = module.labels.tags
 }
 
-# Module      : Elasticache Replication Group
-# Description : Terraform module which creates standalone instance for Elasticache Redis.
-resource "aws_elasticache_replication_group" "default" {
-  count                      = var.enable && var.replication_enabled ? 1 : 0
+##----------------------------------------------------------------------------------
+## Below resource will create replication-group resource for redis-cluster and memcached.
+##----------------------------------------------------------------------------------
+resource "aws_elasticache_replication_group" "cluster" {
+  count = var.enable && var.cluster_replication_enabled ? 1 : 0
+
   engine                     = var.engine
   replication_group_id       = module.labels.id
-  description                = module.labels.id
+  description                = var.replication_group_description
   engine_version             = var.engine_version
   port                       = var.port
   parameter_group_name       = var.parameter_group_name
   node_type                  = var.node_type
   automatic_failover_enabled = var.automatic_failover_enabled
   subnet_group_name          = join("", aws_elasticache_subnet_group.default.*.name)
-  security_group_ids         = var.security_group_ids
+  security_group_ids         = length(var.sg_ids) < 1 ? aws_security_group.default.*.id : var.sg_ids
   security_group_names       = var.security_group_names
   snapshot_arns              = var.snapshot_arns
   snapshot_name              = var.snapshot_name
@@ -59,16 +162,15 @@ resource "aws_elasticache_replication_group" "default" {
   snapshot_window            = var.snapshot_window
   snapshot_retention_limit   = var.snapshot_retention_limit
   apply_immediately          = var.apply_immediately
-  availability_zones         = slice(var.availability_zones, 0, var.num_cache_clusters)
-  num_cache_clusters         = var.num_cache_clusters
   auto_minor_version_upgrade = var.auto_minor_version_upgrade
   maintenance_window         = var.maintenance_window
   at_rest_encryption_enabled = var.at_rest_encryption_enabled
   transit_encryption_enabled = var.transit_encryption_enabled
   multi_az_enabled           = var.multi_az_enabled
   auth_token                 = var.auth_token
-  kms_key_id                 = var.kms_key_id
+  kms_key_id                 = var.kms_key_id == "" ? join("", aws_kms_key.default.*.arn) : var.kms_key_id
   tags                       = module.labels.tags
+  num_cache_clusters         = var.num_cache_clusters
 
   dynamic "log_delivery_configuration" {
     for_each = var.log_delivery_configuration
@@ -82,45 +184,9 @@ resource "aws_elasticache_replication_group" "default" {
   }
 }
 
-
-# Module      : Elasticache Replication Group
-# Description : Terraform module which creates cluster for Elasticache Redis.
-resource "aws_elasticache_replication_group" "cluster" {
-  count                      = var.enable && var.cluster_replication_enabled ? 1 : 0
-  engine                     = var.engine
-  replication_group_id       = module.labels.id
-  description                = module.labels.id
-  engine_version             = var.engine_version
-  port                       = var.port
-  parameter_group_name       = var.parameter_group_name
-  node_type                  = var.node_type
-  automatic_failover_enabled = var.automatic_failover_enabled
-  subnet_group_name          = join("", aws_elasticache_subnet_group.default.*.name)
-  security_group_ids         = var.security_group_ids
-  security_group_names       = var.security_group_names
-  snapshot_arns              = var.snapshot_arns
-  snapshot_name              = var.snapshot_name
-  notification_topic_arn     = var.notification_topic_arn
-  snapshot_window            = var.snapshot_window
-  snapshot_retention_limit   = var.snapshot_retention_limit
-  apply_immediately          = var.apply_immediately
-  availability_zones         = slice(var.availability_zones, 0, var.num_node_groups)
-  auto_minor_version_upgrade = var.auto_minor_version_upgrade
-  maintenance_window         = var.maintenance_window
-  at_rest_encryption_enabled = var.at_rest_encryption_enabled
-  transit_encryption_enabled = var.transit_encryption_enabled
-  multi_az_enabled           = var.multi_az_enabled
-  auth_token                 = var.auth_token
-  kms_key_id                 = var.kms_key_id
-  tags                       = module.labels.tags
-  cluster_mode {
-    replicas_per_node_group = var.replicas_per_node_group #Replicas per Shard
-    num_node_groups         = var.num_node_groups         #Number of Shards
-  }
-}
-
-# Module      : Elasticache Cluster
-# Description : Terraform module which creates cluster for Elasticache Memcached.
+##----------------------------------------------------------------------------------
+## Below resource will create cluster.
+##----------------------------------------------------------------------------------
 resource "aws_elasticache_cluster" "default" {
   count                        = var.enable && var.cluster_enabled ? 1 : 0
   engine                       = var.engine
@@ -132,8 +198,7 @@ resource "aws_elasticache_cluster" "default" {
   parameter_group_name         = var.parameter_group_name
   node_type                    = var.node_type
   subnet_group_name            = join("", aws_elasticache_subnet_group.default.*.name)
-  security_group_ids           = var.security_group_ids
-  security_group_names         = var.security_group_names
+  security_group_ids           = length(var.sg_ids) < 1 ? aws_security_group.default.*.id : var.sg_ids
   snapshot_arns                = var.snapshot_arns
   snapshot_name                = var.snapshot_name
   notification_topic_arn       = var.notification_topic_arn
@@ -144,4 +209,43 @@ resource "aws_elasticache_cluster" "default" {
   maintenance_window           = var.maintenance_window
   tags                         = module.labels.tags
 
+}
+
+##----------------------------------------------------------------------------------
+## Below resource will create ROUTE-53 resource for redis and memcached.
+##----------------------------------------------------------------------------------
+resource "aws_route53_record" "elasticache" {
+  count = var.enable && var.route53_record_enabled ? 1 : 0
+
+  name    = var.dns_record_name
+  type    = var.route53_type
+  ttl     = var.route53_ttl
+  zone_id = var.route53_zone_id
+  records = var.cluster_replication_enabled == true ? aws_elasticache_replication_group.cluster.*.configuration_endpoint_address : aws_elasticache_cluster.default.*.configuration_endpoint
+}
+
+##----------------------------------------------------------------------------------
+## Below resource will create ssm-parameter resource for redisand memcached with auth-token.
+##----------------------------------------------------------------------------------
+resource "aws_ssm_parameter" "secret" {
+  count = var.auth_token != null ? 1 : 0
+
+  name        = format("/%s/%s/auth-token", var.environment, var.name)
+  description = var.ssm_parameter_description
+  type        = var.ssm_parameter_type
+  value       = var.auth_token
+  key_id      = var.kms_key_id == "" ? join("", aws_kms_key.default.*.arn) : var.kms_key_id
+}
+
+##----------------------------------------------------------------------------------
+## Below resource will create ssm-parameter resource for redis and memcached with endpoint.
+##----------------------------------------------------------------------------------
+resource "aws_ssm_parameter" "secret-endpoint" {
+  count = var.enable && var.ssm_parameter_endpoint_enabled ? 1 : 0
+
+  name        = format("/%s/%s/endpoint", var.environment, var.name)
+  description = var.ssm_parameter_description
+  type        = var.ssm_parameter_type
+  value       = var.cluster_replication_enabled == true ? join("", aws_elasticache_replication_group.cluster.*.configuration_endpoint_address) : join("", aws_elasticache_cluster.default.*.configuration_endpoint)
+  key_id      = var.kms_key_id == "" ? join("", aws_kms_key.default.*.arn) : var.kms_key_id
 }

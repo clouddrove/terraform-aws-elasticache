@@ -12,3 +12,7 @@ output "redis_endpoint" {
   value       = module.redis.redis_endpoint
   description = "Redis endpoint address."
 }
+
+output "sg_id" {
+  value = module.redis.*.sg_id
+}
