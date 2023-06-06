@@ -56,9 +56,6 @@ module "redis-cluster" {
   allowed_ip    = [module.vpc.vpc_cidr_block]
   allowed_ports = [6379]
 
-  ####----------------------------------------------------------------------------------
-  ## will create ROUTE-53 for redis which will add the dns of the cluster.
-  ####----------------------------------------------------------------------------------
   cluster_replication_enabled = true
   engine                      = "redis"
   engine_version              = "7.0"

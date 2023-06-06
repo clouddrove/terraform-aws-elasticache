@@ -382,8 +382,7 @@ variable "sg_description" {
   description = "The security group description."
 }
 
-########route53##################
-
+##---------------------route53------------------------
 variable "route53_record_enabled" {
   type        = bool
   default     = true
@@ -413,9 +412,7 @@ variable "route53_zone_id" {
   description = "Zone ID."
 }
 
-###-----------------------------------------------------------------------
-###-------variable of the ssm_parameter
-###--------------------------------------------------------------------------
+###------------------------------- ssm_parameter----------------------------
 
 variable "ssm_parameter_enabled" {
   type        = bool
