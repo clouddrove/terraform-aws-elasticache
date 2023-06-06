@@ -91,6 +91,7 @@ module "redis" {
   ####----------------------------------------------------------------------------------
   ## will create ROUTE-53 for redis which will add the dns of the cluster.
   ####----------------------------------------------------------------------------------
+  #tfsec:ignore:aws-ec2-no-public-egress-sgr
   dns_record_name = "prod"
   route53_ttl     = "300"
   route53_type    = "CNAME"

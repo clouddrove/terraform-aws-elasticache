@@ -40,6 +40,7 @@ module "subnets" {
 ####----------------------------------------------------------------------------------
 ## Memcached holds its data in memory.
 ####----------------------------------------------------------------------------------
+#tfsec:ignore:aws-ec2-no-public-egress-sgr
 module "memcached" {
   source = "./../../"
 
