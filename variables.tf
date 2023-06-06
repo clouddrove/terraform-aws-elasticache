@@ -12,7 +12,6 @@ variable "repository" {
   description = "Terraform current module repo"
 
   validation {
-    # regex(...) fails if it cannot find a match
     condition     = can(regex("^https://", var.repository))
     error_message = "The module-repo value must be a valid Git repo link."
   }
@@ -54,8 +53,6 @@ variable "enable" {
   description = "Enable or disable of elasticache"
 }
 
-# Module      : Replication Group
-# Description : Terraform Replication group module variables.
 variable "engine" {
   type        = string
   default     = ""
@@ -145,12 +142,12 @@ variable "subnet_ids" {
 
 variable "subnet_group_description" {
   type        = string
-  default     = "Managed by Terraform"
+  default     = "The Description of the ElastiCache Subnet Group."
   description = "Description for the cache subnet group. Defaults to `Managed by Terraform`."
 }
 variable "replication_group_description" {
   type        = string
-  default     = "Name of either the CloudWatch Logs LogGroup or Kinesis Data Firehose resource."
+  default     = "User-created description for the replication group."
   description = "Name of either the CloudWatch Logs LogGroup or Kinesis Data Firehose resource."
 }
 
@@ -278,7 +275,7 @@ variable "kms_key_id" {
 
 variable "alias" {
   type        = string
-  default     = "alias/rediss"
+  default     = "alias/redis"
   description = "The display name of the alias. The name must start with the word `alias` followed by a forward slash."
 }
 
