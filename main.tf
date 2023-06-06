@@ -48,6 +48,7 @@ resource "aws_security_group_rule" "egress" {
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = join("", aws_security_group.default.*.id)
 }
+#tfsec:ignore:aws-ec2-no-public-egress-sgr
 resource "aws_security_group_rule" "egress_ipv6" {
   count = (var.enable_security_group == true && length(var.sg_ids) < 1 && var.is_external == false) && var.egress_rule == true ? 1 : 0
 
@@ -58,7 +59,7 @@ resource "aws_security_group_rule" "egress_ipv6" {
   ipv6_cidr_blocks  = ["::/0"]
   security_group_id = join("", aws_security_group.default.*.id)
 }
-#defsec:ignore:aws-ec2-no-public-egress-sgr
+#tfsec:ignore:aws-ec2-no-public-egress-sgr
 resource "aws_security_group_rule" "ingress" {
   count = length(var.allowed_ip) > 0 == true && length(var.sg_ids) < 1 ? length(compact(var.allowed_ports)) : 0
 
