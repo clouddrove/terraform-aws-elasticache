@@ -222,7 +222,7 @@ resource "aws_route53_record" "elasticache" {
   type    = var.route53_type
   ttl     = var.route53_ttl
   zone_id = var.route53_zone_id
-  records = var.cluster_replication_enabled == true ? aws_elasticache_replication_group.cluster.*.configuration_endpoint_address : aws_elasticache_cluster.default.*.configuration_endpoint
+  records = var.automatic_failover_enabled == true ? aws_elasticache_replication_group.cluster.*.configuration_endpoint_address : aws_elasticache_cluster.default.*.configuration_endpoint
 }
 
 ##----------------------------------------------------------------------------------
@@ -247,6 +247,6 @@ resource "aws_ssm_parameter" "secret-endpoint" {
   name        = format("/%s/%s/endpoint", var.environment, var.name)
   description = var.ssm_parameter_description
   type        = var.ssm_parameter_type
-  value       = var.cluster_replication_enabled == true ? join("", aws_elasticache_replication_group.cluster.*.configuration_endpoint_address) : join("", aws_elasticache_cluster.default.*.configuration_endpoint)
+  value       = var.automatic_failover_enabled == true ? join("", aws_elasticache_replication_group.cluster.*.configuration_endpoint_address) : join("", aws_elasticache_cluster.default.*.configuration_endpoint)
   key_id      = var.kms_key_id == "" ? join("", aws_kms_key.default.*.arn) : var.kms_key_id
 }
