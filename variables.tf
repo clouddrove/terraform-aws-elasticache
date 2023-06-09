@@ -379,7 +379,7 @@ variable "sg_description" {
 ##---------------------route53------------------------
 variable "route53_record_enabled" {
   type        = bool
-  default     = false
+  default     = true
   description = "Whether to create Route53 record set."
 }
 
@@ -421,7 +421,7 @@ variable "ssm_parameter_enabled" {
 }
 variable "ssm_parameter_endpoint_enabled" {
   type        = bool
-  default     = false
+  default     = true
   description = "Name of the parameter."
 }
 
