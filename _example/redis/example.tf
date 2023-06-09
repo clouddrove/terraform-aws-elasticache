@@ -57,7 +57,6 @@ module "redis" {
   allowed_ports = [6379]
 
   cluster_replication_enabled = true
-  replication_enabled         = true
   engine                      = "redis"
   engine_version              = "7.0"
   parameter_group_name        = "default.redis7"

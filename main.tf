@@ -222,7 +222,7 @@ resource "aws_route53_record" "elasticache" {
   type    = var.route53_type
   ttl     = var.route53_ttl
   zone_id = var.route53_zone_id
-  records = var.automatic_failover_enabled == true ? aws_elasticache_replication_group.cluster.*.configuration_endpoint_address : aws_elasticache_cluster.default.*.configuration_endpoint
+  records = var.automatic_failover_enabled ? [join("", aws_elasticache_replication_group.cluster[*].configuration_endpoint_address)] : [join("", aws_elasticache_replication_group.cluster[*].primary_endpoint_address)]
 }
 
 ##----------------------------------------------------------------------------------
@@ -239,7 +239,7 @@ resource "aws_ssm_parameter" "secret" {
 }
 
 ##----------------------------------------------------------------------------------
-## Below resource will create ssm-parameter resource for redis and memcached with endpoint.
+## Below resource will create ssm-parameter resource for redis with endpoint.
 ##----------------------------------------------------------------------------------
 resource "aws_ssm_parameter" "secret-endpoint" {
   count = var.enable && var.ssm_parameter_endpoint_enabled ? 1 : 0
@@ -247,6 +247,32 @@ resource "aws_ssm_parameter" "secret-endpoint" {
   name        = format("/%s/%s/endpoint", var.environment, var.name)
   description = var.ssm_parameter_description
   type        = var.ssm_parameter_type
-  value       = var.automatic_failover_enabled == true ? join("", aws_elasticache_replication_group.cluster.*.configuration_endpoint_address) : join("", aws_elasticache_cluster.default.*.configuration_endpoint)
+  value       = var.automatic_failover_enabled ? [join("", aws_elasticache_replication_group.cluster[*].configuration_endpoint_address)][0] : [join("", aws_elasticache_replication_group.cluster[*].primary_endpoint_address)][0]
+  key_id      = var.kms_key_id == "" ? join("", aws_kms_key.default.*.arn) : var.kms_key_id
+}
+
+##----------------------------------------------------------------------------------
+## Below resource will create ROUTE-53 resource for memcached.
+##----------------------------------------------------------------------------------
+resource "aws_route53_record" "memcached_route_53" {
+  count = var.memcached_route53_record_enabled ? 1 : 0
+
+  name    = var.dns_record_name
+  zone_id = var.route53_zone_id
+  type    = var.route53_type
+  ttl     = var.route53_ttl
+  records = aws_elasticache_cluster.default.*.configuration_endpoint
+}
+
+##----------------------------------------------------------------------------------
+## Below resource will create ssm-parameter resource for memcached with endpoint.
+##----------------------------------------------------------------------------------
+resource "aws_ssm_parameter" "memcached_secret-endpoint" {
+  count = var.memcached_ssm_parameter_endpoint_enabled ? 1 : 0
+
+  name        = format("/%s/%s/memcached-endpoint", var.environment, var.name)
+  description = var.ssm_parameter_description
+  type        = var.ssm_parameter_type
+  value       = join("", aws_elasticache_cluster.default.*.configuration_endpoint)
   key_id      = var.kms_key_id == "" ? join("", aws_kms_key.default.*.arn) : var.kms_key_id
 }

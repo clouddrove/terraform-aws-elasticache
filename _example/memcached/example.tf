@@ -54,17 +54,19 @@ module "memcached" {
   allowed_ip    = [module.vpc.vpc_cidr_block]
   allowed_ports = [11211]
 
-  cluster_enabled      = true
-  engine               = "memcached"
-  engine_version       = "1.6.17"
-  family               = "memcached1.5"
-  parameter_group_name = ""
-  az_mode              = "cross-az"
-  port                 = 11211
-  node_type            = "cache.t2.micro"
-  num_cache_nodes      = 2
-  subnet_ids           = module.subnets.public_subnet_id
-  availability_zones   = ["eu-west-1a", "eu-west-1b"]
+  cluster_enabled                          = true
+  memcached_ssm_parameter_endpoint_enabled = true
+  memcached_route53_record_enabled         = true
+  engine                                   = "memcached"
+  engine_version                           = "1.6.17"
+  family                                   = "memcached1.5"
+  parameter_group_name                     = ""
+  az_mode                                  = "cross-az"
+  port                                     = 11211
+  node_type                                = "cache.t2.micro"
+  num_cache_nodes                          = 2
+  subnet_ids                               = module.subnets.public_subnet_id
+  availability_zones                       = ["eu-west-1a", "eu-west-1b"]
   extra_tags = {
     Application = "CloudDrove"
   }

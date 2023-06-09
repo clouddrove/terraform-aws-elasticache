@@ -198,12 +198,6 @@ variable "family" {
   description = "(Required) The family of the ElastiCache parameter group."
 }
 
-variable "replication_enabled" {
-  type        = bool
-  default     = false
-  description = "(Redis only) Enabled or disabled replication_group for redis standalone instance."
-}
-
 variable "cluster_replication_enabled" {
   type        = bool
   default     = false
@@ -385,8 +379,14 @@ variable "sg_description" {
 ##---------------------route53------------------------
 variable "route53_record_enabled" {
   type        = bool
-  default     = true
+  default     = false
   description = "Whether to create Route53 record set."
+}
+
+variable "memcached_route53_record_enabled" {
+  type        = bool
+  default     = false
+  description = "Whether to create Route53 record memcached set."
 }
 
 variable "route53_type" {
@@ -421,7 +421,13 @@ variable "ssm_parameter_enabled" {
 }
 variable "ssm_parameter_endpoint_enabled" {
   type        = bool
-  default     = true
+  default     = false
+  description = "Name of the parameter."
+}
+
+variable "memcached_ssm_parameter_endpoint_enabled" {
+  type        = bool
+  default     = false
   description = "Name of the parameter."
 }
 
