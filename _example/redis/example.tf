@@ -93,9 +93,9 @@ module "redis" {
   ####----------------------------------------------------------------------------------
   route53_record_enabled         = true
   ssm_parameter_endpoint_enabled = true
-  dns_record_name                = "prodd"
+  dns_record_name                = "prod"
   route53_ttl                    = "300"
   route53_type                   = "CNAME"
-  route53_zone_id                = "Z0176416XCY9LDL0GH04"
+  route53_zone_id                = "Z017xxxxDLxxx0GH04"
 
 }
