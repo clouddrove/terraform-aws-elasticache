@@ -42,6 +42,7 @@ module "subnets" {
 ## The service improves the performance of web applications by retrieving information from managed in-memory caches,
 ## instead of relying entirely on slower disk-based databases.
 ####----------------------------------------------------------------------------------
+#tfsec:ignore:aws-cloudwatch-log-group-customer-key
 module "redis" {
   source = "./../../"
 
