@@ -50,12 +50,12 @@ output "memcached_hostname" {
   description = "DNS hostname"
 }
 
-output "redis_ssm_arn" {
-  value       = join("", aws_ssm_parameter.secret-endpoint.*.arn)
+output "redis_ssm_name" {
+  value       = join("", aws_ssm_parameter.secret-endpoint.*.name)
   description = "A list of all of the parameter values"
 }
 
-output "Memcached_ssm_arn" {
-  value       = join("", aws_ssm_parameter.memcached_secret-endpoint.*.arn)
+output "Memcached_ssm_name" {
+  value       = join("", aws_ssm_parameter.memcached_secret-endpoint.*.name)
   description = "A list of all of the parameter values"
 }
