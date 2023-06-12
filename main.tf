@@ -42,7 +42,7 @@ data "aws_security_group" "existing" {
 resource "aws_security_group_rule" "egress" {
   count = (var.enable_security_group == true && length(var.sg_ids) < 1 && var.is_external == false && var.egress_rule == true) ? 1 : 0
 
-  description       = "S3 Gateway Egress"
+  description       = "Description of the egress rule."
   type              = "egress"
   from_port         = 0
   to_port           = 65535
@@ -54,6 +54,7 @@ resource "aws_security_group_rule" "egress" {
 resource "aws_security_group_rule" "egress_ipv6" {
   count = (var.enable_security_group == true && length(var.sg_ids) < 1 && var.is_external == false) && var.egress_rule == true ? 1 : 0
 
+  description       = "Description of the egress ipv6 rule."
   type              = "egress"
   from_port         = 0
   to_port           = 65535
