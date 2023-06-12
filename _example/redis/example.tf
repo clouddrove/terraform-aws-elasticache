@@ -52,7 +52,6 @@ module "redis" {
   ####----------------------------------------------------------------------------------
   ## Below A security group controls the traffic that is allowed to reach and leave the resources that it is associated with.
   ####----------------------------------------------------------------------------------
-  #tfsec:ignore:aws-ec2-add-description-to-security-group-rule
   vpc_id        = module.vpc.vpc_id
   allowed_ip    = [module.vpc.vpc_cidr_block]
   allowed_ports = [6379]
