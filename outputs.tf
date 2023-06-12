@@ -39,3 +39,23 @@ output "memcached_arn" {
 output "sg_id" {
   value = join("", aws_security_group.default.*.id)
 }
+
+output "hostname" {
+  value       = join("", aws_route53_record.elasticache.*.fqdn)
+  description = "DNS hostname"
+}
+
+output "memcached_hostname" {
+  value       = join("", aws_route53_record.memcached_route_53.*.fqdn)
+  description = "DNS hostname"
+}
+
+output "redis_ssm_arn" {
+  value       = join("", aws_ssm_parameter.secret-endpoint.*.arn)
+  description = "A list of all of the parameter values"
+}
+
+output "Memcached_ssm_arn" {
+  value       = join("", aws_ssm_parameter.memcached_secret-endpoint.*.arn)
+  description = "A list of all of the parameter values"
+}

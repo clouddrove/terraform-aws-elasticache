@@ -13,3 +13,12 @@ output "memcached_endpoint" {
   description = "Memcached endpoint address."
 }
 
+output "hostname" {
+  value       = module.memcached.hostname
+  description = "DNS hostname"
+}
+
+output "redis_ssm_arn" {
+  value       = module.memcached.Memcached_ssm_arn
+  description = "A map of the names and ARNs created"
+}
