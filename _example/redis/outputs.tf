@@ -25,6 +25,6 @@ output "hostname" {
 
 
 output "redis_ssm_arn" {
-  value       = module.redis.redis_ssm_arn
+  value       = module.redis.redis_ssm_name
   description = "A map of the names and ARNs created"
 }
