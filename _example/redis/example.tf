@@ -91,8 +91,8 @@ module "redis" {
   ####----------------------------------------------------------------------------------
   ## will create ROUTE-53 for redis which will add the dns of the cluster.
   ####----------------------------------------------------------------------------------
-  route53_record_enabled         = true
-  ssm_parameter_endpoint_enabled = true
+  route53_record_enabled         = false
+  ssm_parameter_endpoint_enabled = false
   dns_record_name                = "prod"
   route53_ttl                    = "300"
   route53_type                   = "CNAME"

@@ -381,6 +381,18 @@ variable "sg_egress_description" {
   description = "Description of the egress and ingress rule"
 }
 
+variable "sg_egress_ipv6_description" {
+  type        = string
+  default     = "Description of the rule."
+  description = "Description of the egress_ipv6 rule"
+}
+
+variable "sg_ingress_description" {
+  type        = string
+  default     = "Description of the ingress rule use elasticache."
+  description = "Description of the ingress rule"
+}
+
 ##---------------------route53------------------------
 variable "route53_record_enabled" {
   type        = bool
