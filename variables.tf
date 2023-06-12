@@ -366,8 +366,9 @@ variable "is_external" {
 }
 
 variable "sg_ids" {
-  type    = list(any)
-  default = []
+  type        = list(any)
+  default     = []
+  description = "of the security group id."
 }
 
 variable "sg_description" {

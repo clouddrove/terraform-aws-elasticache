@@ -14,5 +14,6 @@ output "redis_endpoint" {
 }
 
 output "sg_id" {
-  value = module.redis.*.sg_id
+  value       = module.redis.*.sg_id
+  description = "of the security group id."
 }
