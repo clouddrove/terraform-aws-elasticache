@@ -65,6 +65,7 @@ resource "aws_security_group_rule" "egress_ipv6" {
 resource "aws_security_group_rule" "ingress" {
   count = length(var.allowed_ip) > 0 == true && length(var.sg_ids) < 1 ? length(compact(var.allowed_ports)) : 0
 
+  description       = var.sg_egress_description
   type              = "ingress"
   from_port         = element(var.allowed_ports, count.index)
   to_port           = element(var.allowed_ports, count.index)
