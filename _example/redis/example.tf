@@ -68,7 +68,7 @@ module "redis" {
   multi_az_enabled            = false
   num_cache_clusters          = 1
   replicas_per_node_group     = 1
-  retention_in_days           = 1
+  retention_in_days           = 0
   snapshot_retention_limit    = 7
 
   log_delivery_configuration = [

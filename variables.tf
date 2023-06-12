@@ -358,6 +358,11 @@ variable "egress_rule" {
   default     = true
   description = "Enable to create egress rule"
 }
+variable "sg_egress_description" {
+  type        = string
+  default     = ""
+  description = "Description of the egress rule."
+}
 
 variable "is_external" {
   type        = bool
