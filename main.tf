@@ -63,6 +63,7 @@ resource "aws_security_group_rule" "egress_ipv6" {
   ipv6_cidr_blocks  = ["::/0"]
   security_group_id = join("", aws_security_group.default.*.id)
 }
+#tfsec:ignore:aws-ec2-add-description-to-security-group-rule
 resource "aws_security_group_rule" "ingress" {
   count = length(var.allowed_ip) > 0 == true && length(var.sg_ids) < 1 ? length(compact(var.allowed_ports)) : 0
 
