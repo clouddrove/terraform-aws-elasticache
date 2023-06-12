@@ -375,6 +375,11 @@ variable "sg_description" {
   default     = "Instance default security group (only egress access is allowed)."
   description = "The security group description."
 }
+variable "sg_egress_description" {
+  type        = string
+  default     = "Description of the rule."
+  description = "Description of the egress and ingress rule"
+}
 
 ##---------------------route53------------------------
 variable "route53_record_enabled" {
