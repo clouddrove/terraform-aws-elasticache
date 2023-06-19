@@ -4,6 +4,51 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.0] - 2023-06-19
+### :sparkles: New Features
+- [`9ca888d`](https://github.com/clouddrove/terraform-aws-elasticache/commit/9ca888d1c01f6d1f45928e44f04edc69c9b10c2b) - auto changelog action added and _example main.tf updated *(commit by [@mamrajyadav](https://github.com/mamrajyadav))*
+- [`9f450d2`](https://github.com/clouddrove/terraform-aws-elasticache/commit/9f450d2d11a5d1da7587bc0767ab7eb5df2aeb77) - added dependabot.yml file *(commit by [@mamrajyadav](https://github.com/mamrajyadav))*
+- [`d46e96a`](https://github.com/clouddrove/terraform-aws-elasticache/commit/d46e96a64de6f7bcf847a94bcd39692f78217c29) - auto changelog action added and _example main.tf updated *(commit by [@mamrajyadav](https://github.com/mamrajyadav))*
+- [`d447dd3`](https://github.com/clouddrove/terraform-aws-elasticache/commit/d447dd33c3f91f7a9e4e2a10b3b60a36573db910) - added kms module and update module *(commit by [@theprashantyadav](https://github.com/theprashantyadav))*
+- [`d6e181b`](https://github.com/clouddrove/terraform-aws-elasticache/commit/d6e181bea6dc667ce181bb6ddacb6f4c5a87e0db) - added kms module and update module *(commit by [@theprashantyadav](https://github.com/theprashantyadav))*
+- [`c1d5f84`](https://github.com/clouddrove/terraform-aws-elasticache/commit/c1d5f847b219442b75d0dbf8f6a1d9a96ceba24b) - added kms module and update module *(commit by [@theprashantyadav](https://github.com/theprashantyadav))*
+- [`f96fd99`](https://github.com/clouddrove/terraform-aws-elasticache/commit/f96fd998441e1b23c3333511f2d471bff0ae1c83) - "add deepsource & added assignees,reviewer in dependabot " *(commit by [@Tanveer143s](https://github.com/Tanveer143s))*
+- [`9c04448`](https://github.com/clouddrove/terraform-aws-elasticache/commit/9c04448c4aa109c43a03ec869ebe78961df9648e) - add deepsource & added assignees,reviewer in dependabot *(commit by [@Tanveer143s](https://github.com/Tanveer143s))*
+- [`1b53d4e`](https://github.com/clouddrove/terraform-aws-elasticache/commit/1b53d4e1b78aebbfa88ad50e43fab36d2392d573) - update and added resource description *(commit by [@anmolnagpal](https://github.com/anmolnagpal))*
+- [`ff0a764`](https://github.com/clouddrove/terraform-aws-elasticache/commit/ff0a764344accd989f1b3b9e6ffc5ef87bcadf64) - update and added resource description *(commit by [@anmolnagpal](https://github.com/anmolnagpal))*
+- [`29384c0`](https://github.com/clouddrove/terraform-aws-elasticache/commit/29384c02859e0f89117a5470b27da21a141dfc3c) - update and added resource description *(commit by [@anmolnagpal](https://github.com/anmolnagpal))*
+- [`945832d`](https://github.com/clouddrove/terraform-aws-elasticache/commit/945832d6a8d106be1f56c4312da712e8f38e1e5a) - update and added resource description *(commit by [@anmolnagpal](https://github.com/anmolnagpal))*
+- [`a8e02ec`](https://github.com/clouddrove/terraform-aws-elasticache/commit/a8e02ecdcfbe4deb32b577ea401f7d6d54c5e87a) - update and added resource description *(commit by [@anmolnagpal](https://github.com/anmolnagpal))*
+- [`b9b1b1e`](https://github.com/clouddrove/terraform-aws-elasticache/commit/b9b1b1e8b5e9cca6e8419daceaa75fd71bd3a89c) - update and added resource description *(commit by [@anmolnagpal](https://github.com/anmolnagpal))*
+- [`65c85ef`](https://github.com/clouddrove/terraform-aws-elasticache/commit/65c85ef2246968c760f8a5b48aa7caafc43c3534) - update and added resource description *(commit by [@anmolnagpal](https://github.com/anmolnagpal))*
+- [`dce80c6`](https://github.com/clouddrove/terraform-aws-elasticache/commit/dce80c6116bde84e2e8cfa6f0dd06f18ce41a874) - update and added resource description *(commit by [@anmolnagpal](https://github.com/anmolnagpal))*
+- [`3051bcc`](https://github.com/clouddrove/terraform-aws-elasticache/commit/3051bcc1667b486193803981551b84d3ec8054e8) - update readme.yaml *(commit by [@anmolnagpal](https://github.com/anmolnagpal))*
+- [`d88cfde`](https://github.com/clouddrove/terraform-aws-elasticache/commit/d88cfde014cee5ee126fb452706627315f462d54) - update value route-53 *(commit by [@anmolnagpal](https://github.com/anmolnagpal))*
+- [`85f0d25`](https://github.com/clouddrove/terraform-aws-elasticache/commit/85f0d25e522910c94c2c9f0a14deb7fb8a7b192c) - update value route-53 *(commit by [@anmolnagpal](https://github.com/anmolnagpal))*
+- [`e89ccdd`](https://github.com/clouddrove/terraform-aws-elasticache/commit/e89ccdd03b92daa0dccfcf8bdbc9a9ba8e96b687) - update value route-53 *(commit by [@anmolnagpal](https://github.com/anmolnagpal))*
+- [`d80101b`](https://github.com/clouddrove/terraform-aws-elasticache/commit/d80101bc5db03e3a6ae532d0f9bb551d8c2a44a2) - update value route-53 *(commit by [@anmolnagpal](https://github.com/anmolnagpal))*
+- [`bdee82e`](https://github.com/clouddrove/terraform-aws-elasticache/commit/bdee82e635251dd69f2aea3367302bbb0d33e57f) - added sg description *(commit by [@anmolnagpal](https://github.com/anmolnagpal))*
+- [`ec5239d`](https://github.com/clouddrove/terraform-aws-elasticache/commit/ec5239dc9262d0964829d1a19ba211c6e73244e9) - added sg description *(commit by [@anmolnagpal](https://github.com/anmolnagpal))*
+- [`54c817a`](https://github.com/clouddrove/terraform-aws-elasticache/commit/54c817acd8621f738c28f585acdf43cb5d702200) - added sg description *(commit by [@anmolnagpal](https://github.com/anmolnagpal))*
+- [`3105e30`](https://github.com/clouddrove/terraform-aws-elasticache/commit/3105e30c4cbf37281683c22ec2129f4420f714e7) - added sg description *(commit by [@anmolnagpal](https://github.com/anmolnagpal))*
+- [`c8d6088`](https://github.com/clouddrove/terraform-aws-elasticache/commit/c8d608824b2ff18bf8b2ff22e967f400a011f382) - added sg description *(commit by [@anmolnagpal](https://github.com/anmolnagpal))*
+- [`c244c45`](https://github.com/clouddrove/terraform-aws-elasticache/commit/c244c457e6a51e872e3c2fbae7fb3085f3d0c15c) - added sg description *(commit by [@anmolnagpal](https://github.com/anmolnagpal))*
+- [`cd65a47`](https://github.com/clouddrove/terraform-aws-elasticache/commit/cd65a477b9beed6f27dd7fb608071ed085f9163a) - added sg description *(commit by [@anmolnagpal](https://github.com/anmolnagpal))*
+- [`e8c4286`](https://github.com/clouddrove/terraform-aws-elasticache/commit/e8c4286ecbb0a1130255646f919ae152cab8d7ec) - added sg description *(commit by [@anmolnagpal](https://github.com/anmolnagpal))*
+- [`09cc74c`](https://github.com/clouddrove/terraform-aws-elasticache/commit/09cc74c02f7446f55cccbfc696fa977e6d16ec44) - added sg description *(commit by [@anmolnagpal](https://github.com/anmolnagpal))*
+- [`5862485`](https://github.com/clouddrove/terraform-aws-elasticache/commit/586248531dc26fa9a2ea429776f48a804d884e15) - added sg description *(commit by [@anmolnagpal](https://github.com/anmolnagpal))*
+- [`2c325f4`](https://github.com/clouddrove/terraform-aws-elasticache/commit/2c325f4f26bec988a87a1de59e69fadfcc938533) - added sg description *(commit by [@anmolnagpal](https://github.com/anmolnagpal))*
+- [`f22dbb2`](https://github.com/clouddrove/terraform-aws-elasticache/commit/f22dbb24fd7860395b7e2dc69580fe40950fb69e) - added sg description *(commit by [@anmolnagpal](https://github.com/anmolnagpal))*
+- [`00bcc96`](https://github.com/clouddrove/terraform-aws-elasticache/commit/00bcc96ed9df33cc85c21ca5a3559429db1ad126) - added sg description *(commit by [@anmolnagpal](https://github.com/anmolnagpal))*
+- [`04d4b04`](https://github.com/clouddrove/terraform-aws-elasticache/commit/04d4b04fa2196a76bd7bd4dfa5e3dd512d31206c) - added sg description *(commit by [@anmolnagpal](https://github.com/anmolnagpal))*
+- [`5a0cf3a`](https://github.com/clouddrove/terraform-aws-elasticache/commit/5a0cf3adf82b174ff4bd1caff1202bd33443a212) - added sg description *(commit by [@anmolnagpal](https://github.com/anmolnagpal))*
+- [`9b1ade1`](https://github.com/clouddrove/terraform-aws-elasticache/commit/9b1ade172c8b4803d1fee252afb26c40b1446d22) - added sg description *(commit by [@anmolnagpal](https://github.com/anmolnagpal))*
+- [`866a803`](https://github.com/clouddrove/terraform-aws-elasticache/commit/866a803328297b873cf16ba28c7a8fa5594100f6) - added sg description *(commit by [@anmolnagpal](https://github.com/anmolnagpal))*
+- [`072bcf0`](https://github.com/clouddrove/terraform-aws-elasticache/commit/072bcf0b43f4fa3c2f67557eaccfc2227fe25d5e) - added outputs ssm and route-53 *(commit by [@anmolnagpal](https://github.com/anmolnagpal))*
+- [`82501f2`](https://github.com/clouddrove/terraform-aws-elasticache/commit/82501f22b512d79e3651794e917551a466514087) - added outputs ssm and route-53 *(commit by [@anmolnagpal](https://github.com/anmolnagpal))*
+- [`28718b4`](https://github.com/clouddrove/terraform-aws-elasticache/commit/28718b45836face2f1d91e28e20d8c6b142adf65) - added outputs ssm and route-53 *(commit by [@anmolnagpal](https://github.com/anmolnagpal))*
+
+
 ## [1.0.4] - 2023-04-05
 ### :bug: Bug Fixes
 - [`019d7dd`](https://github.com/clouddrove/terraform-aws-elasticache/commit/019d7dd7daae3b49a1a24e94adf7f56c657ffdc6) - updated deprecated variables
@@ -98,3 +143,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [1.0.3]: https://github.com/clouddrove/terraform-aws-elasticache/compare/1.0.3...master
 [1.0.4]: https://github.com/clouddrove/terraform-aws-elasticache/compare/1.0.4...master
 
+
+[2.0.0]: https://github.com/clouddrove/terraform-aws-elasticache/compare/1.0.4...2.0.0
