@@ -24,7 +24,7 @@ module "vpc" {
 ####----------------------------------------------------------------------------------
 module "subnets" {
   source  = "clouddrove/subnet/aws"
-  version = "1.3.0"
+  version = "2.0.0"
 
   name               = "subnets"
   environment        = "test"
@@ -97,5 +97,4 @@ module "redis" {
   route53_ttl                    = "300"
   route53_type                   = "CNAME"
   route53_zone_id                = "Z017xxxxDLxxx0GH04"
-
 }

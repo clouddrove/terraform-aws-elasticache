@@ -15,21 +15,17 @@ github_repo: clouddrove/terraform-aws-elasticache
 
 # Badges to display
 badges:
-  - name: "Terraform"
-    image: "https://img.shields.io/badge/terraform-v1.1.7-green"
-    url: "https://www.terraform.io"
-  - name: "Licence"
-    image: "https://img.shields.io/badge/License-APACHE-blue.svg"
-    url: "LICENSE.md"
+  - name: "Latest Release"
+    image: "https://img.shields.io/github/release/clouddrove/terraform-aws-elasticache.svg"
+    url: "https://github.com/clouddrove/terraform-aws-elasticache/releases/latest"
   - name: "tfsec"
     image: "https://github.com/clouddrove/terraform-aws-elasticache/actions/workflows/tfsec.yml/badge.svg"
     url: "https://github.com/clouddrove/terraform-aws-elasticache/actions/workflows/tfsec.yml"
-  - name: "static-checks"
-    image: "https://github.com/clouddrove/terraform-aws-elasticache/actions/workflows/terraform.yml/badge.svg"
-    url: "https://github.com/clouddrove/terraform-aws-elasticache/actions/workflows/terraform.yml"
+  - name: "Licence"
+    image: "https://img.shields.io/badge/License-APACHE-blue.svg"
+    url: "LICENSE.md"
 
 #  description of this project
-# yamllint disable rule:line-length
 description: |-
   Terraform module to create Elasticache Cluster and replica for Redis and Memcache.
 
@@ -38,7 +34,7 @@ include:
   - "terraform.md"
 
 # How to use this project
-# yamllint disable rule:line-length
+# How to use this project
 usage : |-
   Here are some examples of how you can use this module in your inventory structure:
   ### Redis
@@ -46,17 +42,16 @@ usage : |-
       module "redis" {
       source      = "clouddrove/elasticache/aws
       version     = "1.3.0"
-    
+
       name        = "redis"
       environment = "test"
       label_order = ["name", "environment"]
-    
+
       vpc_id        = module.vpc.vpc_id
       allowed_ip    = [module.vpc.vpc_cidr_block]
       allowed_ports = [6379]
-    
+
       cluster_replication_enabled = true
-      replication_enabled         = true
       engine                      = "redis"
       engine_version              = "7.0"
       parameter_group_name        = "default.redis7"
@@ -70,22 +65,29 @@ usage : |-
       replicas_per_node_group     = 1
       retention_in_days           = 0
       snapshot_retention_limit    = 7
-    
+
       log_delivery_configuration = [
-      {
-      destination_type = "cloudwatch-logs"
-      log_format       = "json"
-      log_type         = "slow-log"
-      },
-      {
-      destination_type = "cloudwatch-logs"
-      log_format       = "json"
-      log_type         = "engine-log"
-      }
+        {
+          destination_type = "cloudwatch-logs"
+          log_format       = "json"
+          log_type         = "slow-log"
+        },
+        {
+          destination_type = "cloudwatch-logs"
+          log_format       = "json"
+          log_type         = "engine-log"
+        }
       ]
       extra_tags = {
-      Application = "CloudDrove"
+        Application = "CloudDrove"
       }
+      route53_record_enabled         = true
+      ssm_parameter_endpoint_enabled = true
+      dns_record_name                = "prod"
+      route53_ttl                    = "300"
+      route53_type                   = "CNAME"
+      route53_zone_id                = "Z017xxxxDLxxx0GH04"
+    }
 
   ```
   ### Redis Cluster
@@ -93,15 +95,15 @@ usage : |-
       module "redis-cluster" {
       source      = "clouddrove/elasticache/aws
       version     = "1.3.0"
-    
+
       name        = "redis-cluster"
       environment = "test"
       label_order = ["environment", "name"]
-    
+
       vpc_id        = module.vpc.vpc_id
       allowed_ip    = [module.vpc.vpc_cidr_block]
       allowed_ports = [6379]
-    
+
       cluster_replication_enabled = true
       engine                      = "redis"
       engine_version              = "7.0"
@@ -115,35 +117,53 @@ usage : |-
       snapshot_retention_limit    = 7
       automatic_failover_enabled  = true
       extra_tags = {
-      Application = "CloudDrove"
+        Application = "CloudDrove"
       }
+
+      route53_record_enabled         = false
+      ssm_parameter_endpoint_enabled = false
+      dns_record_name                = "prod"
+      route53_ttl                    = "300"
+      route53_type                   = "CNAME"
+      route53_zone_id                = "SERFxxxx6XCsY9Lxxxxx"
+    }
   ```
   ### Memcache
   ```hcl
       module "memcached" {
       source      = "clouddrove/elasticache/aws
       version     = "1.3.0"
-    
+
       name        = "memcached"
       environment = "test"
       label_order = ["name", "environment"]
-    
+
       vpc_id        = module.vpc.vpc_id
       allowed_ip    = [module.vpc.vpc_cidr_block]
       allowed_ports = [11211]
-    
-      cluster_enabled      = true
-      engine               = "memcached"
-      engine_version       = "1.6.17"
-      family               = "memcached1.5"
-      parameter_group_name = ""
-      az_mode              = "cross-az"
-      port                 = 11211
-      node_type            = "cache.t2.micro"
-      num_cache_nodes      = 2
-      subnet_ids           = module.subnets.public_subnet_id
-      availability_zones   = ["eu-west-1a", "eu-west-1b"]
+
+      cluster_enabled                          = true
+      memcached_ssm_parameter_endpoint_enabled = true
+      memcached_route53_record_enabled         = true
+      engine                                   = "memcached"
+      engine_version                           = "1.6.17"
+      family                                   = "memcached1.5"
+      parameter_group_name                     = ""
+      az_mode                                  = "cross-az"
+      port                                     = 11211
+      node_type                                = "cache.t2.micro"
+      num_cache_nodes                          = 2
+      subnet_ids                               = module.subnets.public_subnet_id
+      availability_zones                       = ["eu-west-1a", "eu-west-1b"]
       extra_tags = {
-      Application = "CloudDrove"
+        Application = "CloudDrove"
       }
+      route53_record_enabled                   = false
+      ssm_parameter_endpoint_enabled           = false
+      dns_record_name                          = "prod"
+      route53_ttl                              = "300"
+      route53_type                             = "CNAME"
+      route53_zone_id                          = "SERFxxxx6XCsY9Lxxxxx"
+
+    }
   ```
