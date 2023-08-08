@@ -79,13 +79,13 @@ variable "node_type" {
 }
 
 variable "security_group_names" {
-  type = list(string)
+  type        = list(string)
   default     = null
   description = "A list of cache security group names to associate with this replication group."
 }
 
 variable "snapshot_arns" {
-  type = list(string)
+  type        = list(string)
   default     = null
   description = "A single-element string list containing an Amazon Resource Name (ARN) of a Redis RDB snapshot file stored in Amazon S3."
 }
