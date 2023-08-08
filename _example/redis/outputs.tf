@@ -1,5 +1,5 @@
 output "id" {
-  value       = module.redis.*.id
+  value       = module.redis[*].id
   description = "Redis cluster id."
 }
 
@@ -14,12 +14,12 @@ output "redis_endpoint" {
 }
 
 output "sg_id" {
-  value       = module.redis.*.sg_id
+  value       = module.redis[*].sg_id
   description = "of the security group id."
 }
 
 output "hostname" {
-  value       = module.redis.*.hostname
+  value       = module.redis[*].hostname
   description = "DNS hostname"
 }
 

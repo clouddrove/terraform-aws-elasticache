@@ -24,7 +24,7 @@ module "vpc" {
 ####----------------------------------------------------------------------------------
 module "subnets" {
   source  = "clouddrove/subnet/aws"
-  version = "1.3.0"
+  version = "2.0.0"
 
   name               = "subnets"
   environment        = "test"
@@ -38,15 +38,12 @@ module "subnets" {
 }
 
 ####----------------------------------------------------------------------------------
-## Amazon ElastiCache [REDIS-CLUSTER] is a fully managed in-memory data store and cache service by Amazon Web Services.
-## The service improves the performance of web applications by retrieving information from managed in-memory caches,
-## instead of relying entirely on slower disk-based databases.
+## Memcached holds its data in memory.
 ####----------------------------------------------------------------------------------
-#tfsec:ignore:aws-cloudwatch-log-group-customer-key
-module "redis" {
+module "memcached" {
   source = "./../../"
 
-  name        = "redis"
+  name        = "memcached"
   environment = "test"
   label_order = ["name", "environment"]
 
@@ -55,35 +52,20 @@ module "redis" {
   ####----------------------------------------------------------------------------------
   vpc_id        = module.vpc.vpc_id
   allowed_ip    = [module.vpc.vpc_cidr_block]
-  allowed_ports = [6379]
+  allowed_ports = [11211]
 
-  cluster_replication_enabled = true
-  engine                      = "redis"
-  engine_version              = "7.0"
-  parameter_group_name        = "default.redis7"
-  port                        = 6379
-  node_type                   = "cache.t2.micro"
-  subnet_ids                  = module.subnets.public_subnet_id
-  availability_zones          = [""]
-  automatic_failover_enabled  = false
-  multi_az_enabled            = false
-  num_cache_clusters          = 1
-  replicas_per_node_group     = 1
-  retention_in_days           = 0
-  snapshot_retention_limit    = 7
-
-  log_delivery_configuration = [
-    {
-      destination_type = "cloudwatch-logs"
-      log_format       = "json"
-      log_type         = "slow-log"
-    },
-    {
-      destination_type = "cloudwatch-logs"
-      log_format       = "json"
-      log_type         = "engine-log"
-    }
-  ]
+  cluster_enabled                          = true
+  memcached_ssm_parameter_endpoint_enabled = true
+  memcached_route53_record_enabled         = true
+  engine                                   = "memcached"
+  engine_version                           = "1.6.17"
+  parameter_group_name                     = ""
+  az_mode                                  = "cross-az"
+  port                                     = 11211
+  node_type                                = "cache.t2.micro"
+  num_cache_nodes                          = 2
+  subnet_ids                               = module.subnets.public_subnet_id
+  availability_zones                       = ["eu-west-1a", "eu-west-1b"]
   extra_tags = {
     Application = "CloudDrove"
   }
@@ -91,11 +73,11 @@ module "redis" {
   ####----------------------------------------------------------------------------------
   ## will create ROUTE-53 for redis which will add the dns of the cluster.
   ####----------------------------------------------------------------------------------
-  route53_record_enabled         = true
-  ssm_parameter_endpoint_enabled = true
+  route53_record_enabled         = false
+  ssm_parameter_endpoint_enabled = false
   dns_record_name                = "prod"
   route53_ttl                    = "300"
   route53_type                   = "CNAME"
-  route53_zone_id                = "Z017xxxxDLxxx0GH04"
+  route53_zone_id                = "SERFxxxx6XCsY9Lxxxxx"
 
 }

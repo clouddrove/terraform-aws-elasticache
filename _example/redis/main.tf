@@ -24,7 +24,7 @@ module "vpc" {
 ####----------------------------------------------------------------------------------
 module "subnets" {
   source  = "clouddrove/subnet/aws"
-  version = "1.3.0"
+  version = "2.0.0"
 
   name               = "subnets"
   environment        = "test"
@@ -42,12 +42,13 @@ module "subnets" {
 ## The service improves the performance of web applications by retrieving information from managed in-memory caches,
 ## instead of relying entirely on slower disk-based databases.
 ####----------------------------------------------------------------------------------
-module "redis-cluster" {
+#tfsec:ignore:aws-cloudwatch-log-group-customer-key
+module "redis" {
   source = "./../../"
 
-  name        = "redis-cluster"
+  name        = "redis"
   environment = "test"
-  label_order = ["environment", "name"]
+  label_order = ["name", "environment"]
 
   ####----------------------------------------------------------------------------------
   ## Below A security group controls the traffic that is allowed to reach and leave the resources that it is associated with.
@@ -59,15 +60,29 @@ module "redis-cluster" {
   cluster_replication_enabled = true
   engine                      = "redis"
   engine_version              = "7.0"
-  parameter_group_name        = "default.redis7.cluster.on"
+  parameter_group_name        = "default.redis7"
   port                        = 6379
   node_type                   = "cache.t2.micro"
   subnet_ids                  = module.subnets.public_subnet_id
-  availability_zones          = ["eu-west-1a", "eu-west-1b"]
-  replicas_per_node_group     = 2
-  num_cache_nodes             = 1
+  availability_zones          = [""]
+  automatic_failover_enabled  = false
+  multi_az_enabled            = false
+  num_cache_clusters          = 1
+  retention_in_days           = 0
   snapshot_retention_limit    = 7
-  automatic_failover_enabled  = true
+
+  log_delivery_configuration = [
+    {
+      destination_type = "cloudwatch-logs"
+      log_format       = "json"
+      log_type         = "slow-log"
+    },
+    {
+      destination_type = "cloudwatch-logs"
+      log_format       = "json"
+      log_type         = "engine-log"
+    }
+  ]
   extra_tags = {
     Application = "CloudDrove"
   }
@@ -75,10 +90,10 @@ module "redis-cluster" {
   ####----------------------------------------------------------------------------------
   ## will create ROUTE-53 for redis which will add the dns of the cluster.
   ####----------------------------------------------------------------------------------
-  route53_record_enabled         = false
-  ssm_parameter_endpoint_enabled = false
+  route53_record_enabled         = true
+  ssm_parameter_endpoint_enabled = true
   dns_record_name                = "prod"
   route53_ttl                    = "300"
   route53_type                   = "CNAME"
-  route53_zone_id                = "SERFxxxx6XCsY9Lxxxxx"
+  route53_zone_id                = "Z017xxxxDLxxx0GH04"
 }

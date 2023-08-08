@@ -24,7 +24,7 @@ module "vpc" {
 ####----------------------------------------------------------------------------------
 module "subnets" {
   source  = "clouddrove/subnet/aws"
-  version = "1.3.0"
+  version = "2.0.0"
 
   name               = "subnets"
   environment        = "test"
@@ -38,35 +38,35 @@ module "subnets" {
 }
 
 ####----------------------------------------------------------------------------------
-## Memcached holds its data in memory.
+## Amazon ElastiCache [REDIS-CLUSTER] is a fully managed in-memory data store and cache service by Amazon Web Services.
+## The service improves the performance of web applications by retrieving information from managed in-memory caches,
+## instead of relying entirely on slower disk-based databases.
 ####----------------------------------------------------------------------------------
-module "memcached" {
+module "redis-cluster" {
   source = "./../../"
 
-  name        = "memcached"
+  name        = "redis-cluster"
   environment = "test"
-  label_order = ["name", "environment"]
+  label_order = ["environment", "name"]
 
   ####----------------------------------------------------------------------------------
   ## Below A security group controls the traffic that is allowed to reach and leave the resources that it is associated with.
   ####----------------------------------------------------------------------------------
   vpc_id        = module.vpc.vpc_id
   allowed_ip    = [module.vpc.vpc_cidr_block]
-  allowed_ports = [11211]
+  allowed_ports = [6379]
 
-  cluster_enabled                          = true
-  memcached_ssm_parameter_endpoint_enabled = true
-  memcached_route53_record_enabled         = true
-  engine                                   = "memcached"
-  engine_version                           = "1.6.17"
-  family                                   = "memcached1.5"
-  parameter_group_name                     = ""
-  az_mode                                  = "cross-az"
-  port                                     = 11211
-  node_type                                = "cache.t2.micro"
-  num_cache_nodes                          = 2
-  subnet_ids                               = module.subnets.public_subnet_id
-  availability_zones                       = ["eu-west-1a", "eu-west-1b"]
+  cluster_replication_enabled = true
+  engine                      = "redis"
+  engine_version              = "7.0"
+  parameter_group_name        = "default.redis7.cluster.on"
+  port                        = 6379
+  node_type                   = "cache.t2.micro"
+  subnet_ids                  = module.subnets.public_subnet_id
+  availability_zones          = ["eu-west-1a", "eu-west-1b"]
+  num_cache_nodes             = 1
+  snapshot_retention_limit    = 7
+  automatic_failover_enabled  = true
   extra_tags = {
     Application = "CloudDrove"
   }
@@ -80,5 +80,4 @@ module "memcached" {
   route53_ttl                    = "300"
   route53_type                   = "CNAME"
   route53_zone_id                = "SERFxxxx6XCsY9Lxxxxx"
-
 }
