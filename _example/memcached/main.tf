@@ -59,7 +59,6 @@ module "memcached" {
   memcached_route53_record_enabled         = true
   engine                                   = "memcached"
   engine_version                           = "1.6.17"
-  family                                   = "memcached1.5"
   parameter_group_name                     = ""
   az_mode                                  = "cross-az"
   port                                     = 11211

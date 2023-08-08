@@ -64,7 +64,6 @@ module "redis-cluster" {
   node_type                   = "cache.t2.micro"
   subnet_ids                  = module.subnets.public_subnet_id
   availability_zones          = ["eu-west-1a", "eu-west-1b"]
-  replicas_per_node_group     = 2
   num_cache_nodes             = 1
   snapshot_retention_limit    = 7
   automatic_failover_enabled  = true

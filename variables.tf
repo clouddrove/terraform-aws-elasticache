@@ -29,12 +29,6 @@ variable "label_order" {
   description = "Label order, e.g. `name`,`application`."
 }
 
-variable "attributes" {
-  type        = list(any)
-  default     = []
-  description = "Additional attributes (e.g. `1`)."
-}
-
 variable "extra_tags" {
   type        = map(string)
   default     = {}
@@ -57,13 +51,6 @@ variable "engine" {
   type        = string
   default     = ""
   description = "The name of the cache engine to be used for the clusters in this replication group. e.g. redis."
-}
-
-variable "replication_group_id" {
-  type        = string
-  default     = ""
-  description = "The replication group identifier This parameter is stored as a lowercase string."
-  sensitive   = true
 }
 
 variable "automatic_failover_enabled" {
@@ -92,11 +79,13 @@ variable "node_type" {
 }
 
 variable "security_group_names" {
+  type = list(string)
   default     = null
   description = "A list of cache security group names to associate with this replication group."
 }
 
 variable "snapshot_arns" {
+  type = list(string)
   default     = null
   description = "A single-element string list containing an Amazon Resource Name (ARN) of a Redis RDB snapshot file stored in Amazon S3."
 }
@@ -192,12 +181,6 @@ variable "auth_token" {
   description = "The password used to access a password protected server. Can be specified only if transit_encryption_enabled = true."
 }
 
-variable "family" {
-  type        = string
-  default     = ""
-  description = "(Required) The family of the ElastiCache parameter group."
-}
-
 variable "cluster_replication_enabled" {
   type        = bool
   default     = false
@@ -222,12 +205,6 @@ variable "az_mode" {
   type        = string
   default     = "single-az"
   description = "(Memcached only) Specifies whether the nodes in this Memcached node group are created in a single Availability Zone or created across multiple Availability Zones in the cluster's region. Valid values for this parameter are single-az or cross-az, default is single-az. If you want to choose cross-az, num_cache_nodes must be greater than 1."
-}
-
-variable "replicas_per_node_group" {
-  type        = number
-  default     = 2
-  description = "Replicas per Shard."
 }
 
 variable "parameter_group_name" {
@@ -432,11 +409,6 @@ variable "route53_zone_id" {
 
 ###------------------------------- ssm_parameter----------------------------
 
-variable "ssm_parameter_enabled" {
-  type        = bool
-  default     = true
-  description = "Name of the parameter."
-}
 variable "ssm_parameter_endpoint_enabled" {
   type        = bool
   default     = false
@@ -459,10 +431,4 @@ variable "ssm_parameter_type" {
   type        = string
   default     = "SecureString"
   description = "Type of the parameter."
-}
-
-variable "ssm_paramete_kms_key_id" {
-  type        = string
-  default     = ""
-  description = "KMS key ID or ARN for encrypting a SecureString."
 }
