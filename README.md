@@ -13,17 +13,14 @@
 
 <p align="center">
 
-<a href="https://www.terraform.io">
-  <img src="https://img.shields.io/badge/terraform-v1.1.7-green" alt="Terraform">
-</a>
-<a href="LICENSE.md">
-  <img src="https://img.shields.io/badge/License-APACHE-blue.svg" alt="Licence">
+<a href="https://github.com/clouddrove/terraform-aws-elasticache/releases/latest">
+  <img src="https://img.shields.io/github/release/clouddrove/terraform-aws-elasticache.svg" alt="Latest Release">
 </a>
 <a href="https://github.com/clouddrove/terraform-aws-elasticache/actions/workflows/tfsec.yml">
   <img src="https://github.com/clouddrove/terraform-aws-elasticache/actions/workflows/tfsec.yml/badge.svg" alt="tfsec">
 </a>
-<a href="https://github.com/clouddrove/terraform-aws-elasticache/actions/workflows/terraform.yml">
-  <img src="https://github.com/clouddrove/terraform-aws-elasticache/actions/workflows/terraform.yml/badge.svg" alt="static-checks">
+<a href="LICENSE.md">
+  <img src="https://img.shields.io/badge/License-APACHE-blue.svg" alt="Licence">
 </a>
 
 
@@ -74,17 +71,16 @@ Here are some examples of how you can use this module in your inventory structur
     module "redis" {
     source      = "clouddrove/elasticache/aws
     version     = "1.3.0"
-  
+
     name        = "redis"
     environment = "test"
     label_order = ["name", "environment"]
-  
+
     vpc_id        = module.vpc.vpc_id
     allowed_ip    = [module.vpc.vpc_cidr_block]
     allowed_ports = [6379]
-  
+
     cluster_replication_enabled = true
-    replication_enabled         = true
     engine                      = "redis"
     engine_version              = "7.0"
     parameter_group_name        = "default.redis7"
@@ -95,25 +91,31 @@ Here are some examples of how you can use this module in your inventory structur
     automatic_failover_enabled  = false
     multi_az_enabled            = false
     num_cache_clusters          = 1
-    replicas_per_node_group     = 1
     retention_in_days           = 0
     snapshot_retention_limit    = 7
-  
+
     log_delivery_configuration = [
-    {
-    destination_type = "cloudwatch-logs"
-    log_format       = "json"
-    log_type         = "slow-log"
-    },
-    {
-    destination_type = "cloudwatch-logs"
-    log_format       = "json"
-    log_type         = "engine-log"
-    }
+      {
+        destination_type = "cloudwatch-logs"
+        log_format       = "json"
+        log_type         = "slow-log"
+      },
+      {
+        destination_type = "cloudwatch-logs"
+        log_format       = "json"
+        log_type         = "engine-log"
+      }
     ]
     extra_tags = {
-    Application = "CloudDrove"
+      Application = "CloudDrove"
     }
+    route53_record_enabled         = true
+    ssm_parameter_endpoint_enabled = true
+    dns_record_name                = "prod"
+    route53_ttl                    = "300"
+    route53_type                   = "CNAME"
+    route53_zone_id                = "Z017xxxxDLxxx0GH04"
+  }
 
 ```
 ### Redis Cluster
@@ -121,15 +123,15 @@ Here are some examples of how you can use this module in your inventory structur
     module "redis-cluster" {
     source      = "clouddrove/elasticache/aws
     version     = "1.3.0"
-  
+
     name        = "redis-cluster"
     environment = "test"
     label_order = ["environment", "name"]
-  
+
     vpc_id        = module.vpc.vpc_id
     allowed_ip    = [module.vpc.vpc_cidr_block]
     allowed_ports = [6379]
-  
+
     cluster_replication_enabled = true
     engine                      = "redis"
     engine_version              = "7.0"
@@ -138,42 +140,59 @@ Here are some examples of how you can use this module in your inventory structur
     node_type                   = "cache.t2.micro"
     subnet_ids                  = module.subnets.public_subnet_id
     availability_zones          = ["eu-west-1a", "eu-west-1b"]
-    replicas_per_node_group     = 2
     num_cache_nodes             = 1
     snapshot_retention_limit    = 7
     automatic_failover_enabled  = true
     extra_tags = {
-    Application = "CloudDrove"
+      Application = "CloudDrove"
     }
+
+    route53_record_enabled         = false
+    ssm_parameter_endpoint_enabled = false
+    dns_record_name                = "prod"
+    route53_ttl                    = "300"
+    route53_type                   = "CNAME"
+    route53_zone_id                = "SERFxxxx6XCsY9Lxxxxx"
+  }
 ```
 ### Memcache
 ```hcl
     module "memcached" {
     source      = "clouddrove/elasticache/aws
     version     = "1.3.0"
-  
+
     name        = "memcached"
     environment = "test"
     label_order = ["name", "environment"]
-  
+
     vpc_id        = module.vpc.vpc_id
     allowed_ip    = [module.vpc.vpc_cidr_block]
     allowed_ports = [11211]
-  
-    cluster_enabled      = true
-    engine               = "memcached"
-    engine_version       = "1.6.17"
-    family               = "memcached1.5"
-    parameter_group_name = ""
-    az_mode              = "cross-az"
-    port                 = 11211
-    node_type            = "cache.t2.micro"
-    num_cache_nodes      = 2
-    subnet_ids           = module.subnets.public_subnet_id
-    availability_zones   = ["eu-west-1a", "eu-west-1b"]
+
+    cluster_enabled                          = true
+    memcached_ssm_parameter_endpoint_enabled = true
+    memcached_route53_record_enabled         = true
+    engine                                   = "memcached"
+    engine_version                           = "1.6.17"
+    family                                   = "memcached1.5"
+    parameter_group_name                     = ""
+    az_mode                                  = "cross-az"
+    port                                     = 11211
+    node_type                                = "cache.t2.micro"
+    num_cache_nodes                          = 2
+    subnet_ids                               = module.subnets.public_subnet_id
+    availability_zones                       = ["eu-west-1a", "eu-west-1b"]
     extra_tags = {
-    Application = "CloudDrove"
+      Application = "CloudDrove"
     }
+    route53_record_enabled                   = false
+    ssm_parameter_endpoint_enabled           = false
+    dns_record_name                          = "prod"
+    route53_ttl                              = "300"
+    route53_type                             = "CNAME"
+    route53_zone_id                          = "SERFxxxx6XCsY9Lxxxxx"
+
+  }
 ```
 
 
@@ -190,7 +209,6 @@ Here are some examples of how you can use this module in your inventory structur
 | allowed\_ports | List of allowed ingress ports | `list(any)` | `[]` | no |
 | apply\_immediately | Specifies whether any modifications are applied immediately, or during the next maintenance window. Default is false. | `bool` | `false` | no |
 | at\_rest\_encryption\_enabled | Enable encryption at rest. | `bool` | `true` | no |
-| attributes | Additional attributes (e.g. `1`). | `list(any)` | `[]` | no |
 | auth\_token | The password used to access a password protected server. Can be specified only if transit\_encryption\_enabled = true. | `string` | `null` | no |
 | auto\_minor\_version\_upgrade | Specifies whether a minor engine upgrades will be applied automatically to the underlying Cache Cluster instances during the maintenance window. Defaults to true. | `bool` | `true` | no |
 | automatic\_failover\_enabled | Specifies whether a read-only replica will be automatically promoted to read/write primary if the existing primary fails. If true, Multi-AZ is enabled for this replication group. If false, Multi-AZ is disabled for this replication group. Must be enabled for Redis (cluster mode enabled) replication groups. Defaults to false. | `bool` | `true` | no |
@@ -210,7 +228,6 @@ Here are some examples of how you can use this module in your inventory structur
 | environment | Environment (e.g. `prod`, `dev`, `staging`). | `string` | `""` | no |
 | existing\_sg\_id | Provide existing security group id for updating existing rule | `string` | `null` | no |
 | extra\_tags | Additional tags (e.g. map(`BusinessUnit`,`XYZ`). | `map(string)` | `{}` | no |
-| family | (Required) The family of the ElastiCache parameter group. | `string` | `""` | no |
 | is\_enabled | Specifies whether the key is enabled. | `bool` | `true` | no |
 | is\_external | enable to udated existing security Group | `bool` | `false` | no |
 | key\_usage | Specifies the intended use of the key. Defaults to ENCRYPT\_DECRYPT, and only symmetric encryption and decryption are supported. | `string` | `"ENCRYPT_DECRYPT"` | no |
@@ -233,28 +250,24 @@ Here are some examples of how you can use this module in your inventory structur
 | parameter\_group\_name | The name of the parameter group to associate with this replication group. If this argument is omitted, the default cache parameter group for the specified engine is used. | `string` | `"default.redis5.0"` | no |
 | port | the port number on which each of the cache nodes will accept connections. | `string` | `""` | no |
 | protocol | The protocol. If not icmp, tcp, udp, or all use the. | `string` | `"tcp"` | no |
-| replicas\_per\_node\_group | Replicas per Shard. | `number` | `2` | no |
 | replication\_group\_description | Name of either the CloudWatch Logs LogGroup or Kinesis Data Firehose resource. | `string` | `"User-created description for the replication group."` | no |
-| replication\_group\_id | The replication group identifier This parameter is stored as a lowercase string. | `string` | `""` | no |
 | repository | Terraform current module repo | `string` | `"https://github.com/clouddrove/terraform-aws-elasticache"` | no |
 | retention\_in\_days | Specifies the number of days you want to retain log events in the specified log group. | `number` | `0` | no |
 | route53\_record\_enabled | Whether to create Route53 record set. | `bool` | `false` | no |
 | route53\_ttl | (Required for non-alias records) The TTL of the record. | `string` | `""` | no |
 | route53\_type | The record type. Valid values are A, AAAA, CAA, CNAME, MX, NAPTR, NS, PTR, SOA, SPF, SRV and TXT. | `string` | `""` | no |
 | route53\_zone\_id | Zone ID. | `string` | n/a | yes |
-| security\_group\_names | A list of cache security group names to associate with this replication group. | `any` | `null` | no |
+| security\_group\_names | A list of cache security group names to associate with this replication group. | `list(string)` | `null` | no |
 | sg\_description | The security group description. | `string` | `"Instance default security group (only egress access is allowed)."` | no |
 | sg\_egress\_description | Description of the egress and ingress rule | `string` | `"Description of the rule."` | no |
 | sg\_egress\_ipv6\_description | Description of the egress\_ipv6 rule | `string` | `"Description of the rule."` | no |
 | sg\_ids | of the security group id. | `list(any)` | `[]` | no |
 | sg\_ingress\_description | Description of the ingress rule | `string` | `"Description of the ingress rule use elasticache."` | no |
-| snapshot\_arns | A single-element string list containing an Amazon Resource Name (ARN) of a Redis RDB snapshot file stored in Amazon S3. | `any` | `null` | no |
+| snapshot\_arns | A single-element string list containing an Amazon Resource Name (ARN) of a Redis RDB snapshot file stored in Amazon S3. | `list(string)` | `null` | no |
 | snapshot\_name | The name of a snapshot from which to restore data into the new node group. Changing the snapshot\_name forces a new resource. | `string` | `""` | no |
 | snapshot\_retention\_limit | (Redis only) The number of days for which ElastiCache will retain automatic cache cluster snapshots before deleting them. For example, if you set SnapshotRetentionLimit to 5, then a snapshot that was taken today will be retained for 5 days before being deleted. If the value of SnapshotRetentionLimit is set to zero (0), backups are turned off. Please note that setting a snapshot\_retention\_limit is not supported on cache.t1.micro or cache.t2.\* cache nodes. | `string` | `"0"` | no |
 | snapshot\_window | (Redis only) The daily time range (in UTC) during which ElastiCache will begin taking a daily snapshot of your cache cluster. The minimum snapshot window is a 60 minute period. | `string` | `null` | no |
-| ssm\_paramete\_kms\_key\_id | KMS key ID or ARN for encrypting a SecureString. | `string` | `""` | no |
 | ssm\_parameter\_description | SSM Parameters can be imported using. | `string` | `"Description of the parameter."` | no |
-| ssm\_parameter\_enabled | Name of the parameter. | `bool` | `true` | no |
 | ssm\_parameter\_endpoint\_enabled | Name of the parameter. | `bool` | `false` | no |
 | ssm\_parameter\_type | Type of the parameter. | `string` | `"SecureString"` | no |
 | subnet\_group\_description | Description for the cache subnet group. Defaults to `Managed by Terraform`. | `string` | `"The Description of the ElastiCache Subnet Group."` | no |
