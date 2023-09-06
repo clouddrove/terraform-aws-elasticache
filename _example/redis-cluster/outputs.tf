@@ -22,3 +22,8 @@ output "redis_ssm_arn" {
   value       = module.redis-cluster.redis_ssm_name
   description = "A map of the names and ARNs created"
 }
+
+output "auth_token" {
+  value = module.redis-cluster.auth_token
+  sensitive = true
+}

@@ -175,6 +175,12 @@ variable "transit_encryption_enabled" {
   description = "Whether to enable encryption in transit."
 }
 
+variable "auth_token_enable" {
+  type        = bool
+  default     = true
+  description = "Flag to specify whether to create auth token (password) protected cluster. Can be specified only if transit_encryption_enabled = true."
+}
+
 variable "auth_token" {
   type        = string
   default     = null

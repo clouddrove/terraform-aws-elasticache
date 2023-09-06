@@ -138,6 +138,16 @@ resource "aws_elasticache_subnet_group" "default" {
 }
 
 ##----------------------------------------------------------------------------------
+## Below resource will create random passoword for the auth_token
+##----------------------------------------------------------------------------------
+
+resource "random_password" "auth_token" {
+ count = var.auth_token_enable && var.auth_token == null ? 1 : 0
+length = 25
+special = false
+}
+
+##----------------------------------------------------------------------------------
 ## Below resource will create replication-group resource for redis-cluster and memcached.
 ##----------------------------------------------------------------------------------
 resource "aws_elasticache_replication_group" "cluster" {
@@ -165,7 +175,7 @@ resource "aws_elasticache_replication_group" "cluster" {
   at_rest_encryption_enabled = var.at_rest_encryption_enabled
   transit_encryption_enabled = var.transit_encryption_enabled
   multi_az_enabled           = var.multi_az_enabled
-  auth_token                 = var.auth_token
+  auth_token                 = var.auth_token_enable ? ( var.auth_token == null ? random_password.auth_token[0].result : var.auth_token ) : null
   kms_key_id                 = var.kms_key_id == "" ? join("", aws_kms_key.default[*].arn) : var.kms_key_id
   tags                       = module.labels.tags
   num_cache_clusters         = var.num_cache_clusters
@@ -223,15 +233,15 @@ resource "aws_route53_record" "elasticache" {
 }
 
 ##----------------------------------------------------------------------------------
-## Below resource will create ssm-parameter resource for redisand memcached with auth-token.
+## Below resource will create ssm-parameter resource for redis and memcached with auth-token.
 ##----------------------------------------------------------------------------------
 resource "aws_ssm_parameter" "secret" {
-  count = var.auth_token != null ? 1 : 0
+  count = var.auth_token_enable ? 1 : 0
 
   name        = format("/%s/%s/auth-token", var.environment, var.name)
   description = var.ssm_parameter_description
   type        = var.ssm_parameter_type
-  value       = var.auth_token
+  value       = var.auth_token == null ? random_password.auth_token[0].result : var.auth_token
   key_id      = var.kms_key_id == "" ? join("", aws_kms_key.default[*].arn) : var.kms_key_id
 }
 

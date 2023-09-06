@@ -37,11 +37,11 @@ module "subnets" {
   ipv6_cidr_block    = module.vpc.ipv6_cidr_block
 }
 
-####----------------------------------------------------------------------------------
-## Amazon ElastiCache [REDIS-CLUSTER] is a fully managed in-memory data store and cache service by Amazon Web Services.
-## The service improves the performance of web applications by retrieving information from managed in-memory caches,
-## instead of relying entirely on slower disk-based databases.
-####----------------------------------------------------------------------------------
+###----------------------------------------------------------------------------------
+# Amazon ElastiCache [REDIS-CLUSTER] is a fully managed in-memory data store and cache service by Amazon Web Services.
+# The service improves the performance of web applications by retrieving information from managed in-memory caches,
+# instead of relying entirely on slower disk-based databases.
+###----------------------------------------------------------------------------------
 module "redis-cluster" {
   source = "./../../"
 
