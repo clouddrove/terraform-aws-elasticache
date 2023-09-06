@@ -37,11 +37,11 @@ module "subnets" {
   ipv6_cidr_block    = module.vpc.ipv6_cidr_block
 }
 
-####----------------------------------------------------------------------------------
-## Amazon ElastiCache [REDIS-CLUSTER] is a fully managed in-memory data store and cache service by Amazon Web Services.
-## The service improves the performance of web applications by retrieving information from managed in-memory caches,
-## instead of relying entirely on slower disk-based databases.
-####----------------------------------------------------------------------------------
+###----------------------------------------------------------------------------------
+# Amazon ElastiCache [REDIS-CLUSTER] is a fully managed in-memory data store and cache service by Amazon Web Services.
+# The service improves the performance of web applications by retrieving information from managed in-memory caches,
+# instead of relying entirely on slower disk-based databases.
+###----------------------------------------------------------------------------------
 module "redis-cluster" {
   source = "./../../"
 
@@ -49,9 +49,9 @@ module "redis-cluster" {
   environment = "test"
   label_order = ["environment", "name"]
 
-  ####----------------------------------------------------------------------------------
-  ## Below A security group controls the traffic that is allowed to reach and leave the resources that it is associated with.
-  ####----------------------------------------------------------------------------------
+  ###----------------------------------------------------------------------------------
+  # Below A security group controls the traffic that is allowed to reach and leave the resources that it is associated with.
+  ###----------------------------------------------------------------------------------
   vpc_id        = module.vpc.vpc_id
   allowed_ip    = [module.vpc.vpc_cidr_block]
   allowed_ports = [6379]
@@ -71,9 +71,10 @@ module "redis-cluster" {
     Application = "CloudDrove"
   }
 
-  ####----------------------------------------------------------------------------------
-  ## will create ROUTE-53 for redis which will add the dns of the cluster.
-  ####----------------------------------------------------------------------------------
+
+  ###----------------------------------------------------------------------------------
+  # will create ROUTE-53 for redis which will add the dns of the cluster.
+  ###----------------------------------------------------------------------------------
   route53_record_enabled         = false
   ssm_parameter_endpoint_enabled = false
   dns_record_name                = "prod"

@@ -59,3 +59,9 @@ output "Memcached_ssm_name" {
   value       = join("", aws_ssm_parameter.memcached_secret-endpoint[*].name)
   description = "A list of all of the parameter values"
 }
+
+output "auth_token" {
+  value       = random_password.auth_token[0].result
+  sensitive   = true
+  description = "Auth token generated value"
+}

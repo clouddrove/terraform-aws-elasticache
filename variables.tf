@@ -175,6 +175,12 @@ variable "transit_encryption_enabled" {
   description = "Whether to enable encryption in transit."
 }
 
+variable "auth_token_enable" {
+  type        = bool
+  default     = true
+  description = "Flag to specify whether to create auth token (password) protected cluster. Can be specified only if transit_encryption_enabled = true."
+}
+
 variable "auth_token" {
   type        = string
   default     = null
@@ -324,12 +330,6 @@ variable "enable_security_group" {
   description = "Enable default Security Group with only Egress traffic allowed."
 }
 
-variable "existing_sg_id" {
-  type        = string
-  default     = null
-  description = "Provide existing security group id for updating existing rule"
-}
-
 variable "egress_rule" {
   type        = bool
   default     = true
@@ -431,4 +431,17 @@ variable "ssm_parameter_type" {
   type        = string
   default     = "SecureString"
   description = "Type of the parameter."
+}
+
+###------------------------------- random_password----------------------------
+
+variable "length" {
+  type    = number
+  default = 25
+}
+
+variable "special" {
+  type    = bool
+  default = false
+
 }
