@@ -4,6 +4,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.1] - 2023-09-06
+### :sparkles: New Features
+- [`2cf4567`](https://github.com/clouddrove/terraform-aws-elasticache/commit/2cf45679cfea7af4ff2f03dec5af7b7f0933f710) - added new vpc tag *(commit by [@theprashantyadav](https://github.com/theprashantyadav))*
+- [`41613e6`](https://github.com/clouddrove/terraform-aws-elasticache/commit/41613e6fdfc838c68deae1dd129fd4990916a145) - added version.tf in example *(commit by [@theprashantyadav](https://github.com/theprashantyadav))*
+- [`7cccf78`](https://github.com/clouddrove/terraform-aws-elasticache/commit/7cccf7891f77866e900950b4b153b5b3c531e824) - added version.tf in example *(commit by [@theprashantyadav](https://github.com/theprashantyadav))*
+- [`25246da`](https://github.com/clouddrove/terraform-aws-elasticache/commit/25246da8a8ad9eacb51cfcf306371a892cbf0f41) - added version.tf in example *(commit by [@theprashantyadav](https://github.com/theprashantyadav))*
+- [`59b4d1b`](https://github.com/clouddrove/terraform-aws-elasticache/commit/59b4d1b62beeb7f0a05134cdf5fa2a3408914b00) - Added the random password resource block to genrate the auth token *(commit by [@test-vaibhav](https://github.com/test-vaibhav))*
+
+### :bug: Bug Fixes
+- [`3d26d69`](https://github.com/clouddrove/terraform-aws-elasticache/commit/3d26d69dbcaa8ae2067c44d599a1b1338123b23a) - Removed the unwanted commits *(commit by [@vaibhav7797](https://github.com/vaibhav7797))*
+- [`ca0d035`](https://github.com/clouddrove/terraform-aws-elasticache/commit/ca0d03556ea7c81e06f72c3818229ebce3d5d99f) - fix the tf code format by running terraform fmt *(commit by [@vaibhav7797](https://github.com/vaibhav7797))*
+- [`a7f5aec`](https://github.com/clouddrove/terraform-aws-elasticache/commit/a7f5aecd1038bb4000e373faba47bbf89a04a82a) - Updated the random_password resource with variables and change the example file names main.tf -> example.tf *(commit by [@vaibhav7797](https://github.com/vaibhav7797))*
+- [`6fec54b`](https://github.com/clouddrove/terraform-aws-elasticache/commit/6fec54b5cc79f5a8bad28ca128ffa341c7423f1c) - Removed the unused variable *(commit by [@vaibhav7797](https://github.com/vaibhav7797))*
+
+### :memo: Documentation Changes
+- [`cbd18d4`](https://github.com/clouddrove/terraform-aws-elasticache/commit/cbd18d457f2cec2bc041600c23fe05af4d14a92a) - update CHANGELOG.md for 2.0.0 *(commit by [@clouddrove-ci](https://github.com/clouddrove-ci))*
+
+
 ## [2.0.0] - 2023-06-19
 ### :sparkles: New Features
 - [`9ca888d`](https://github.com/clouddrove/terraform-aws-elasticache/commit/9ca888d1c01f6d1f45928e44f04edc69c9b10c2b) - auto changelog action added and _example main.tf updated *(commit by [@mamrajyadav](https://github.com/mamrajyadav))*
@@ -145,3 +163,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 [2.0.0]: https://github.com/clouddrove/terraform-aws-elasticache/compare/1.0.4...2.0.0
+[2.0.1]: https://github.com/clouddrove/terraform-aws-elasticache/compare/2.0.0...2.0.1
