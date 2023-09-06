@@ -24,6 +24,6 @@ output "redis_ssm_arn" {
 }
 
 output "auth_token" {
-  value = module.redis-cluster.auth_token
+  value     = module.redis-cluster.auth_token
   sensitive = true
 }

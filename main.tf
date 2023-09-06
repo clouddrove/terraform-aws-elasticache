@@ -142,9 +142,9 @@ resource "aws_elasticache_subnet_group" "default" {
 ##----------------------------------------------------------------------------------
 
 resource "random_password" "auth_token" {
- count = var.auth_token_enable && var.auth_token == null ? 1 : 0
-length = 25
-special = false
+  count   = var.auth_token_enable && var.auth_token == null ? 1 : 0
+  length  = 25
+  special = false
 }
 
 ##----------------------------------------------------------------------------------
@@ -175,7 +175,7 @@ resource "aws_elasticache_replication_group" "cluster" {
   at_rest_encryption_enabled = var.at_rest_encryption_enabled
   transit_encryption_enabled = var.transit_encryption_enabled
   multi_az_enabled           = var.multi_az_enabled
-  auth_token                 = var.auth_token_enable ? ( var.auth_token == null ? random_password.auth_token[0].result : var.auth_token ) : null
+  auth_token                 = var.auth_token_enable ? (var.auth_token == null ? random_password.auth_token[0].result : var.auth_token) : null
   kms_key_id                 = var.kms_key_id == "" ? join("", aws_kms_key.default[*].arn) : var.kms_key_id
   tags                       = module.labels.tags
   num_cache_clusters         = var.num_cache_clusters
