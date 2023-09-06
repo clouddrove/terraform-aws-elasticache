@@ -438,3 +438,16 @@ variable "ssm_parameter_type" {
   default     = "SecureString"
   description = "Type of the parameter."
 }
+
+###------------------------------- random_password----------------------------
+
+variable "length" {
+  type    = number
+  default = 25
+}
+
+variable "special" {
+  type    = bool
+  default = false
+
+}

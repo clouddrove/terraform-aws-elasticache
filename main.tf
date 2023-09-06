@@ -143,8 +143,8 @@ resource "aws_elasticache_subnet_group" "default" {
 
 resource "random_password" "auth_token" {
   count   = var.auth_token_enable && var.auth_token == null ? 1 : 0
-  length  = 25
-  special = false
+  length  = var.length
+  special = var.special
 }
 
 ##----------------------------------------------------------------------------------

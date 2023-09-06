@@ -71,6 +71,7 @@ module "redis-cluster" {
     Application = "CloudDrove"
   }
 
+
   ###----------------------------------------------------------------------------------
   # will create ROUTE-53 for redis which will add the dns of the cluster.
   ###----------------------------------------------------------------------------------
