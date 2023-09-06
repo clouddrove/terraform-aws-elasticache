@@ -330,12 +330,6 @@ variable "enable_security_group" {
   description = "Enable default Security Group with only Egress traffic allowed."
 }
 
-variable "existing_sg_id" {
-  type        = string
-  default     = null
-  description = "Provide existing security group id for updating existing rule"
-}
-
 variable "egress_rule" {
   type        = bool
   default     = true
