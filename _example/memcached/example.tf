@@ -2,9 +2,13 @@
 ## Provider block added, Use the Amazon Web Services (AWS) provider to interact with the many resources supported by AWS.
 ####----------------------------------------------------------------------------------
 provider "aws" {
-  region = "eu-west-1"
+  region = local.region
 }
-
+locals {
+  name        = "memcached"
+  environment = "test"
+  region      = "eu-west-1"
+}
 ####----------------------------------------------------------------------------------
 ## A VPC is a virtual network that closely resembles a traditional network that you'd operate in your own data center.
 ####----------------------------------------------------------------------------------
@@ -12,11 +16,9 @@ module "vpc" {
   source  = "clouddrove/vpc/aws"
   version = "2.0.0"
 
-  name        = "vpc"
-  environment = "test"
-  label_order = ["environment", "name"]
-
-  cidr_block = "10.0.0.0/16"
+  name        = "${local.name}-vpc"
+  environment = local.environment
+  cidr_block  = "10.0.0.0/16"
 }
 
 ####----------------------------------------------------------------------------------
@@ -26,9 +28,8 @@ module "subnets" {
   source  = "clouddrove/subnet/aws"
   version = "2.0.0"
 
-  name               = "subnets"
-  environment        = "test"
-  label_order        = ["environment", "name"]
+  name               = "${local.name}-subnets"
+  environment        = local.environment
   availability_zones = ["eu-west-1a", "eu-west-1b", "eu-west-1c"]
   vpc_id             = module.vpc.vpc_id
   type               = "public"
@@ -43,10 +44,8 @@ module "subnets" {
 module "memcached" {
   source = "./../../"
 
-  name        = "memcached"
-  environment = "test"
-  label_order = ["name", "environment"]
-
+  name        = local.name
+  environment = local.environment
   ####----------------------------------------------------------------------------------
   ## Below A security group controls the traffic that is allowed to reach and leave the resources that it is associated with.
   ####----------------------------------------------------------------------------------
@@ -79,5 +78,4 @@ module "memcached" {
   route53_ttl                    = "300"
   route53_type                   = "CNAME"
   route53_zone_id                = "SERFxxxx6XCsY9Lxxxxx"
-
 }
