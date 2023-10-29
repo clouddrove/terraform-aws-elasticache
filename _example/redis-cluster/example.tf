@@ -2,9 +2,13 @@
 ## Provider block added, Use the Amazon Web Services (AWS) provider to interact with the many resources supported by AWS.
 ####----------------------------------------------------------------------------------
 provider "aws" {
-  region = "eu-west-1"
+  region = local.region
 }
-
+locals {
+  name        = "redis-cluster"
+  environment = "test"
+  region      = "eu-west-1"
+}
 ####----------------------------------------------------------------------------------
 ## A VPC is a virtual network that closely resembles a traditional network that you'd operate in your own data center.
 ####----------------------------------------------------------------------------------
@@ -12,11 +16,9 @@ module "vpc" {
   source  = "clouddrove/vpc/aws"
   version = "2.0.0"
 
-  name        = "vpc"
-  environment = "test"
-  label_order = ["environment", "name"]
-
-  cidr_block = "10.0.0.0/16"
+  name        = "${local.name}-vpc"
+  environment = local.environment
+  cidr_block  = "10.0.0.0/16"
 }
 
 ####----------------------------------------------------------------------------------
@@ -26,9 +28,8 @@ module "subnets" {
   source  = "clouddrove/subnet/aws"
   version = "2.0.0"
 
-  name               = "subnets"
-  environment        = "test"
-  label_order        = ["environment", "name"]
+  name               = "${local.name}-subnets"
+  environment        = local.environment
   availability_zones = ["eu-west-1a", "eu-west-1b", "eu-west-1c"]
   vpc_id             = module.vpc.vpc_id
   type               = "public"
@@ -45,9 +46,8 @@ module "subnets" {
 module "redis-cluster" {
   source = "./../../"
 
-  name        = "redis-cluster"
-  environment = "test"
-  label_order = ["environment", "name"]
+  name        = local.name
+  environment = local.environment
 
   ###----------------------------------------------------------------------------------
   # Below A security group controls the traffic that is allowed to reach and leave the resources that it is associated with.
@@ -70,7 +70,6 @@ module "redis-cluster" {
   extra_tags = {
     Application = "CloudDrove"
   }
-
 
   ###----------------------------------------------------------------------------------
   # will create ROUTE-53 for redis which will add the dns of the cluster.
