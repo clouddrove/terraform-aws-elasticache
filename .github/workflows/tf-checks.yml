@@ -6,14 +6,14 @@ on:
   workflow_dispatch:
 jobs:
   memcached:
-    uses: clouddrove/github-shared-workflows/.github/workflows/tf-checks.yml@1.0.6
+    uses: clouddrove/github-shared-workflows/.github/workflows/tf-checks.yml@1.0.9
     with:
       working_directory: './_example/memcached/'
   redis:
-    uses: clouddrove/github-shared-workflows/.github/workflows/tf-checks.yml@1.0.6
+    uses: clouddrove/github-shared-workflows/.github/workflows/tf-checks.yml@1.0.9
     with:
       working_directory: './_example/redis/'
   redis-cluster:
-    uses: clouddrove/github-shared-workflows/.github/workflows/tf-checks.yml@1.0.6
+    uses: clouddrove/github-shared-workflows/.github/workflows/tf-checks.yml@1.0.9
     with:
       working_directory: './_example/redis-cluster/'
