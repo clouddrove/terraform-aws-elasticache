@@ -5,7 +5,7 @@ on:
       - master
 
 jobs:
-  readme:
+  readme-create:
     name: 'readme-create'
     runs-on: ubuntu-latest
     steps:
@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@master
 
       - name: 'Set up Python 3.7'
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.x'
 
@@ -24,7 +24,6 @@ jobs:
           github_token: '${{ secrets.GITHUB }}'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
 
       - name: 'pre-commit check errors'
         uses: pre-commit/action@v3.0.0
