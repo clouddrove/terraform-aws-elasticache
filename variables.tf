@@ -184,7 +184,7 @@ variable "auth_token_enable" {
 variable "auth_token" {
   type        = string
   default     = null
-  description = "The password used to access a password protected server. Can be specified only if transit_encryption_enabled = true."
+  description = "The password used to access a password protected server. Can be specified only if transit_encryption_enabled = true. Find auto generated auth_token in terraform.tfstate or in AWS SSM Parameter Store."
 }
 
 variable "cluster_replication_enabled" {
