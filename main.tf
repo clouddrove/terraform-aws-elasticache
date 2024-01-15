@@ -179,6 +179,7 @@ resource "aws_elasticache_replication_group" "cluster" {
   kms_key_id                 = var.kms_key_id == "" ? join("", aws_kms_key.default[*].arn) : var.kms_key_id
   tags                       = module.labels.tags
   num_cache_clusters         = var.num_cache_clusters
+  user_group_ids             = var.user_group_ids
 
   dynamic "log_delivery_configuration" {
     for_each = var.log_delivery_configuration

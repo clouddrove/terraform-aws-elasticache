@@ -72,6 +72,12 @@ variable "port" {
   sensitive   = true
 }
 
+variable "user_group_ids" {
+  type        = list(string)
+  default     = [""]
+  description = "User Group ID to associate with the replication group."
+}
+
 variable "node_type" {
   type        = string
   default     = "cache.t2.small"
