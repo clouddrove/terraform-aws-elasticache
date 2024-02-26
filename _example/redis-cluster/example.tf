@@ -57,16 +57,20 @@ module "redis-cluster" {
   allowed_ports = [6379]
 
   cluster_replication_enabled = true
-  engine                      = "redis"
-  engine_version              = "7.0"
-  parameter_group_name        = "default.redis7.cluster.on"
-  port                        = 6379
-  node_type                   = "cache.t2.micro"
-  subnet_ids                  = module.subnets.public_subnet_id
-  availability_zones          = ["eu-west-1a", "eu-west-1b"]
-  num_cache_nodes             = 1
-  snapshot_retention_limit    = 7
-  automatic_failover_enabled  = true
+
+  replication_group = {
+    engine                     = "redis"
+    engine_version             = "7.0"
+    parameter_group_name       = "default.redis7.cluster.on"
+    port                       = 6379
+    node_type                  = "cache.t2.micro"
+    snapshot_retention_limit   = 7
+    automatic_failover_enabled = true
+  }
+
+  subnet_ids         = module.subnets.public_subnet_id
+  availability_zones = ["eu-west-1a", "eu-west-1b"]
+  num_cache_nodes    = 1
   extra_tags = {
     Application = "CloudDrove"
   }
@@ -76,8 +80,10 @@ module "redis-cluster" {
   ###----------------------------------------------------------------------------------
   route53_record_enabled         = false
   ssm_parameter_endpoint_enabled = false
-  dns_record_name                = "prod"
-  route53_ttl                    = "300"
-  route53_type                   = "CNAME"
-  route53_zone_id                = "SERFxxxx6XCsY9Lxxxxx"
+  route53 = {
+    dns_record_name = "prod"
+    route53_ttl     = "300"
+    route53_type    = "CNAME"
+    route53_zone_id = "SERFxxxx6XCsY9Lxxxxx"
+  }
 }
