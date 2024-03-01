@@ -55,16 +55,21 @@ module "memcached" {
 
   cluster_enabled                          = true
   memcached_ssm_parameter_endpoint_enabled = true
-  memcached_route53_record_enabled         = true
-  engine                                   = "memcached"
-  engine_version                           = "1.6.17"
-  parameter_group_name                     = ""
-  az_mode                                  = "cross-az"
-  port                                     = 11211
-  node_type                                = "cache.t2.micro"
-  num_cache_nodes                          = 2
-  subnet_ids                               = module.subnets.public_subnet_id
-  availability_zones                       = ["eu-west-1a", "eu-west-1b"]
+  memcached_route53_record_enabled         = false
+
+  replication_group = {
+    engine               = "memcached"
+    engine_version       = "1.6.17"
+    parameter_group_name = ""
+    port                 = 11211
+    node_type            = "cache.t2.micro"
+    parameter_group_name = ""
+  }
+
+  az_mode            = "cross-az"
+  num_cache_nodes    = 2
+  subnet_ids         = module.subnets.public_subnet_id
+  availability_zones = ["eu-west-1a", "eu-west-1b"]
   extra_tags = {
     Application = "CloudDrove"
   }
@@ -74,8 +79,10 @@ module "memcached" {
   ####----------------------------------------------------------------------------------
   route53_record_enabled         = false
   ssm_parameter_endpoint_enabled = false
-  dns_record_name                = "prod"
-  route53_ttl                    = "300"
-  route53_type                   = "CNAME"
-  route53_zone_id                = "SERFxxxx6XCsY9Lxxxxx"
+  route53 = {
+    dns_record_name = "prod"
+    route53_ttl     = "300"
+    route53_type    = "CNAME"
+    route53_zone_id = "SERFxxxx6XCsY9Lxxxxx" # Change Zone ID with Route53 Zone ID from looking at AWS Console 
+  }
 }

@@ -6,7 +6,7 @@ output "id" {
 }
 
 output "port" {
-  value       = var.port
+  value       = lookup(var.replication_group, "port", null)
   sensitive   = true
   description = "Redis port."
 }
@@ -22,46 +22,46 @@ output "redis_endpoint" {
 }
 
 output "redis_arn" {
-  value       = length(aws_elasticache_replication_group.cluster) > 0 ? aws_elasticache_replication_group.cluster[0].arn : length(aws_elasticache_replication_group.cluster) > 0 ? aws_elasticache_replication_group.cluster[0].arn : ""
+  value       = var.enable && length(aws_elasticache_replication_group.cluster) > 0 ? aws_elasticache_replication_group.cluster[0].arn : length(aws_elasticache_replication_group.cluster) > 0 ? aws_elasticache_replication_group.cluster[0].arn : null
   description = "Redis arn"
 }
 
 output "memcached_endpoint" {
-  value       = var.cluster_enabled ? join("", aws_elasticache_cluster.default[*].configuration_endpoint) : ""
+  value       = var.enable && var.cluster_enabled ? join("", aws_elasticache_cluster.default[*].configuration_endpoint) : null
   description = "Memcached endpoint address."
 }
 
 output "memcached_arn" {
-  value       = length(aws_elasticache_cluster.default) > 0 ? aws_elasticache_cluster.default[0].arn : ""
+  value       = var.enable && length(aws_elasticache_cluster.default) > 0 ? aws_elasticache_cluster.default[0].arn : null
   description = "Memcached arn"
 }
 
 output "sg_id" {
-  value = join("", aws_security_group.default[*].id)
+  value = try(join("", aws_security_group.default[*].id), null)
 }
 
 output "hostname" {
-  value       = join("", aws_route53_record.elasticache[*].fqdn)
+  value       = try(join("", aws_route53_record.elasticache[*].fqdn), null)
   description = "DNS hostname"
 }
 
 output "memcached_hostname" {
-  value       = join("", aws_route53_record.memcached_route_53[*].fqdn)
+  value       = try(join("", aws_route53_record.memcached_route_53[*].fqdn), null)
   description = "DNS hostname"
 }
 
 output "redis_ssm_name" {
-  value       = join("", aws_ssm_parameter.secret-endpoint[*].name)
+  value       = try(join("", aws_ssm_parameter.secret-endpoint[*].name), null)
   description = "A list of all of the parameter values"
 }
 
 output "Memcached_ssm_name" {
-  value       = join("", aws_ssm_parameter.memcached_secret-endpoint[*].name)
+  value       = try(join("", aws_ssm_parameter.memcached_secret-endpoint[*].name), null)
   description = "A list of all of the parameter values"
 }
 
 output "auth_token" {
-  value       = var.auth_token_enable ? random_password.auth_token[0].result : ""
+  value       = var.enable && var.auth_token_enable ? random_password.auth_token[0].result : null
   sensitive   = true
   description = "Auth token generated value"
 }
