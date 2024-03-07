@@ -168,6 +168,13 @@ variable "key_usage" {
   description = "Specifies the intended use of the key. Defaults to ENCRYPT_DECRYPT, and only symmetric encryption and decryption are supported."
 }
 
+variable "network_type" {
+  type = string
+  default = "ipv4"
+  description = "value of the network type. Valid values are ipv4, ipv6 or dual_stack."
+}
+
+
 variable "deletion_window_in_days" {
   type        = number
   default     = 7

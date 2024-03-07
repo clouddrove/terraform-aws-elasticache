@@ -176,11 +176,13 @@ resource "aws_elasticache_replication_group" "cluster" {
   at_rest_encryption_enabled = lookup(var.replication_group, "at_rest_encryption_enabled", true)
   transit_encryption_enabled = lookup(var.replication_group, "transit_encryption_enabled", true)
   multi_az_enabled           = lookup(var.replication_group, "multi_az_enabled", false)
-  auth_token                 = var.auth_token_enable ? (var.auth_token == null ? random_password.auth_token[0].result : var.auth_token) : ""
-  kms_key_id                 = var.kms_key_id == "" ? join("", aws_kms_key.default[*].arn) : var.kms_key_id
-  tags                       = module.labels.tags
-  num_cache_clusters         = lookup(var.replication_group, "num_cache_clusters", 1)
-  user_group_ids             = var.user_group_ids
+  network_type               = var.network_type
+
+  auth_token         = var.auth_token_enable ? (var.auth_token == null ? random_password.auth_token[0].result : var.auth_token) : ""
+  kms_key_id         = var.kms_key_id == "" ? join("", aws_kms_key.default[*].arn) : var.kms_key_id
+  tags               = module.labels.tags
+  num_cache_clusters = lookup(var.replication_group, "num_cache_clusters", 1)
+  user_group_ids     = var.user_group_ids
 
   dynamic "log_delivery_configuration" {
     for_each = var.log_delivery_configuration
@@ -217,6 +219,7 @@ resource "aws_elasticache_cluster" "default" {
   apply_immediately            = lookup(var.replication_group, "apply_immediately", false)
   preferred_availability_zones = slice(var.availability_zones, 0, var.num_cache_nodes)
   maintenance_window           = lookup(var.replication_group, "maintenance_window", "sun:05:00-sun:06:00")
+  network_type                 = var.network_type
   tags                         = module.labels.tags
 
 }
