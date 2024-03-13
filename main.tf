@@ -121,8 +121,8 @@ data "aws_iam_policy_document" "default" {
 ## Below resource will create will save logs cloudwatch_log_group resource for redis-cluster and memcached.
 ##----------------------------------------------------------------------------------
 resource "aws_cloudwatch_log_group" "default" {
-  count             = var.enable && length(var.log_delivery_configuration) > 0 ? 1 : 0
-  name              = format("logs-%s", module.labels.id)
+  count             = var.enable && length(var.log_delivery_configuration) > 0 ? length(var.log_delivery_configuration) : 0
+  name              = format("%s-%s", module.labels.name, var.log_delivery_configuration[count.index].log_type)
   retention_in_days = var.retention_in_days
   tags              = module.labels.tags
 }
@@ -186,7 +186,7 @@ resource "aws_elasticache_replication_group" "cluster" {
     for_each = var.log_delivery_configuration
 
     content {
-      destination      = lookup(log_delivery_configuration.value, "destination", join("", aws_cloudwatch_log_group.default[*].name))
+      destination      = lookup(log_delivery_configuration.value, "destination", aws_cloudwatch_log_group.default[index(var.log_delivery_configuration, log_delivery_configuration.value)].name)
       destination_type = lookup(log_delivery_configuration.value, "destination_type", null)
       log_format       = lookup(log_delivery_configuration.value, "log_format", null)
       log_type         = lookup(log_delivery_configuration.value, "log_type", null)
