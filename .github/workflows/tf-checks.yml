@@ -8,12 +8,12 @@ jobs:
   memcached:
     uses: clouddrove/github-shared-workflows/.github/workflows/tf-checks.yml@1.0.9
     with:
-      working_directory: './_example/memcached/'
+      working_directory: './examples/memcached/'
   redis:
     uses: clouddrove/github-shared-workflows/.github/workflows/tf-checks.yml@1.0.9
     with:
-      working_directory: './_example/redis/'
+      working_directory: './examples/redis/'
   redis-cluster:
     uses: clouddrove/github-shared-workflows/.github/workflows/tf-checks.yml@1.0.9
     with:
-      working_directory: './_example/redis-cluster/'
+      working_directory: './examples/redis-cluster/'

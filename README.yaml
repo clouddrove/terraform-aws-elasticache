@@ -24,7 +24,24 @@ badges:
   - name: "Licence"
     image: "https://img.shields.io/badge/License-APACHE-blue.svg"
     url: "LICENSE.md"
+  - name: "Changelog"
+    image: "https://img.shields.io/badge/Changelog-blue"
+    url: "CHANGELOG.md"
 
+prerequesties:
+  - name: Terraform
+    url: https://learn.hashicorp.com/terraform/getting-started/install.html
+    version: ">= 1.6.5"
+
+providers:
+  - name: aws
+    url: https://aws.amazon.com/
+    version: ">= 5.31.0"
+
+module_dependencies:
+  - name: Labels Module
+    url: https://github.com/clouddrove/terraform-aws-labels
+    description: Provides resource tagging.
 #  description of this project
 description: |-
   Terraform module to create Elasticache Cluster and replica for Redis and Memcache.
