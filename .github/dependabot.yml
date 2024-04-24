@@ -16,7 +16,7 @@ updates:
     reviewers:
       - "approvers"
   - package-ecosystem: "terraform" # See documentation for possible values
-    directory: "_example/memcached" # Location of package manifests
+    directory: "examples/memcached" # Location of package manifests
     schedule:
       interval: "weekly"
     # Add assignees
@@ -26,7 +26,7 @@ updates:
     reviewers:
       - "approvers"
   - package-ecosystem: "terraform" # See documentation for possible values
-    directory: "_example/redis" # Location of package manifests
+    directory: "examples/redis" # Location of package manifests
     schedule:
       interval: "weekly"
     # Add assignees
@@ -36,7 +36,7 @@ updates:
     reviewers:
       - "approvers"
   - package-ecosystem: "terraform" # See documentation for possible values
-    directory: "_example/redis-cluster" # Location of package manifests
+    directory: "examples/redis-cluster" # Location of package manifests
     schedule:
       interval: "weekly"
     # Add assignees

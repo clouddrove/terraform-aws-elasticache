@@ -1,14 +1,15 @@
-name: 'Create README.md file'
+name: Readme Workflow
 on:
   push:
     branches:
       - master
     paths-ignore:
       - 'README.md'
-
+      - 'docs/**'
+  workflow_dispatch:
 jobs:
-  readme-create:
-    uses: clouddrove/github-shared-workflows/.github/workflows/readme.yml@1.2.2
+  README:
+    uses: clouddrove/github-shared-workflows/.github/workflows/readme.yml@1.2.4
     secrets:
-      TOKEN: ${{ secrets.GITHUB }}
+      TOKEN : ${{ secrets.GITHUB }}
       SLACK_WEBHOOK_TERRAFORM: ${{ secrets.SLACK_WEBHOOK_TERRAFORM }}

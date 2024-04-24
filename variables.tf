@@ -169,8 +169,8 @@ variable "key_usage" {
 }
 
 variable "network_type" {
-  type = string
-  default = "ipv4"
+  type        = string
+  default     = "ipv4"
   description = "value of the network type. Valid values are ipv4, ipv6 or dual_stack."
 }
 
