@@ -241,7 +241,7 @@ resource "aws_route53_record" "elasticache" {
 ## Below resource will create ssm-parameter resource for redis and memcached with auth-token.
 ##----------------------------------------------------------------------------------
 resource "aws_ssm_parameter" "secret" {
-  count = var.enable && var.auth_token_enable ? 1 : 0
+  count = var.enable && var.enable_aws_ssm_parameter && var.auth_token_enable ? 1 : 0
 
   name        = format("/%s/%s/auth-token", var.environment, var.name)
   description = var.ssm_parameter_description
@@ -254,7 +254,7 @@ resource "aws_ssm_parameter" "secret" {
 ## Below resource will create ssm-parameter resource for redis with endpoint.
 ##----------------------------------------------------------------------------------
 resource "aws_ssm_parameter" "secret-endpoint" {
-  count = var.enable && var.ssm_parameter_endpoint_enabled ? 1 : 0
+  count = var.enable && var.enable_aws_ssm_parameter && var.ssm_parameter_endpoint_enabled ? 1 : 0
 
   name        = format("/%s/%s/endpoint", var.environment, var.name)
   description = var.ssm_parameter_description
@@ -280,7 +280,7 @@ resource "aws_route53_record" "memcached_route_53" {
 ## Below resource will create ssm-parameter resource for memcached with endpoint.
 ##----------------------------------------------------------------------------------
 resource "aws_ssm_parameter" "memcached_secret-endpoint" {
-  count = var.enable && var.memcached_ssm_parameter_endpoint_enabled ? 1 : 0
+  count = var.enable && var.enable_aws_ssm_parameter && var.memcached_ssm_parameter_endpoint_enabled ? 1 : 0
 
   name        = format("/%s/%s/memcached-endpoint", var.environment, var.name)
   description = var.ssm_parameter_description

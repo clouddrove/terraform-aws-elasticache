@@ -61,7 +61,7 @@ output "Memcached_ssm_name" {
 }
 
 output "auth_token" {
-  value       = var.enable && var.auth_token_enable ? random_password.auth_token[0].result : null
+  value       = var.enable && var.auth_token_enable && var.auth_token == null ? random_password.auth_token[0].result : null
   sensitive   = true
   description = "Auth token generated value"
 }

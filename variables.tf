@@ -297,6 +297,11 @@ variable "route53" {
 }
 
 ###------------------------------- ssm_parameter----------------------------
+variable "enable_aws_ssm_parameter" {
+  description = "Whether to create the AWS SSM parameter for the auth token"
+  type        = bool
+  default     = false
+}
 
 variable "ssm_parameter_endpoint_enabled" {
   type        = bool
