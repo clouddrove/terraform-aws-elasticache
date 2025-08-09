@@ -74,3 +74,4 @@
 | redis\_ssm\_name | A list of all of the parameter values |
 | sg\_id | n/a |
 | tags | A mapping of tags to assign to the resource. |
+
