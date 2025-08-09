@@ -83,6 +83,6 @@ module "memcached" {
     dns_record_name = "prod"
     route53_ttl     = "300"
     route53_type    = "CNAME"
-    route53_zone_id = "SERFxxxx6XCsY9Lxxxxx" # Change Zone ID with Route53 Zone ID from looking at AWS Console 
+    route53_zone_id = "SERFxxxx6XCsY9Lxxxxx" # Change Zone ID with Route53 Zone ID from looking at AWS Console
   }
 }
