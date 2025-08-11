@@ -41,17 +41,49 @@ module "subnets" {
 ##----------------------------------------------------------------------------------
 ## VALKEY MODULE CALL
 ##----------------------------------------------------------------------------------
+module "secrets_manager" {
+  source  = "clouddrove/secrets-manager/aws"
+  version = "2.0.0"
+
+  name        = local.name
+  environment = local.environment
+
+  unmanaged = true
+  secrets = [
+    {
+      name                    = "aws/elasticache/auth-tokens"
+      description             = "Elasticache AUTH Token"
+      recovery_window_in_days = 7
+      secret_string           = "{ \"auth_token\": \"UseSomethingSecure*1234\"}"
+    }
+  ]
+}
+
+data "aws_secretsmanager_secret" "auth_token" {
+  depends_on = [module.secrets_manager]
+  name       = "aws/elasticache/auth-tokens"
+}
+
+data "aws_secretsmanager_secret_version" "auth_token" {
+  secret_id = data.aws_secretsmanager_secret.auth_token.id
+}
+
+##----------------------------------------------------------------------------------
+## VALKEY MODULE CALL
+##----------------------------------------------------------------------------------
 module "valkey" {
   source = "./../../"
 
   name        = local.name
   environment = local.environment
 
-  vpc_id        = module.vpc.vpc_id
-  allowed_ip    = [module.vpc.vpc_cidr_block]
-  allowed_ports = [6379]
+  vpc_id                   = module.vpc.vpc_id
+  allowed_ip               = [module.vpc.vpc_cidr_block]
+  allowed_ports            = [6379]
+  subnet_ids               = concat(module.subnets.private_subnet_id, module.subnets.public_subnet_id)
+  subnet_group_description = "${local.environment}-${local.name} subnet group."
+  availability_zones       = ["${local.region}a", "${local.region}c"]
 
-  # -- valkey configuration
   cluster_replication_enabled = true
   replication_group = {
     engine                        = "valkey"
@@ -59,17 +91,15 @@ module "valkey" {
     parameter_group_name          = "default.valkey8"
     port                          = 6379
     num_cache_clusters            = 2
-    node_type                     = "cache.t3.medium"
+    apply_immediately             = true
+    node_type                     = "cache.t3.micro"
     replication_group_description = "${local.environment}-${local.name} replication group."
-    maintenance_window            = "tue:07:00-tue:08:00"
+    maintenance_window            = "sat:03:30-sat:04:30"
   }
+  az_mode                    = "single-az"
+  kms_key_id                 = null # -- AWS Owned KMS Key
+  auth_token                 = jsondecode(data.aws_secretsmanager_secret_version.auth_token.secret_string)["auth_token"]
+  auth_token_update_strategy = "SET"
+  sg_ids                     = [module.vpc.vpc_default_security_group_id]
 
-  az_mode         = "single-az"
-  num_cache_nodes = 2
-  kms_key_id      = null
-  auth_token      = "UseSomethingSecure*1234"
-  # ---- valkey end -----------------
-  subnet_ids               = concat(module.subnets.private_subnet_id, module.subnets.public_subnet_id)
-  subnet_group_description = "${local.environment}-${local.name} subnet group."
-  availability_zones       = ["${local.region}a", "${local.region}c"]
 }

@@ -99,6 +99,12 @@ variable "auth_token" {
   description = "The password used to access a password protected server. Can be specified only if transit_encryption_enabled = true. Find auto generated auth_token in terraform.tfstate or in AWS SSM Parameter Store."
 }
 
+variable "auth_token_update_strategy" {
+  type        = string
+  default     = null
+  description = "(Optional) Strategy to use when updating the auth_token. Valid values are SET, ROTATE, and DELETE. Required if auth_token is set. Defaults to ROTATE"
+}
+
 variable "cluster_replication_enabled" {
   type        = bool
   default     = false
