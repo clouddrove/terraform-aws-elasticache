@@ -7,6 +7,8 @@
 | allowed\_ports | List of allowed ingress ports | `list(any)` | `[]` | no |
 | auth\_token | The password used to access a password protected server. Can be specified only if transit\_encryption\_enabled = true. Find auto generated auth\_token in terraform.tfstate or in AWS SSM Parameter Store. | `string` | `null` | no |
 | auth\_token\_enable | Flag to specify whether to create auth token (password) protected cluster. Can be specified only if transit\_encryption\_enabled = true. | `bool` | `true` | no |
+| auth\_token\_update\_strategy | (Optional) Strategy to use when updating the auth\_token. Valid values are SET, ROTATE, and DELETE. Required if auth\_token is set. Defaults to ROTATE | `string` | `null` | no |
+| auto\_generate\_auth\_token | Whether to automatically generate the authentication token using Terraform. If set to false, you must provide your own token via the 'auth\_token' variable. | `bool` | `true` | no |
 | availability\_zones | A list of EC2 availability zones in which the replication group's cache clusters will be created. The order of the availability zones in the list is not important. | `list(string)` | n/a | yes |
 | az\_mode | (Memcached only) Specifies whether the nodes in this Memcached node group are created in a single Availability Zone or created across multiple Availability Zones in the cluster's region. Valid values for this parameter are single-az or cross-az, default is single-az. If you want to choose cross-az, num\_cache\_nodes must be greater than 1. | `string` | `"single-az"` | no |
 | cluster\_enabled | (Memcache only) Enabled or disabled cluster. | `bool` | `false` | no |
@@ -15,6 +17,7 @@
 | deletion\_window\_in\_days | Duration in days after which the key is deleted after destruction of the resource. | `number` | `7` | no |
 | egress\_rule | Enable to create egress rule | `bool` | `true` | no |
 | enable | Enable or disable of elasticache | `bool` | `true` | no |
+| enable\_aws\_ssm\_parameter | Whether to create the AWS SSM parameter for the auth token | `bool` | `false` | no |
 | enable\_key\_rotation | Specifies whether key rotation is enabled. | `string` | `true` | no |
 | enable\_security\_group | Enable default Security Group with only Egress traffic allowed. | `bool` | `true` | no |
 | environment | Environment (e.g. `prod`, `dev`, `staging`). | `string` | `""` | no |
@@ -63,14 +66,23 @@
 |------|-------------|
 | Memcached\_ssm\_name | A list of all of the parameter values |
 | auth\_token | Auth token generated value |
+| elasticache\_arn | Elasticache arn |
+| elasticache\_cache\_nodes | List of node objects |
+| elasticache\_cluster\_address | (Memcached only) DNS name of the cache cluster |
+| elasticache\_cluster\_enabled | Indicates if cluster mode is enabled. |
+| elasticache\_configuration\_endpoint\_address | Address of the replication group configuration endpoint when cluster mode is enabled. |
+| elasticache\_endpoint | Elasticache endpoint address. |
+| elasticache\_engine\_version | Running version of the cache engine. |
+| elasticache\_engine\_version\_actual | Running version of the cache engine |
+| elasticache\_member\_clusters | Identifiers of all the nodes that are part of this replication group. |
+| elasticache\_reader\_endpoint\_address | Address of the endpoint for the reader node in the replication group, if cluster mode is disabled. |
+| elasticache\_tags\_all | Map of tags assigned to the resource, including inherited ones. |
 | hostname | DNS hostname |
-| id | Redis cluster id. |
+| id | Elasticache cluster id. |
 | memcached\_arn | Memcached arn |
 | memcached\_endpoint | Memcached endpoint address. |
 | memcached\_hostname | DNS hostname |
 | port | Redis port. |
-| redis\_arn | Redis arn |
-| redis\_endpoint | Redis endpoint address. |
 | redis\_ssm\_name | A list of all of the parameter values |
 | sg\_id | n/a |
 | tags | A mapping of tags to assign to the resource. |
