@@ -2,7 +2,7 @@
 # Description : Terraform module to create Elasticache Cluster and replica for Redis.
 output "id" {
   value       = var.cluster_enabled ? "" : (var.cluster_replication_enabled ? join("", aws_elasticache_replication_group.cluster[*].id) : join("", aws_elasticache_replication_group.cluster[*].id))
-  description = "Redis cluster id."
+  description = "Elasticache cluster id."
 }
 
 output "port" {
@@ -16,14 +16,14 @@ output "tags" {
   description = "A mapping of tags to assign to the resource."
 }
 
-output "redis_endpoint" {
+output "elasticache_endpoint" {
   value       = var.cluster_replication_enabled ? "" : (var.cluster_replication_enabled ? join("", aws_elasticache_replication_group.cluster[*].primary_endpoint_address) : join("", aws_elasticache_cluster.default[*].configuration_endpoint))
-  description = "Redis endpoint address."
+  description = "Elasticache endpoint address."
 }
 
-output "redis_arn" {
+output "elasticache_arn" {
   value       = var.enable && length(aws_elasticache_replication_group.cluster) > 0 ? aws_elasticache_replication_group.cluster[0].arn : length(aws_elasticache_replication_group.cluster) > 0 ? aws_elasticache_replication_group.cluster[0].arn : null
-  description = "Redis arn"
+  description = "Elasticache arn"
 }
 
 output "memcached_endpoint" {
@@ -61,7 +61,55 @@ output "Memcached_ssm_name" {
 }
 
 output "auth_token" {
-  value       = var.enable && var.auth_token_enable && var.auth_token == null ? random_password.auth_token[0].result : null
+  value       = var.enable && var.auth_token_enable && var.auto_generate_auth_token ? random_password.auth_token[0].result : null
   sensitive   = true
   description = "Auth token generated value"
+}
+
+### ---------- aws_elasticache_cluster ------------------------------
+output "elasticache_engine_version_actual" {
+  value       = try(aws_elasticache_cluster.default[0].engine_version_actual, null)
+  description = "Running version of the cache engine"
+}
+
+output "elasticache_cache_nodes" {
+  value       = try(aws_elasticache_cluster.default[0].cache_nodes, [])
+  description = "List of node objects"
+}
+
+output "elasticache_cluster_address" {
+  value       = try(aws_elasticache_cluster.default[0].cluster_address, null)
+  description = "(Memcached only) DNS name of the cache cluster"
+}
+
+### ---------- aws_elasticache_replication_group --------------------
+
+output "elasticache_engine_version" {
+  description = "Running version of the cache engine."
+  value       = try(aws_elasticache_replication_group.cluster[0].engine_version_actual, null)
+}
+
+output "elasticache_cluster_enabled" {
+  description = "Indicates if cluster mode is enabled."
+  value       = try(aws_elasticache_replication_group.cluster[0].cluster_enabled, null)
+}
+
+output "elasticache_configuration_endpoint_address" {
+  description = "Address of the replication group configuration endpoint when cluster mode is enabled."
+  value       = try(aws_elasticache_replication_group.cluster[0].configuration_endpoint_address, null)
+}
+
+output "elasticache_member_clusters" {
+  description = "Identifiers of all the nodes that are part of this replication group."
+  value       = try([for c in aws_elasticache_replication_group.cluster[0].member_clusters : c], null)
+}
+
+output "elasticache_reader_endpoint_address" {
+  description = "Address of the endpoint for the reader node in the replication group, if cluster mode is disabled."
+  value       = try(aws_elasticache_replication_group.cluster[0].reader_endpoint_address, null)
+}
+
+output "elasticache_tags_all" {
+  description = "Map of tags assigned to the resource, including inherited ones."
+  value       = try(aws_elasticache_replication_group.cluster[0].tags_all, null)
 }

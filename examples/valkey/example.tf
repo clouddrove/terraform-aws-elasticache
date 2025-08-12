@@ -54,7 +54,7 @@ module "secrets_manager" {
       name                    = "aws/elasticache/auth-tokens"
       description             = "Elasticache AUTH Token"
       recovery_window_in_days = 7
-      secret_string           = "{ \"auth_token\": \"UseSomethingSecure*1234\"}"
+      secret_string           = "{ \"auth_token\": \"UseSomethingSecure*1234\"}" # -- The Secret can be changed with any DUMMY_VALUE after `terraform apply`. Terraform will not show any changes for `secret_string` in future plans.
     }
   ]
 }
@@ -97,7 +97,8 @@ module "valkey" {
     maintenance_window            = "sat:03:30-sat:04:30"
   }
   az_mode                    = "single-az"
-  kms_key_id                 = null # -- AWS Owned KMS Key
+  kms_key_id                 = null  # -- AWS Owned KMS Key
+  auto_generate_auth_token   = false # -- To Provide your own auth_token
   auth_token                 = jsondecode(data.aws_secretsmanager_secret_version.auth_token.secret_string)["auth_token"]
   auth_token_update_strategy = "SET"
   sg_ids                     = [module.vpc.vpc_default_security_group_id]

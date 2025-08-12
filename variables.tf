@@ -93,6 +93,12 @@ variable "auth_token_enable" {
   description = "Flag to specify whether to create auth token (password) protected cluster. Can be specified only if transit_encryption_enabled = true."
 }
 
+variable "auto_generate_auth_token" {
+  type        = bool
+  default     = true
+  description = "Whether to automatically generate the authentication token using Terraform. If set to false, you must provide your own token via the 'auth_token' variable."
+}
+
 variable "auth_token" {
   type        = string
   default     = null
