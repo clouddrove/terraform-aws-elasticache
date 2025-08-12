@@ -93,10 +93,22 @@ variable "auth_token_enable" {
   description = "Flag to specify whether to create auth token (password) protected cluster. Can be specified only if transit_encryption_enabled = true."
 }
 
+variable "auto_generate_auth_token" {
+  type        = bool
+  default     = true
+  description = "Whether to automatically generate the authentication token using Terraform. If set to false, you must provide your own token via the 'auth_token' variable."
+}
+
 variable "auth_token" {
   type        = string
   default     = null
   description = "The password used to access a password protected server. Can be specified only if transit_encryption_enabled = true. Find auto generated auth_token in terraform.tfstate or in AWS SSM Parameter Store."
+}
+
+variable "auth_token_update_strategy" {
+  type        = string
+  default     = null
+  description = "(Optional) Strategy to use when updating the auth_token. Valid values are SET, ROTATE, and DELETE. Required if auth_token is set. Defaults to ROTATE"
 }
 
 variable "cluster_replication_enabled" {
@@ -297,6 +309,11 @@ variable "route53" {
 }
 
 ###------------------------------- ssm_parameter----------------------------
+variable "enable_aws_ssm_parameter" {
+  description = "Whether to create the AWS SSM parameter for the auth token"
+  type        = bool
+  default     = false
+}
 
 variable "ssm_parameter_endpoint_enabled" {
   type        = bool
