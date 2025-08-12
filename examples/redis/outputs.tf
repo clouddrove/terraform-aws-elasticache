@@ -9,7 +9,7 @@ output "tags" {
 }
 
 output "redis_endpoint" {
-  value       = module.redis.redis_endpoint
+  value       = module.redis.elasticache_endpoint
   description = "Redis endpoint address."
 }
 
