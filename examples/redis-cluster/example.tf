@@ -61,12 +61,19 @@ module "redis-cluster" {
   replication_group = {
     engine                     = "redis"
     engine_version             = "7.0"
-    parameter_group_name       = "default.redis7.cluster.on"
+    parameter_group_name       = "default.redis7.cluster.on" # Comment this if using create_parameter_group = true
     port                       = 6379
     node_type                  = "cache.t2.micro"
     snapshot_retention_limit   = 7
     automatic_failover_enabled = true
   }
+  create_parameter_group = false
+  redis_parameters = [
+    {
+      name  = "maxmemory-policy"
+      value = "noeviction"
+    }
+  ]
 
   subnet_ids         = module.subnets.public_subnet_id
   availability_zones = ["eu-west-1a", "eu-west-1b"]
