@@ -351,3 +351,18 @@ variable "special" {
   default = false
 
 }
+
+variable "redis_parameters" {
+  description = "Custom Redis parameters"
+  type = list(object({
+    name  = string
+    value = string
+  }))
+  default = []
+}
+
+variable "create_parameter_group" {
+  description = "Whether to create a new ElastiCache parameter group"
+  type        = bool
+  default     = false
+}
