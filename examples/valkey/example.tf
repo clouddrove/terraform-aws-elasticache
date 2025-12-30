@@ -97,6 +97,7 @@ module "valkey" {
     maintenance_window            = "sat:03:30-sat:04:30"
   }
   create_parameter_group = false
+  family_name            = "redis7"
   redis_parameters = [
     {
       name  = "maxmemory-policy"

@@ -68,6 +68,7 @@ module "redis-cluster" {
     automatic_failover_enabled = true
   }
   create_parameter_group = false
+  family_name            = "redis7"
   redis_parameters = [
     {
       name  = "maxmemory-policy"

@@ -154,7 +154,7 @@ resource "random_password" "auth_token" {
 resource "aws_elasticache_parameter_group" "this" {
   count  = var.enable && var.create_parameter_group == true ? 1 : 0
   name   = format("%s-parameter-group", module.labels.id)
-  family = "redis7" # Update to match your Redis engine version
+  family = var.family_name
 
   dynamic "parameter" {
     for_each = var.redis_parameters

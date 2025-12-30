@@ -351,7 +351,7 @@ variable "special" {
   default = false
 
 }
-
+###------------------------------- parameter_group----------------------------
 variable "redis_parameters" {
   description = "Custom Redis parameters"
   type = list(object({
@@ -365,4 +365,10 @@ variable "create_parameter_group" {
   description = "Whether to create a new ElastiCache parameter group"
   type        = bool
   default     = false
+}
+
+variable "family_name" {
+  type        = string
+  description = "Parameter group family name for Redis"
+  default     = "redis7"
 }

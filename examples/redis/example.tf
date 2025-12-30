@@ -69,6 +69,7 @@ module "redis" {
     num_cache_clusters         = 1
   }
   create_parameter_group = false
+  family_name            = "redis7"
   redis_parameters = [
     {
       name  = "maxmemory-policy"
