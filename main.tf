@@ -148,6 +148,24 @@ resource "random_password" "auth_token" {
 }
 
 ##----------------------------------------------------------------------------------
+## Below resource will create parameter group
+##----------------------------------------------------------------------------------
+
+resource "aws_elasticache_parameter_group" "this" {
+  count  = var.enable && var.create_parameter_group == true ? 1 : 0
+  name   = format("%s-parameter-group", module.labels.id)
+  family = var.family_name
+
+  dynamic "parameter" {
+    for_each = var.redis_parameters
+    content {
+      name  = parameter.value.name
+      value = parameter.value.value
+    }
+  }
+}
+
+##----------------------------------------------------------------------------------
 ## Below resource will create replication-group resource for redis-cluster and memcached.
 ##----------------------------------------------------------------------------------
 resource "aws_elasticache_replication_group" "cluster" {
@@ -158,7 +176,7 @@ resource "aws_elasticache_replication_group" "cluster" {
   description                = lookup(var.replication_group, "replication_group_description", "User-created description for the replication group.")
   engine_version             = lookup(var.replication_group, "engine_version", "")
   port                       = lookup(var.replication_group, "port", "")
-  parameter_group_name       = lookup(var.replication_group, "parameter_group_name", "default.redis5.0")
+  parameter_group_name       = try(var.replication_group["parameter_group_name"], var.create_parameter_group ? aws_elasticache_parameter_group.this[0].name : "default.redis5.0")
   node_type                  = lookup(var.replication_group, "node_type", "cache.t2.small")
   automatic_failover_enabled = lookup(var.replication_group, "automatic_failover_enabled", true)
   subnet_group_name          = join("", aws_elasticache_subnet_group.default[*].name)

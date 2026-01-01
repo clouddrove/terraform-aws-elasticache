@@ -88,7 +88,7 @@ module "valkey" {
   replication_group = {
     engine                        = "valkey"
     engine_version                = "8.1"
-    parameter_group_name          = "default.valkey8"
+    parameter_group_name          = "default.valkey8" # Comment this if using create_parameter_group = true
     port                          = 6379
     num_cache_clusters            = 2
     apply_immediately             = true
@@ -96,6 +96,15 @@ module "valkey" {
     replication_group_description = "${local.environment}-${local.name} replication group."
     maintenance_window            = "sat:03:30-sat:04:30"
   }
+  create_parameter_group = false
+  family_name            = "redis7"
+  redis_parameters = [
+    {
+      name  = "maxmemory-policy"
+      value = "noeviction"
+    }
+
+  ]
   az_mode                    = "single-az"
   kms_key_id                 = null  # -- AWS Owned KMS Key
   auto_generate_auth_token   = false # -- To Provide your own auth_token

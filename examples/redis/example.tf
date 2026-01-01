@@ -62,12 +62,20 @@ module "redis" {
   replication_group = {
     engine                     = "redis"
     engine_version             = "7.0"
-    parameter_group_name       = "default.redis7"
+    parameter_group_name       = "default.redis7" # Comment this if using create_parameter_group = true
     port                       = 6379
     node_type                  = "cache.t2.micro"
     automatic_failover_enabled = false
     num_cache_clusters         = 1
   }
+  create_parameter_group = false
+  family_name            = "redis7"
+  redis_parameters = [
+    {
+      name  = "maxmemory-policy"
+      value = "noeviction"
+    }
+  ]
 
   subnet_ids         = module.subnets.public_subnet_id
   availability_zones = [""]
