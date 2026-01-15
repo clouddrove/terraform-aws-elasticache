@@ -4,6 +4,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2026-01-15
+### :sparkles: New Features
+- [`e22fb36`](https://github.com/clouddrove/terraform-aws-elasticache/commit/e22fb368b20965c6e3c0b90971d5b1c39e1d078b) - updated github-action, terraform, aws version and fixed tflint issue *(PR [#59](https://github.com/clouddrove/terraform-aws-elasticache/pull/59) by [@theprashantyadav](https://github.com/theprashantyadav))*
+- [`dcbef42`](https://github.com/clouddrove/terraform-aws-elasticache/commit/dcbef428080e148517f39da19cb759bf7c327dd3) - update tf.checks step name and tf and aws version *(PR [#64](https://github.com/clouddrove/terraform-aws-elasticache/pull/64) by [@theprashantyadav](https://github.com/theprashantyadav))*
+- [`78ef6ce`](https://github.com/clouddrove/terraform-aws-elasticache/commit/78ef6ce2a0ad143f35c215ceb1a765aa3f77ed7b) - fixed create issue *(PR [#65](https://github.com/clouddrove/terraform-aws-elasticache/pull/65) by [@theprashantyadav](https://github.com/theprashantyadav))*
+- [`999adf2`](https://github.com/clouddrove/terraform-aws-elasticache/commit/999adf260c69598156cb6678d217a03633916a87) - feature snapshot identifier argument and did minor changes *(PR [#67](https://github.com/clouddrove/terraform-aws-elasticache/pull/67) by [@nileshgadgi](https://github.com/nileshgadgi))*
+- [`af0b3d3`](https://github.com/clouddrove/terraform-aws-elasticache/commit/af0b3d3e2608b40b624d333e14977750d1a937f5) - updated example path and readme parameters *(PR [#70](https://github.com/clouddrove/terraform-aws-elasticache/pull/70) by [@Tanveer143s](https://github.com/Tanveer143s))*
+- [`944728e`](https://github.com/clouddrove/terraform-aws-elasticache/commit/944728ea232e74882ea90f78ee5dd372a4b0c7d5) - updated branch name in uses of workflow *(PR [#74](https://github.com/clouddrove/terraform-aws-elasticache/pull/74) by [@rakeshclouddevops](https://github.com/rakeshclouddevops))*
+- [`04ed38f`](https://github.com/clouddrove/terraform-aws-elasticache/commit/04ed38faceb6704bf6f7c0971d3efddf8442d237) - add elasticache parameter group *(PR [#78](https://github.com/clouddrove/terraform-aws-elasticache/pull/78) by [@arzian-cd](https://github.com/arzian-cd))*
+
+### :bug: Bug Fixes
+- [`ae4e47a`](https://github.com/clouddrove/terraform-aws-elasticache/commit/ae4e47a4131312b31a9024fa8bfcdd4e3ef30e4d) - auth_token output when transit_encryption_enabled set to false *(PR [#61](https://github.com/clouddrove/terraform-aws-elasticache/pull/61) by [@h1manshu98](https://github.com/h1manshu98))*
+
+### :construction_worker: Build System
+- [`efecb21`](https://github.com/clouddrove/terraform-aws-elasticache/commit/efecb21892c6a14db10c12f6c7e1de0f16a75c8f) - **deps**: bump clouddrove/subnet/aws in /examples/redis *(commit by [@dependabot[bot]](https://github.com/apps/dependabot))*
+- [`e8d7a1c`](https://github.com/clouddrove/terraform-aws-elasticache/commit/e8d7a1c8e24054d77fd03c210cc3b9c50c080f7c) - **deps**: bump clouddrove/subnet/aws in /examples/redis-cluster *(commit by [@dependabot[bot]](https://github.com/apps/dependabot))*
+- [`f1c05cb`](https://github.com/clouddrove/terraform-aws-elasticache/commit/f1c05cb0f3d06f5166b7c43370604dd132db685c) - **deps**: bump clouddrove/subnet/aws in /examples/memcached *(PR [#72](https://github.com/clouddrove/terraform-aws-elasticache/pull/72) by [@dependabot[bot]](https://github.com/apps/dependabot))*
+
+### :memo: Documentation Changes
+- [`b66f555`](https://github.com/clouddrove/terraform-aws-elasticache/commit/b66f5553291ebec422df881f50b1b0decb16374d) - update CHANGELOG.md for 2.0.1 *(commit by [@clouddrove-ci](https://github.com/clouddrove-ci))*
+
+
 ## [2.0.1] - 2023-09-06
 ### :sparkles: New Features
 - [`2cf4567`](https://github.com/clouddrove/terraform-aws-elasticache/commit/2cf45679cfea7af4ff2f03dec5af7b7f0933f710) - added new vpc tag *(commit by [@theprashantyadav](https://github.com/theprashantyadav))*
@@ -164,3 +186,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 [2.0.0]: https://github.com/clouddrove/terraform-aws-elasticache/compare/1.0.4...2.0.0
 [2.0.1]: https://github.com/clouddrove/terraform-aws-elasticache/compare/2.0.0...2.0.1
+[2.1.0]: https://github.com/clouddrove/terraform-aws-elasticache/compare/2.0.1...2.1.0
