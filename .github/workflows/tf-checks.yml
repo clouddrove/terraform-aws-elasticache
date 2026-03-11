@@ -1,9 +1,8 @@
 name: tf-checks
+permissions:
+  id-token: write
 on:
-  push:
-    branches: [ master ]
   pull_request:
-  workflow_dispatch:
 jobs:
   memcached:
     uses: clouddrove/github-shared-workflows/.github/workflows/tf-checks.yml@master
