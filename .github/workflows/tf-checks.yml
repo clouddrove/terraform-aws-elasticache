@@ -1,23 +1,34 @@
 name: tf-checks
+permissions:
+  id-token: write
 on:
-  push:
-    branches: [ master ]
   pull_request:
-  workflow_dispatch:
 jobs:
   memcached:
-    uses: clouddrove/github-shared-workflows/.github/workflows/tf-checks.yml@master
+    uses: clouddrove/github-shared-workflows/.github/workflows/tf-checks.yml@v2
     with:
       working_directory: './examples/memcached/'
+      provider: aws
+    secrets:
+      BUILD_ROLE: ${{ secrets.BUILD_ROLE }}
   redis:
-    uses: clouddrove/github-shared-workflows/.github/workflows/tf-checks.yml@master
+    uses: clouddrove/github-shared-workflows/.github/workflows/tf-checks.yml@v2
     with:
       working_directory: './examples/redis/'
+      provider: aws
+    secrets:
+      BUILD_ROLE: ${{ secrets.BUILD_ROLE }}
   redis-cluster:
-    uses: clouddrove/github-shared-workflows/.github/workflows/tf-checks.yml@master
+    uses: clouddrove/github-shared-workflows/.github/workflows/tf-checks.yml@v2
     with:
       working_directory: './examples/redis-cluster/'
+      provider: aws
+    secrets:
+      BUILD_ROLE: ${{ secrets.BUILD_ROLE }}
   valkey:
-    uses: clouddrove/github-shared-workflows/.github/workflows/tf-checks.yml@master
+    uses: clouddrove/github-shared-workflows/.github/workflows/tf-checks.yml@v2
     with:
       working_directory: './examples/valkey/'
+      provider: aws
+    secrets:
+      BUILD_ROLE: ${{ secrets.BUILD_ROLE }}
