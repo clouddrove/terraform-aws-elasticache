@@ -11,7 +11,7 @@ module "labels" {
   environment = var.environment
   managedby   = var.managedby
   label_order = var.label_order
-  extra_tags  = var.extra_tags
+  extra_tags  = var.tags
 }
 
 ##----------------------------------------------------------------------------------
