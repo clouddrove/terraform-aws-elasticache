@@ -93,7 +93,7 @@ module "redis" {
       log_type         = "engine-log"
     }
   ]
-  extra_tags = {
+  tags = {
     Application = "CloudDrove"
   }
 
