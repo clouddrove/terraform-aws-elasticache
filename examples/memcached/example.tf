@@ -14,7 +14,7 @@ locals {
 ####----------------------------------------------------------------------------------
 module "vpc" {
   source  = "clouddrove/vpc/aws"
-  version = "2.0.0"
+  version = "2.0.1"
 
   name        = "${local.name}-vpc"
   environment = local.environment
@@ -26,7 +26,7 @@ module "vpc" {
 ####----------------------------------------------------------------------------------
 module "subnets" {
   source  = "clouddrove/subnet/aws"
-  version = "2.0.1"
+  version = "2.0.2"
 
   name               = "${local.name}-subnets"
   environment        = local.environment
