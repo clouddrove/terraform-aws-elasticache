@@ -11,6 +11,7 @@ jobs:
       working_directory: './examples/memcached/'
       provider: aws
       enable_plan: true
+      show_plan: false
     secrets:
       BUILD_ROLE: ${{ secrets.BUILD_ROLE }}
   redis:
@@ -20,6 +21,7 @@ jobs:
       working_directory: './examples/redis/'
       provider: aws
       enable_plan: true
+      show_plan: false
     secrets:
       BUILD_ROLE: ${{ secrets.BUILD_ROLE }}
   redis-cluster:
@@ -29,6 +31,7 @@ jobs:
       working_directory: './examples/redis-cluster/'
       provider: aws
       enable_plan: true
+      show_plan: false
     secrets:
       BUILD_ROLE: ${{ secrets.BUILD_ROLE }}
   valkey:
