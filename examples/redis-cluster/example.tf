@@ -65,6 +65,7 @@ module "redis-cluster" {
     port                       = 6379
     node_type                  = "cache.t2.micro"
     snapshot_retention_limit   = 7
+    num_cache_clusters         = 2
     automatic_failover_enabled = true
   }
   create_parameter_group = false
@@ -79,7 +80,7 @@ module "redis-cluster" {
   subnet_ids         = module.subnets.public_subnet_id
   availability_zones = ["eu-west-1a", "eu-west-1b"]
   num_cache_nodes    = 1
-  extra_tags = {
+  tags = {
     Application = "CloudDrove"
   }
 

@@ -70,7 +70,7 @@ module "memcached" {
   num_cache_nodes    = 2
   subnet_ids         = module.subnets.public_subnet_id
   availability_zones = ["eu-west-1a", "eu-west-1b"]
-  extra_tags = {
+  tags = {
     Application = "CloudDrove"
   }
 

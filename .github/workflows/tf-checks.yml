@@ -1,27 +1,45 @@
 name: tf-checks
+permissions:
+  id-token: write
 on:
-  push:
-    branches: [ master ]
   pull_request:
-  workflow_dispatch:
 jobs:
   memcached:
+    if: github.actor != 'dependabot[bot]'
     uses: clouddrove/github-shared-workflows/.github/workflows/tf-checks.yml@master
     with:
       working_directory: './examples/memcached/'
-      provider: none
+      provider: aws
+      enable_plan: true
+      show_plan: false
+    secrets:
+      BUILD_ROLE: ${{ secrets.BUILD_ROLE }}
   redis:
+    if: github.actor != 'dependabot[bot]'
     uses: clouddrove/github-shared-workflows/.github/workflows/tf-checks.yml@master
     with:
       working_directory: './examples/redis/'
-      provider: none
+      provider: aws
+      enable_plan: true
+      show_plan: false
+    secrets:
+      BUILD_ROLE: ${{ secrets.BUILD_ROLE }}
   redis-cluster:
+    if: github.actor != 'dependabot[bot]'
     uses: clouddrove/github-shared-workflows/.github/workflows/tf-checks.yml@master
     with:
       working_directory: './examples/redis-cluster/'
-      provider: none
+      provider: aws
+      enable_plan: true
+      show_plan: false
+    secrets:
+      BUILD_ROLE: ${{ secrets.BUILD_ROLE }}
   valkey:
+    if: github.actor != 'dependabot[bot]'
     uses: clouddrove/github-shared-workflows/.github/workflows/tf-checks.yml@master
     with:
       working_directory: './examples/valkey/'
-      provider: none
+      provider: aws
+      enable_plan: true
+    secrets:
+      BUILD_ROLE: ${{ secrets.BUILD_ROLE }}

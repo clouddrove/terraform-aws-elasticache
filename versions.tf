@@ -9,11 +9,8 @@ terraform {
     }
     random = {
       source  = "hashicorp/random"
-      version = ">= 3.0.0"
+      version = ">= 3.8.1"
     }
   }
 
-  provider_meta "aws" {
-    module_name = "clouddrove/terraform-aws-elasticache"
-  }
 }

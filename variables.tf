@@ -29,10 +29,10 @@ variable "label_order" {
   description = "Label order, e.g. `name`,`application`."
 }
 
-variable "extra_tags" {
+variable "tags" {
+  description = "A map of tags to add to all resources"
   type        = map(string)
   default     = {}
-  description = "Additional tags (e.g. map(`BusinessUnit`,`XYZ`)."
 }
 
 variable "managedby" {
