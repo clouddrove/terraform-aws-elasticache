@@ -11,7 +11,7 @@ module "labels" {
   environment = var.environment
   managedby   = var.managedby
   label_order = var.label_order
-  extra_tags  = var.extra_tags
+  extra_tags  = var.tags
 }
 
 ##----------------------------------------------------------------------------------
@@ -155,6 +155,7 @@ resource "aws_elasticache_parameter_group" "this" {
   count  = var.enable && var.create_parameter_group == true ? 1 : 0
   name   = format("%s-parameter-group", module.labels.id)
   family = var.family_name
+  tags   = module.labels.tags
 
   dynamic "parameter" {
     for_each = var.redis_parameters
@@ -267,6 +268,7 @@ resource "aws_ssm_parameter" "secret" {
   type        = var.ssm_parameter_type
   value       = var.auto_generate_auth_token ? random_password.auth_token[0].result : var.auth_token
   key_id      = var.kms_key_id == "" ? join("", aws_kms_key.default[*].arn) : var.kms_key_id
+  tags        = module.labels.tags
 }
 
 ##----------------------------------------------------------------------------------
@@ -280,6 +282,7 @@ resource "aws_ssm_parameter" "secret-endpoint" {
   type        = var.ssm_parameter_type
   value       = lookup(var.replication_group, "automatic_failover_enabled", true) ? [join("", aws_elasticache_replication_group.cluster[*].configuration_endpoint_address)][0] : [join("", aws_elasticache_replication_group.cluster[*].primary_endpoint_address)][0]
   key_id      = var.kms_key_id == "" ? join("", aws_kms_key.default[*].arn) : var.kms_key_id
+  tags        = module.labels.tags
 }
 
 ##----------------------------------------------------------------------------------
@@ -306,4 +309,5 @@ resource "aws_ssm_parameter" "memcached_secret-endpoint" {
   type        = var.ssm_parameter_type
   value       = join("", aws_elasticache_cluster.default[*].configuration_endpoint)
   key_id      = var.kms_key_id == "" ? join("", aws_kms_key.default[*].arn) : var.kms_key_id
+  tags        = module.labels.tags
 }
