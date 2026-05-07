@@ -13,6 +13,7 @@
 | az\_mode | (Memcached only) Specifies whether the nodes in this Memcached node group are created in a single Availability Zone or created across multiple Availability Zones in the cluster's region. Valid values for this parameter are single-az or cross-az, default is single-az. If you want to choose cross-az, num\_cache\_nodes must be greater than 1. | `string` | `"single-az"` | no |
 | cluster\_enabled | (Memcache only) Enabled or disabled cluster. | `bool` | `false` | no |
 | cluster\_replication\_enabled | (Redis only) Enabled or disabled replication\_group for redis cluster. | `bool` | `false` | no |
+| create\_parameter\_group | Whether to create a new ElastiCache parameter group | `bool` | `false` | no |
 | customer\_master\_key\_spec | Specifies whether the key contains a symmetric key or an asymmetric key pair and the encryption algorithms or signing algorithms that the key supports. Valid values: SYMMETRIC\_DEFAULT, RSA\_2048, RSA\_3072, RSA\_4096, ECC\_NIST\_P256, ECC\_NIST\_P384, ECC\_NIST\_P521, or ECC\_SECG\_P256K1. Defaults to SYMMETRIC\_DEFAULT. | `string` | `"SYMMETRIC_DEFAULT"` | no |
 | deletion\_window\_in\_days | Duration in days after which the key is deleted after destruction of the resource. | `number` | `7` | no |
 | egress\_rule | Enable to create egress rule | `bool` | `true` | no |
@@ -22,6 +23,7 @@
 | enable\_security\_group | Enable default Security Group with only Egress traffic allowed. | `bool` | `true` | no |
 | environment | Environment (e.g. `prod`, `dev`, `staging`). | `string` | `""` | no |
 | extra\_tags | Additional tags (e.g. map(`BusinessUnit`,`XYZ`). | `map(string)` | `{}` | no |
+| family\_name | Parameter group family name for Redis | `string` | `"redis7"` | no |
 | is\_enabled | Specifies whether the key is enabled. | `bool` | `true` | no |
 | is\_external | enable to udated existing security Group | `bool` | `false` | no |
 | key\_usage | Specifies the intended use of the key. Defaults to ENCRYPT\_DECRYPT, and only symmetric encryption and decryption are supported. | `string` | `"ENCRYPT_DECRYPT"` | no |
@@ -39,6 +41,7 @@
 | network\_type | value of the network type. Valid values are ipv4, ipv6 or dual\_stack. | `string` | `"ipv4"` | no |
 | num\_cache\_nodes | (Required unless replication\_group\_id is provided) The initial number of cache nodes that the cache cluster will have. For Redis, this value must be 1. For Memcache, this value must be between 1 and 20. If this number is reduced on subsequent runs, the highest numbered nodes will be removed. | `number` | `1` | no |
 | protocol | The protocol. If not icmp, tcp, udp, or all use the. | `string` | `"tcp"` | no |
+| redis\_parameters | Custom Redis parameters | <pre>list(object({<br>    name  = string<br>    value = string<br>  }))</pre> | `[]` | no |
 | replication\_group | n/a | `map(any)` | `{}` | no |
 | repository | Terraform current module repo | `string` | `"https://github.com/clouddrove/terraform-aws-elasticache"` | no |
 | retention\_in\_days | Specifies the number of days you want to retain log events in the specified log group. | `number` | `0` | no |
