@@ -66,7 +66,7 @@ module "redis-cluster" {
     node_type                  = "cache.t2.micro"
     snapshot_retention_limit   = 7
     automatic_failover_enabled = true
-    num_cache_clusters          = 2
+    num_cache_clusters         = 2
   }
   create_parameter_group = false
   family_name            = "redis7"
