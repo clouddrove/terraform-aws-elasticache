@@ -12,5 +12,7 @@ terraform {
       version = ">= 3.6.0"
     }
   }
-
+  provider_meta "aws" {
+    module_name = "clouddrove/terraform-aws-elasticache"
+  }
 }
