@@ -196,7 +196,7 @@ resource "aws_elasticache_replication_group" "cluster" {
   multi_az_enabled           = lookup(var.replication_group, "multi_az_enabled", false)
   network_type               = var.network_type
 
-  auth_token                 = var.auth_token_enable ? (var.auto_generate_auth_token ? random_password.auth_token[0].result : var.auth_token) : ""
+  auth_token                 = var.auth_token_enable ? (var.auto_generate_auth_token ? random_password.auth_token[0].result : var.auth_token) : null
   auth_token_update_strategy = var.auth_token_enable ? var.auth_token_update_strategy : null
   kms_key_id                 = var.kms_key_id == "" ? join("", aws_kms_key.default[*].arn) : var.kms_key_id
   tags                       = module.labels.tags
