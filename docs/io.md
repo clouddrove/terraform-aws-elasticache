@@ -60,6 +60,7 @@
 | ssm\_parameter\_type | Type of the parameter. | `string` | `"SecureString"` | no |
 | subnet\_group\_description | Description for the cache subnet group. Defaults to `Managed by Terraform`. | `string` | `"The Description of the ElastiCache Subnet Group."` | no |
 | subnet\_ids | List of VPC Subnet IDs for the cache subnet group. | `list(any)` | `[]` | no |
+| tags | Additional tags to merge with extra\_tags. Alias for extra\_tags for consistency with other CloudDrove modules (aurora, waf, vpc) that use 'tags' as the input variable name. | `map(string)` | `{}` | no |
 | user\_group\_ids | User Group ID to associate with the replication group. | `list(string)` | `null` | no |
 | vpc\_id | The ID of the VPC that the instance security group belongs to. | `string` | `""` | no |
 
