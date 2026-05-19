@@ -35,6 +35,12 @@ variable "extra_tags" {
   description = "Additional tags (e.g. map(`BusinessUnit`,`XYZ`)."
 }
 
+variable "tags" {
+  type        = map(string)
+  default     = {}
+  description = "Additional tags to merge with extra_tags. Alias for extra_tags for consistency with other CloudDrove modules (aurora, waf, vpc) that use 'tags' as the input variable name."
+}
+
 variable "managedby" {
   type        = string
   default     = "anmol@clouddrove.com"
